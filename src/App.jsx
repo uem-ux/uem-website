@@ -17,7 +17,7 @@ html{scroll-behavior:smooth;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--fond);color:var(--noir);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
 /* ══ NAVBAR ══ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:background .3s,box-shadow .3s;}
+.nav{position:fixed;top:36px;left:0;right:0;z-index:200;transition:background .3s,box-shadow .3s;}
 .nav.solid{background:rgba(248,246,241,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--bordure);}
 .nav-in{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:68px;}
 .logo{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;}
@@ -47,7 +47,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--fond);color:var
 .mob-devis{background:var(--vert)!important;color:#fff!important;margin:12px 20px;width:calc(100% - 40px);border-radius:8px;text-align:center!important;padding:13px!important;}
 
 /* ══ TICKER ══ */
-.ticker{background:var(--vert);padding:10px 0;overflow:hidden;margin-top:68px;}
+.ticker{background:var(--vert);padding:10px 0;overflow:hidden;margin-top:104px;}
 .ticker-in{display:flex;gap:60px;animation:slide 32s linear infinite;width:max-content;}
 .tick{font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);white-space:nowrap;}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -270,6 +270,27 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--fond);color:var
 .ai-snd:hover{background:var(--vert2);}
 .ai-snd:disabled{opacity:.5;cursor:not-allowed;}
 
+/* ══ TOP BAR ══ */
+.topbar{background:var(--vert);color:rgba(255,255,255,.85);padding:8px 40px;display:flex;align-items:center;justify-content:space-between;font-size:.72rem;gap:16px;flex-wrap:wrap;}
+.topbar a{color:rgba(255,255,255,.85);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar-left{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+
+/* ══ WHATSAPP ══ */
+.wa-btn{position:fixed;bottom:100px;left:24px;z-index:500;width:54px;height:54px;border-radius:50%;background:#25d366;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6);}
+.wa-btn svg{width:28px;height:28px;fill:#fff;}
+.wa-tooltip{position:absolute;left:64px;background:var(--noir);color:#fff;padding:6px 12px;border-radius:7px;font-size:.72rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
+.wa-btn:hover .wa-tooltip{opacity:1;}
+
+/* ══ PHOTO PRODUIT ══ */
+.pc-img-photo{height:160px;position:relative;overflow:hidden;background:#1b5e35;}
+.pc-img-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--T);}
+.pc:hover .pc-img-photo img{transform:scale(1.06);}
+.pc-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.5) 100%);}
+.pc-img-photo .pc-badge{position:absolute;top:10px;left:10px;z-index:2;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+
 /* ══ FOOTER ══ */
 footer{background:var(--vert);color:#fff;}
 .foot{max-width:1320px;margin:0 auto;padding:56px 40px 28px;}
@@ -321,32 +342,32 @@ footer{background:var(--vert);color:#fff;}
 
 /* ════ DATA ════ */
 const CHIM = [
-  {id:1,grp:"Coagulants",nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH. Réduction turbidité et MES.",emoji:"🧴",bg:"#e3f2fd"},
-  {id:2,grp:"Coagulants",nom:"Chlorure Ferrique",desc:"Coagulant minéral puissant pour eaux industrielles et boues. Excellent pouvoir floculant.",emoji:"🟤",bg:"#fbe9e7"},
-  {id:3,grp:"Coagulants",nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Soluble, facile à doser.",emoji:"🔵",bg:"#e8f5e9"},
-  {id:4,grp:"Floculants",nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées. Favorise des flocs denses.",emoji:"🫧",bg:"#f3e5f5"},
-  {id:5,grp:"Floculants",nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues et flottation.",emoji:"💠",bg:"#e8eaf6"},
-  {id:6,grp:"Correction pH",nom:"Stabilisant de pH",desc:"Maintient le pH dans la plage optimale de traitement.",emoji:"⚖️",bg:"#fff8e1"},
-  {id:7,grp:"Correction pH",nom:"Correcteur de pH",desc:"Correction acide ou basique du pH des effluents. Prêt à l'emploi.",emoji:"🧪",bg:"#fce4ec"},
-  {id:8,grp:"Désinfection & Traitement",nom:"Hypochlorite de Sodium",desc:"Désinfectant oxydant puissant. Élimine bactéries et virus dans les eaux.",emoji:"💧",bg:"#e0f7fa"},
-  {id:9,grp:"Désinfection & Traitement",nom:"Antimousse",desc:"Élimine et prévient les mousses dans les bassins de traitement et STEP.",emoji:"🫗",bg:"#f1f8e9"},
-  {id:10,grp:"Désinfection & Traitement",nom:"Décolorant",desc:"Élimination des colorants et pigments dans les effluents textiles et industriels.",emoji:"🎨",bg:"#fce4ec"},
-  {id:11,grp:"Désinfection & Traitement",nom:"Peroxyde d'Hydrogène",desc:"Oxydant puissant pour eaux résiduaires. Élimine DCO, H₂S, composés organiques.",emoji:"⚗️",bg:"#e3f2fd"},
-  {id:12,grp:"Osmose Inverse",nom:"Anti-Scalant",desc:"Prévient l'entartrage et le colmatage des membranes OI. Protège contre carbonates et silice.",emoji:"🛡️",bg:"#e8f5e9"},
-  {id:13,grp:"Osmose Inverse",nom:"Lavage Membranes — Acide",desc:"Nettoyage acide des membranes OI. Dissout tartre et oxydes métalliques.",emoji:"🔴",bg:"#fbe9e7"},
-  {id:14,grp:"Osmose Inverse",nom:"Lavage Membranes — Basique",desc:"Nettoyage alcalin des membranes OI. Élimine biofilm et matière organique.",emoji:"🔵",bg:"#e8eaf6"},
-  {id:15,grp:"Osmose Inverse",nom:"Biocide Non Oxydant",desc:"Contrôle microbiologique pour circuits OI sans dégradation des membranes.",emoji:"🦠",bg:"#f3e5f5"},
-  {id:16,grp:"Osmose Inverse",nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI.",emoji:"🧂",bg:"#fff8e1"},
-  {id:17,grp:"Eaux de Chaudière",nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion.",emoji:"🔩",bg:"#fbe9e7"},
-  {id:18,grp:"Eaux de Chaudière",nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires. Améliore le rendement thermique.",emoji:"♨️",bg:"#fff3e0"},
-  {id:19,grp:"Eaux de Chaudière",nom:"Éliminateur d'Oxygène",desc:"Désoxygénant chimique. Élimine l'oxygène dissous, cause principale de corrosion.",emoji:"💨",bg:"#e0f7fa"},
+  {id:1,grp:"Coagulants",nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH. Réduction turbidité et MES.",emoji:"🧴",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:2,grp:"Coagulants",nom:"Chlorure Ferrique",desc:"Coagulant minéral puissant pour eaux industrielles et boues. Excellent pouvoir floculant.",emoji:"🟤",img:"https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:3,grp:"Coagulants",nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Soluble, facile à doser.",emoji:"🔵",img:"https://images.unsplash.com/photo-1581093196867-ca4e0b8c4f63?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:4,grp:"Floculants",nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées. Favorise des flocs denses.",emoji:"🫧",img:"https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:5,grp:"Floculants",nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues et flottation.",emoji:"💠",img:"https://images.unsplash.com/photo-1616163235154-b8efb32c9b7e?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:6,grp:"Correction pH",nom:"Stabilisant de pH",desc:"Maintient le pH dans la plage optimale de traitement.",emoji:"⚖️",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:7,grp:"Correction pH",nom:"Correcteur de pH",desc:"Correction acide ou basique du pH des effluents. Prêt à l'emploi.",emoji:"🧪",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:8,grp:"Désinfection & Traitement",nom:"Hypochlorite de Sodium",desc:"Désinfectant oxydant puissant. Élimine bactéries et virus dans les eaux.",emoji:"💧",img:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:9,grp:"Désinfection & Traitement",nom:"Antimousse",desc:"Élimine et prévient les mousses dans les bassins de traitement et STEP.",emoji:"🫗",img:"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:10,grp:"Désinfection & Traitement",nom:"Décolorant",desc:"Élimination des colorants et pigments dans les effluents textiles et industriels.",emoji:"🎨",img:"https://images.unsplash.com/photo-1562977352-f8fc96e5a6ff?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:11,grp:"Désinfection & Traitement",nom:"Peroxyde d'Hydrogène",desc:"Oxydant puissant pour eaux résiduaires. Élimine DCO, H₂S, composés organiques.",emoji:"⚗️",img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:12,grp:"Osmose Inverse",nom:"Anti-Scalant",desc:"Prévient l'entartrage et le colmatage des membranes OI. Protège contre carbonates et silice.",emoji:"🛡️",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:13,grp:"Osmose Inverse",nom:"Lavage Membranes — Acide",desc:"Nettoyage acide des membranes OI. Dissout tartre et oxydes métalliques.",emoji:"🔴",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:14,grp:"Osmose Inverse",nom:"Lavage Membranes — Basique",desc:"Nettoyage alcalin des membranes OI. Élimine biofilm et matière organique.",emoji:"🔵",img:"https://images.unsplash.com/photo-1521813605769-10c6cd6e5bb1?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:15,grp:"Osmose Inverse",nom:"Biocide Non Oxydant",desc:"Contrôle microbiologique pour circuits OI sans dégradation des membranes.",emoji:"🦠",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:16,grp:"Osmose Inverse",nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI.",emoji:"🧂",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:17,grp:"Eaux de Chaudière",nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion.",emoji:"🔩",img:"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:18,grp:"Eaux de Chaudière",nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires. Améliore le rendement thermique.",emoji:"♨️",img:"https://images.unsplash.com/photo-1611735341450-74d61e660ad2?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:19,grp:"Eaux de Chaudière",nom:"Éliminateur d'Oxygène",desc:"Désoxygénant chimique. Élimine l'oxygène dissous, cause principale de corrosion.",emoji:"💨",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=320&q=80"},
 ];
 const MAT = [
-  {id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et total. Colorimétrie DPD. Idéal eau potable et piscines.",emoji:"🧫",bg:"#e3f2fd"},
-  {id:21,nom:"Kit Mesure de Dureté",desc:"Titrimétrie EDTA pour dureté totale, calcique et magnésienne. Kit portable complet.",emoji:"💎",bg:"#f3e5f5"},
-  {id:22,nom:"pH-mètre Portable",desc:"Mesure précise du pH sur terrain. Électrode combinée, calibration automatique, IP67.",emoji:"📏",bg:"#e8f5e9"},
-  {id:23,nom:"Oxymètre",desc:"Mesure de l'oxygène dissous. Compensation température automatique. Idéal STEP biologiques.",emoji:"🌬️",bg:"#e0f7fa"},
-  {id:24,nom:"Conductimètre",desc:"Mesure conductivité, TDS et salinité. Gamme 0–200 mS/cm. Étalonnage multi-point.",emoji:"⚡",bg:"#fff8e1"},
+  {id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et total. Colorimétrie DPD. Idéal eau potable et piscines.",emoji:"🧫",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:21,nom:"Kit Mesure de Dureté",desc:"Titrimétrie EDTA pour dureté totale, calcique et magnésienne. Kit portable complet.",emoji:"💎",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:22,nom:"pH-mètre Portable",desc:"Mesure précise du pH sur terrain. Électrode combinée, calibration automatique, IP67.",emoji:"📏",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:23,nom:"Oxymètre",desc:"Mesure de l'oxygène dissous. Compensation température automatique. Idéal STEP biologiques.",emoji:"🌬️",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:24,nom:"Conductimètre",desc:"Mesure conductivité, TDS et salinité. Gamme 0–200 mS/cm. Étalonnage multi-point.",emoji:"⚡",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=320&q=80"},
 ];
 const ANALYSES = [
   {id:30,nom:"Analyse Physicochimique & Bactériologique des Eaux",desc:"Analyse complète : pH, DCO, DBO5, MES, métaux lourds, germes totaux, coliformes.",emoji:"🧫",feats:["Prélèvement sur site par nos ingénieurs","Analyses physico-chimiques & biologiques","Rapport de conformité NM/ISO","Recommandations correctives détaillées","Suivi post-analyse inclus"]},
@@ -455,9 +476,18 @@ export default function App() {
   /* ── COMPOSANT CARTE PRODUIT ── */
   const PC = ({p,type}) => (
     <div className="pc">
-      <div className="pc-img" style={{background:p.bg||"#e8f5e9"}}><span>{p.emoji}</span>
-        <span className={`pc-badge ${type==="n"?"tn":type==="m"?"tm":"tp"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
-      </div>
+      {p.img ? (
+        <div className="pc-img-photo">
+          <img src={p.img} alt={p.nom} loading="lazy"/>
+          <div className="pc-img-overlay"/>
+          <span className={`pc-badge ${type==="n"?"tn":type==="m"?"tm":"tp"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
+        </div>
+      ) : (
+        <div className="pc-img" style={{background:p.bg||"#e8f5e9"}}>
+          <span>{p.emoji}</span>
+          <span className={`pc-badge ${type==="n"?"tn":type==="m"?"tm":"tp"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
+        </div>
+      )}
       <div className="pc-body">
         {p.grp&&<div className="pc-cat">{p.grp}</div>}
         <div className="pc-nom">{p.nom}</div>
@@ -689,6 +719,26 @@ export default function App() {
       <style>{CSS}</style>
       <div className={`toast${toast?" on":""}`}>{toast}</div>
 
+      {/* TOP BAR */}
+      <div className="topbar">
+        <div className="topbar-left">
+          <a href="tel:+212523377417">📞 +212 523 37 74 17</a>
+          <a href="https://wa.me/212700090365">💬 +212 700 090 365</a>
+          <span>📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
+        </div>
+        <div className="topbar-right">
+          <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
+        </div>
+      </div>
+
+      {/* WHATSAPP FLOTTANT */}
+      <a href="https://wa.me/212700090365?text=Bonjour%20UEM%2C%20je%20souhaite%20des%20informations%20sur%20vos%20produits." target="_blank" rel="noreferrer" className="wa-btn" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span className="wa-tooltip">Nous écrire sur WhatsApp</span>
+      </a>
+
       {/* PANIER */}
       <div className={`overlay${cart?" on":""}`} onClick={()=>setCart(false)}/>
       <div className={`cart-panel${cart?" on":""}`}>
@@ -742,7 +792,16 @@ export default function App() {
       <footer>
         <div className="foot">
           <div className="foot-grid">
-            <div className="foot-brand"><div className="fb-name">Univers Environnement <span>Maroc</span></div><p>Solutions intégrées pour le traitement des eaux et l'ingénierie environnementale au Maroc depuis plus de 15 ans.</p></div>
+            <div className="foot-brand">
+              <div className="fb-name">Univers Environnement <span>Maroc</span></div>
+              <p style={{marginBottom:12}}>Solutions intégrées pour le traitement des eaux et l'ingénierie environnementale au Maroc depuis plus de 15 ans.</p>
+              <p style={{fontSize:".76rem",color:"rgba(255,255,255,.6)",lineHeight:1.8}}>
+                📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida<br/>
+                📞 <a href="tel:+212523377417" style={{color:"rgba(255,255,255,.7)",textDecoration:"none"}}>+212 523 37 74 17</a><br/>
+                💬 <a href="https://wa.me/212700090365" style={{color:"#5ddb8a",textDecoration:"none"}}>+212 700 090 365</a><br/>
+                ✉️ <a href="mailto:univers.envi@gmail.com" style={{color:"rgba(255,255,255,.7)",textDecoration:"none"}}>univers.envi@gmail.com</a>
+              </p>
+            </div>
             <div className="foot-col"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("contact")}>Contact</li></ul></div>
             <div className="foot-col"><h4>Services</h4><ul><li>Conception STEP</li><li>Analyse environnementale</li><li>Optimisation process</li><li>Formation opérateurs</li></ul></div>
             <div className="foot-col"><h4>Légal</h4><ul><li>Mentions légales</li><li>CGV</li><li>Confidentialité</li><li onClick={()=>go("contact")}>Contact</li></ul></div>
