@@ -4,451 +4,817 @@ import emailjs from "@emailjs/browser";
 const EJS = { svc:"service_3p09q76", tpl:"template_1qu65qm", key:"bhR3gf_SYQEaKSOky" };
 
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --vert:#1b5e35;--vert2:#2e7d52;--vert3:#43a864;
-  --rouge:#c0392b;--or:#c9a84c;
-  --fond:#f8f6f1;--blanc:#ffffff;--noir:#0e160f;
-  --gris:#6b7c70;--bordure:#e0e8e2;--sable:#f0ebe0;
+  --vert:#1a5c32;--vert2:#236b3b;--vert3:#2e8b57;
+  --rouge:#b03020;--dore:#c8a040;
+  --fond:#f5f7f5;--blanc:#ffffff;--noir:#12201a;
+  --gris1:#4a5c52;--gris2:#7a8c82;--gris3:#b8c8be;
+  --bordure:#d8e4dc;--sable:#f0ece4;
+  --ombre:0 2px 12px rgba(18,32,26,.08);
   --T:cubic-bezier(.4,0,.2,1);
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--fond);color:var(--noir);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--noir);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6;}
 
-/* ══ NAVBAR ══ */
-.nav{position:fixed;top:36px;left:0;right:0;z-index:200;transition:background .3s,box-shadow .3s;}
-.nav.solid{background:rgba(248,246,241,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--bordure);}
-.nav-in{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:68px;}
-.logo{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;}
-.logo-sq{width:40px;height:40px;background:var(--vert);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Fraunces',serif;font-weight:900;font-size:1.1rem;flex-shrink:0;}
-.logo-tx .l1{font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;color:var(--vert);display:block;line-height:1.1;}
-.logo-tx .l2{font-size:.58rem;font-weight:600;color:var(--rouge);letter-spacing:.15em;text-transform:uppercase;display:block;}
-.nav-menu{display:flex;gap:2px;list-style:none;}
-.nav-menu button{background:none;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:500;color:var(--gris);padding:8px 14px;border-radius:8px;cursor:pointer;transition:color .2s,background .2s;letter-spacing:.02em;}
-.nav-menu button:hover{color:var(--vert);background:rgba(27,94,53,.07);}
-.nav-menu button.on{color:var(--vert);background:rgba(27,94,53,.1);font-weight:600;}
-.nav-r{display:flex;align-items:center;gap:8px;}
-.btn-devis{background:var(--vert);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;}
-.btn-devis:hover{background:var(--vert2);transform:translateY(-1px);}
-.cart-ico{position:relative;background:none;border:1px solid var(--bordure);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:.9rem;transition:border-color .2s;}
-.cart-ico:hover{border-color:var(--vert);}
-.cbadge{position:absolute;top:-6px;right:-6px;background:var(--rouge);color:#fff;border-radius:50%;width:17px;height:17px;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;animation:pop .3s var(--T);}
-@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
-.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;}
-.burger span{display:block;width:22px;height:2px;background:var(--vert);border-radius:2px;transition:transform .3s,opacity .3s;}
+/* ─── TOPBAR ─────────────────────────────────────── */
+.topbar{background:var(--noir);color:rgba(255,255,255,.75);font-size:.75rem;padding:7px 0;}
+.topbar-in{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+.topbar a{color:rgba(255,255,255,.75);text-decoration:none;transition:color .2s;display:inline-flex;align-items:center;gap:5px;}
+.topbar a:hover{color:#fff;}
+.tb-sep{color:rgba(255,255,255,.3);margin:0 4px;}
+
+/* ─── NAVBAR ─────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:200;background:var(--blanc);border-bottom:1px solid var(--bordure);box-shadow:var(--ombre);}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 32px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer;flex-shrink:0;}
+.logo-sq{width:40px;height:40px;background:var(--vert);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.95rem;letter-spacing:-.5px;flex-shrink:0;}
+.logo-tx{display:flex;flex-direction:column;line-height:1.15;}
+.logo-tx .n1{font-size:.88rem;font-weight:700;color:var(--noir);}
+.logo-tx .n2{font-size:.6rem;font-weight:500;color:var(--vert);letter-spacing:.1em;text-transform:uppercase;}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-links button{background:none;border:none;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;color:var(--gris1);padding:6px 12px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-links button:hover{background:var(--fond);color:var(--vert);}
+.nav-links button.on{color:var(--vert);font-weight:600;background:rgba(26,92,50,.08);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-devis-nav{background:var(--vert);color:#fff;border:none;padding:9px 20px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s,box-shadow .2s;white-space:nowrap;}
+.btn-devis-nav:hover{background:var(--vert2);box-shadow:0 4px 14px rgba(26,92,50,.3);}
+.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:6px;}
+.burger span{display:block;width:22px;height:2px;background:var(--noir);border-radius:2px;transition:transform .3s,opacity .3s;}
 .burger.on span:first-child{transform:translateY(7px) rotate(45deg);}
 .burger.on span:nth-child(2){opacity:0;}
 .burger.on span:last-child{transform:translateY(-7px) rotate(-45deg);}
-.mob-menu{display:none;flex-direction:column;background:var(--fond);border-top:1px solid var(--bordure);overflow:hidden;max-height:0;transition:max-height .4s var(--T);}
+.mob-menu{background:var(--blanc);border-top:1px solid var(--bordure);overflow:hidden;max-height:0;transition:max-height .35s var(--T);}
 .mob-menu.on{max-height:500px;}
-.mob-menu button{display:block;width:100%;text-align:left;padding:14px 24px;background:none;border:none;border-bottom:1px solid var(--bordure);font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;font-weight:500;color:var(--noir);cursor:pointer;transition:background .2s,color .2s;}
-.mob-menu button:hover,.mob-menu button.on{background:rgba(27,94,53,.07);color:var(--vert);}
-.mob-devis{background:var(--vert)!important;color:#fff!important;margin:12px 20px;width:calc(100% - 40px);border-radius:8px;text-align:center!important;padding:13px!important;}
+.mob-menu nav{display:flex;flex-direction:column;padding:8px 0 16px;}
+.mob-menu button{background:none;border:none;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:500;color:var(--noir);text-align:left;padding:13px 24px;cursor:pointer;border-bottom:1px solid var(--bordure);transition:background .2s;}
+.mob-menu button:hover,.mob-menu button.on{background:rgba(26,92,50,.06);color:var(--vert);}
+.mob-menu .mob-cta{background:var(--vert);color:#fff;margin:12px 20px 4px;border-radius:8px;text-align:center;border-bottom:none;font-weight:600;}
 
-/* ══ TICKER ══ */
-.ticker{background:var(--vert);padding:10px 0;overflow:hidden;margin-top:104px;}
-.ticker-in{display:flex;gap:60px;animation:slide 32s linear infinite;width:max-content;}
-.tick{font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);white-space:nowrap;}
+/* ─── TICKER ─────────────────────────────────────── */
+.ticker{background:var(--vert);overflow:hidden;padding:9px 0;}
+.ticker-t{display:flex;gap:56px;animation:slide 32s linear infinite;width:max-content;}
+.ticker-i{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.78);white-space:nowrap;}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ══ PAGE DE GARDE ══ */
-.garde{min-height:calc(100vh - 78px);display:flex;flex-direction:column;}
-.garde-hero{flex:1;display:grid;grid-template-columns:1fr 1fr;max-width:1320px;margin:0 auto;padding:72px 40px 40px;gap:80px;align-items:center;}
-.gh-left{display:flex;flex-direction:column;gap:28px;animation:slideUp .9s var(--T) both;}
-@keyframes slideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-.gh-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.18);padding:7px 16px;border-radius:100px;width:fit-content;}
-.gh-badge-dot{width:7px;height:7px;background:var(--rouge);border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-.gh-badge span{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rouge);}
-.gh-h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.6rem,5vw,4.4rem);line-height:1.06;color:var(--noir);}
-.gh-h1 em{color:var(--vert);font-style:italic;}
-.gh-h1 .r{color:var(--rouge);}
-.gh-p{font-size:.95rem;color:var(--gris);line-height:1.85;max-width:480px;font-weight:300;}
-.gh-btns{display:flex;gap:12px;flex-wrap:wrap;}
-.btn-prim{background:var(--vert);color:#fff;border:none;padding:15px 32px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;}
-.btn-prim:hover{background:var(--vert2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(27,94,53,.28);}
-.btn-sec{background:transparent;color:var(--vert);border:1.5px solid var(--vert);padding:15px 32px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .2s,transform .2s;}
-.btn-sec:hover{background:rgba(27,94,53,.07);transform:translateY(-2px);}
-.gh-stats{display:flex;gap:36px;padding-top:16px;border-top:1px solid var(--bordure);}
-.stat-n{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:var(--vert);line-height:1;}
-.stat-l{font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin-top:3px;}
-.gh-right{display:grid;grid-template-columns:1fr 1fr;gap:16px;animation:fadeIn .9s var(--T) .3s both;}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.gh-mini{background:var(--blanc);border:1px solid var(--bordure);border-radius:14px;padding:20px 18px;cursor:pointer;transition:transform .3s var(--T),box-shadow .3s,border-color .3s;}
-.gh-mini:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.1);border-color:var(--vert3);}
-.gh-mini:nth-child(2){margin-top:28px;}
-.gh-mini:nth-child(4){margin-top:-28px;}
-.gm-icon{font-size:1.8rem;margin-bottom:10px;}
-.gm-tag{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:8px;}
-.tp{background:#e5f4ec;color:var(--vert);}
-.tm{background:#e0f2fb;color:#0277bd;}
-.ts{background:#fef3e2;color:#e65100;}
-.tn{background:#ede7f6;color:#4527a0;}
-.gm-nom{font-family:'Fraunces',serif;font-size:.95rem;font-weight:600;line-height:1.3;color:var(--noir);}
+/* ─── HERO ───────────────────────────────────────── */
+.hero{background:var(--blanc);border-bottom:1px solid var(--bordure);}
+.hero-in{max-width:1200px;margin:0 auto;padding:64px 32px 72px;display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(176,48,32,.25);background:rgba(176,48,32,.06);padding:5px 14px;border-radius:4px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--rouge);margin-bottom:20px;}
+.hero-tag span{width:6px;height:6px;background:var(--rouge);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.8vw,3.4rem);font-weight:700;line-height:1.12;color:var(--noir);margin-bottom:16px;}
+.hero h1 em{color:var(--vert);font-style:italic;}
+.hero h1 .r{color:var(--rouge);}
+.hero-desc{font-size:.95rem;color:var(--gris1);line-height:1.8;max-width:480px;margin-bottom:28px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px;}
+.btn-p{background:var(--vert);color:#fff;border:none;padding:13px 28px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:background .2s,box-shadow .2s;}
+.btn-p:hover{background:var(--vert2);box-shadow:0 6px 20px rgba(26,92,50,.28);}
+.btn-o{background:transparent;color:var(--vert);border:1.5px solid var(--vert);padding:13px 28px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-o:hover{background:rgba(26,92,50,.07);}
+.hero-stats{display:flex;gap:32px;padding-top:24px;border-top:1px solid var(--bordure);}
+.hs-n{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--vert);line-height:1;}
+.hs-l{font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-top:4px;}
+.hero-right{display:flex;flex-direction:column;gap:12px;}
+.hcard{background:var(--fond);border:1px solid var(--bordure);border-radius:10px;padding:18px 20px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;display:flex;align-items:center;gap:16px;}
+.hcard:hover{border-color:var(--vert3);box-shadow:var(--ombre);transform:translateX(4px);}
+.hcard-ico{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.ico-g{background:#e6f2ea;}.ico-b{background:#e6eef7;}.ico-o{background:#fdf3e7;}.ico-p{background:#eee6f7;}
+.hcard-tx .hct{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);}
+.hcard-tx .hcn{font-size:.92rem;font-weight:600;color:var(--noir);}
+.hcard-arr{margin-left:auto;color:var(--gris3);font-size:1.1rem;transition:transform .2s;}
+.hcard:hover .hcard-arr{transform:translateX(4px);color:var(--vert);}
 
-/* ══ RUBRIQUES CARDS ══ */
-.rubriques{background:var(--sable);border-top:1px solid var(--bordure);padding:64px 40px;}
-.rub-in{max-width:1320px;margin:0 auto;}
-.rub-top{text-align:center;margin-bottom:48px;}
-.rub-eye{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--vert);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;}
-.rub-eye::before,.rub-eye::after{content:'';width:24px;height:2px;background:var(--vert);}
-.rub-h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--noir);}
-.rub-h2 em{color:var(--vert);font-style:italic;}
-.rub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-.rub-card{background:var(--blanc);border:1.5px solid var(--bordure);border-radius:18px;padding:36px 28px;cursor:pointer;transition:transform .3s var(--T),box-shadow .3s,border-color .3s;display:flex;flex-direction:column;align-items:flex-start;gap:14px;position:relative;overflow:hidden;}
-.rub-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--vert);transform:scaleX(0);transition:transform .3s var(--T);transform-origin:left;}
-.rub-card:hover{transform:translateY(-8px);box-shadow:0 20px 56px rgba(0,0,0,.1);border-color:var(--vert);}
-.rub-card:hover::after{transform:scaleX(1);}
-.rub-icon-wrap{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
-.ic-p{background:#e5f4ec;}
-.ic-m{background:#e0f2fb;}
-.ic-s{background:#fef3e2;}
-.ic-n{background:#ede7f6;}
-.rub-card h3{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:var(--noir);}
-.rub-card p{font-size:.78rem;color:var(--gris);line-height:1.7;flex:1;}
-.rub-count{font-size:.68rem;font-weight:700;color:var(--vert);background:rgba(27,94,53,.08);padding:4px 12px;border-radius:100px;}
-.rub-arrow{margin-left:auto;font-size:1.1rem;color:var(--vert);opacity:0;transform:translateX(-6px);transition:opacity .3s,transform .3s;}
-.rub-card:hover .rub-arrow{opacity:1;transform:translateX(0);}
+/* ─── RUBRIQUES ──────────────────────────────────── */
+.rubriques{padding:64px 32px;}
+.rub-in{max-width:1200px;margin:0 auto;}
+.sec-label{font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--vert);margin-bottom:10px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:700;color:var(--noir);margin-bottom:8px;}
+.sec-title em{color:var(--vert);font-style:italic;}
+.sec-sub{font-size:.9rem;color:var(--gris1);line-height:1.7;max-width:520px;margin-bottom:40px;}
+.rub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.rcard{background:var(--blanc);border:1px solid var(--bordure);border-radius:10px;padding:28px 24px;cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .25s;position:relative;overflow:hidden;}
+.rcard::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--vert);transform:scaleX(0);transition:transform .3s var(--T);transform-origin:left;}
+.rcard:hover{border-color:var(--vert3);box-shadow:0 8px 28px rgba(26,92,50,.1);transform:translateY(-4px);}
+.rcard:hover::before{transform:scaleX(1);}
+.rcard-ico{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px;}
+.rcard h3{font-size:1rem;font-weight:700;color:var(--noir);margin-bottom:8px;}
+.rcard p{font-size:.78rem;color:var(--gris1);line-height:1.65;margin-bottom:14px;}
+.rcard-count{font-size:.68rem;font-weight:600;color:var(--vert);background:rgba(26,92,50,.08);padding:3px 10px;border-radius:4px;display:inline-block;}
 
-/* ══ PAGES CONTENT ══ */
-.content-page{animation:pageIn .4s var(--T) both;}
-@keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.page-header{background:linear-gradient(135deg,var(--vert) 0%,var(--vert2) 100%);color:#fff;padding:56px 40px 48px;}
-.ph-in{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:20px;}
-.ph-back{background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:10px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
-.ph-back:hover{background:rgba(255,255,255,.25);}
-.ph-text{}
-.ph-eye{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:8px;}
-.ph-title{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;line-height:1.15;}
-.ph-title em{font-style:italic;color:rgba(255,255,255,.85);}
-.ph-sub{font-size:.85rem;color:rgba(255,255,255,.75);margin-top:8px;max-width:600px;line-height:1.7;font-weight:300;}
-.page-body{max-width:1320px;margin:0 auto;padding:56px 40px 80px;}
+/* ─── BANDE CHIFFRES ─────────────────────────────── */
+.bchiffres{background:var(--vert);padding:48px 32px;}
+.bch-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;}
+.bchn{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:#fff;}
+.bchl{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:6px;}
 
-/* ══ GROUPES PRODUITS ══ */
-.grp{margin-bottom:56px;}
-.grp-title{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:var(--noir);padding-bottom:14px;border-bottom:2px solid var(--bordure);margin-bottom:24px;display:flex;align-items:center;gap:10px;}
-.grp-title span{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(27,94,53,.1);color:var(--vert);padding:3px 10px;border-radius:100px;}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-.grid-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+/* ─── PAGE HEADER ────────────────────────────────── */
+.page-hdr{background:var(--noir);padding:40px 32px 36px;}
+.ph-in{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;gap:16px;}
+.ph-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:36px;height:36px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s;flex-shrink:0;margin-top:4px;}
+.ph-back:hover{background:rgba(255,255,255,.2);}
+.ph-txt .ph-cat{font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;}
+.ph-txt h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:700;color:#fff;margin-bottom:8px;line-height:1.15;}
+.ph-txt h1 em{font-style:italic;color:rgba(255,255,255,.75);}
+.ph-txt p{font-size:.86rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:580px;}
 
-/* ══ CARTE PRODUIT ══ */
-.pc{background:var(--blanc);border:1px solid var(--bordure);border-radius:14px;overflow:hidden;transition:transform .3s var(--T),box-shadow .3s,border-color .3s;animation:fadeIn .5s var(--T) both;}
-.pc:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,.1);border-color:var(--vert3);}
-.pc-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative;}
-.pc-badge{position:absolute;top:10px;left:10px;font-size:.57rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+/* ─── PAGE BODY ──────────────────────────────────── */
+.page-body{max-width:1200px;margin:0 auto;padding:48px 32px 72px;}
+
+/* ─── GROUPE TITRE ───────────────────────────────── */
+.grp{margin-bottom:52px;}
+.grp-hd{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--bordure);}
+.grp-hd h2{font-size:1rem;font-weight:700;color:var(--noir);}
+.grp-pill{background:rgba(26,92,50,.1);color:var(--vert);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:4px;}
+
+/* ─── GRILLES ────────────────────────────────────── */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.g-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+/* ─── CARTE PRODUIT ──────────────────────────────── */
+.pc{background:var(--blanc);border:1px solid var(--bordure);border-radius:10px;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s;}
+.pc:hover{border-color:var(--vert3);box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-4px);}
+.pc-img{height:160px;position:relative;overflow:hidden;background:var(--fond);}
+.pc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--T);}
+.pc:hover .pc-img img{transform:scale(1.05);}
+.pc-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(0,0,0,.4) 100%);}
+.pc-badge{position:absolute;top:10px;left:10px;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;z-index:1;}
+.badge-r{background:rgba(26,92,50,.9);color:#fff;}
+.badge-m{background:rgba(21,101,192,.9);color:#fff;}
+.badge-n{background:rgba(94,53,177,.9);color:#fff;}
+.pc-fallback{height:160px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;background:var(--fond);position:relative;}
 .pc-body{padding:16px 18px 20px;}
-.pc-cat{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--vert);margin-bottom:6px;}
-.pc-nom{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;line-height:1.3;margin-bottom:7px;color:var(--noir);}
-.pc-desc{font-size:.74rem;color:var(--gris);line-height:1.72;margin-bottom:16px;}
+.pc-grp{font-size:.62rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--vert);margin-bottom:5px;}
+.pc-nom{font-size:.95rem;font-weight:700;color:var(--noir);margin-bottom:6px;line-height:1.35;}
+.pc-desc{font-size:.78rem;color:var(--gris1);line-height:1.7;margin-bottom:16px;}
 .pc-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;}
-.pc-prix{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--vert);line-height:1;}
-.pc-unit{font-size:.6rem;color:var(--gris);margin-top:3px;}
-.btn-add{border:none;padding:9px 16px;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;transition:background .2s,transform .15s;white-space:nowrap;flex-shrink:0;}
-.btn-add:hover{transform:scale(1.04);}
-.ba-green{background:var(--vert);color:#fff;}
-.ba-green:hover{background:var(--vert2);}
-.ba-blue{background:#1565c0;color:#fff;}
-.ba-blue:hover{background:#0d47a1;}
-.ba-amber{background:#e65100;color:#fff;}
-.ba-amber:hover{background:#bf360c;}
+.pc-prix{font-size:.95rem;font-weight:700;color:var(--vert);line-height:1;}
+.pc-unit{font-size:.62rem;color:var(--gris2);margin-top:3px;}
+.btn-r{border:none;padding:8px 16px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.br-g{background:var(--vert);color:#fff;}
+.br-g:hover{background:var(--vert2);}
+.br-b{background:#1565c0;color:#fff;}
+.br-b:hover{background:#0d47a1;}
+.br-a{background:var(--rouge);color:#fff;}
+.br-a:hover{background:#922818;}
 
-/* ══ CARTE SERVICE ══ */
-.sc{background:var(--blanc);border:1px solid var(--bordure);border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;transition:transform .3s var(--T),box-shadow .3s,border-color .3s;animation:fadeIn .5s var(--T) both;}
-.sc:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(27,94,53,.12);border-color:var(--vert3);}
-.sc-icon{font-size:2.4rem;margin-bottom:16px;}
-.sc-tag{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:#fef3e2;color:#e65100;border:1px solid #f5d6a0;padding:3px 10px;border-radius:100px;margin-bottom:12px;}
-.sc-nom{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;margin-bottom:10px;line-height:1.3;color:var(--noir);}
-.sc-desc{font-size:.78rem;color:var(--gris);line-height:1.8;margin-bottom:20px;flex:1;}
-.sc-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
-.sc-feats li{font-size:.74rem;color:var(--gris);display:flex;align-items:flex-start;gap:9px;line-height:1.5;}
-.sc-feats li::before{content:'✓';color:var(--vert);font-weight:700;flex-shrink:0;margin-top:1px;}
-.btn-devis-card{width:100%;background:transparent;color:var(--vert);border:1.5px solid var(--vert);padding:12px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:background .2s,color .2s;}
-.btn-devis-card:hover{background:var(--vert);color:#fff;}
+/* ─── CARTE SERVICE ──────────────────────────────── */
+.sc{background:var(--blanc);border:1px solid var(--bordure);border-radius:10px;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .25s,box-shadow .25s,transform .25s;}
+.sc:hover{border-color:var(--vert3);box-shadow:0 8px 28px rgba(26,92,50,.1);transform:translateY(-4px);}
+.sc-ico{font-size:2rem;margin-bottom:14px;}
+.sc-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:4px;margin-bottom:12px;}
+.st-ing{background:#fdf3e7;color:#92400e;border:1px solid #f5d6a0;}
+.st-ana{background:#e6f2ea;color:var(--vert);border:1px solid #b8d8c4;}
+.sc-nom{font-size:1rem;font-weight:700;color:var(--noir);margin-bottom:8px;line-height:1.35;}
+.sc-desc{font-size:.8rem;color:var(--gris1);line-height:1.75;margin-bottom:18px;flex:1;}
+.sc-feats{list-style:none;margin-bottom:20px;}
+.sc-feats li{font-size:.76rem;color:var(--gris1);padding:4px 0 4px 20px;position:relative;border-bottom:1px solid var(--bordure);}
+.sc-feats li:last-child{border-bottom:none;}
+.sc-feats li::before{content:'✓';position:absolute;left:0;color:var(--vert);font-weight:700;}
+.btn-dvc{width:100%;background:transparent;color:var(--vert);border:1.5px solid var(--vert);padding:11px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s;}
+.btn-dvc:hover{background:var(--vert);color:#fff;}
 
-/* ══ TABS FORMULATION ══ */
-.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
-.ftab{background:transparent;border:1.5px solid var(--bordure);color:var(--gris);padding:10px 22px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;}
-.ftab:hover{border-color:var(--vert);color:var(--vert);}
-.ftab.on{background:var(--vert);border-color:var(--vert);color:#fff;}
+/* ─── ONGLETS FORMULATION ────────────────────────── */
+.ftabs{display:flex;gap:4px;margin-bottom:32px;background:var(--sable);padding:5px;border-radius:9px;width:fit-content;}
+.ftab{background:transparent;border:none;padding:9px 20px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;color:var(--gris1);cursor:pointer;transition:all .2s;}
+.ftab:hover{color:var(--vert);}
+.ftab.on{background:var(--blanc);color:var(--vert);font-weight:600;box-shadow:var(--ombre);}
 
-/* ══ PAGE CONTACT ══ */
-.contact-wrap{max-width:680px;margin:0 auto;}
-.contact-intro{text-align:center;margin-bottom:40px;}
-.contact-intro h2{font-family:'Fraunces',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:700;margin-bottom:10px;}
+/* ─── CONTACT / FORMULAIRE ───────────────────────── */
+.contact-wrap{max-width:640px;margin:0 auto;}
+.contact-intro{margin-bottom:32px;}
+.contact-intro h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--noir);margin-bottom:8px;}
 .contact-intro h2 em{color:var(--vert);font-style:italic;}
-.contact-intro p{font-size:.86rem;color:var(--gris);line-height:1.8;}
-.contact-form{background:var(--blanc);border:1px solid var(--bordure);border-radius:18px;padding:40px;}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.ff{display:flex;flex-direction:column;gap:6px;}
-.ff.full{grid-column:1/-1;}
-.fl{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);}
-.fi,.ft{border:1.5px solid var(--bordure);border-radius:9px;padding:12px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;background:#fff;color:var(--noir);width:100%;}
-.fi:focus,.ft:focus{border-color:var(--vert);}
-.ft{resize:vertical;min-height:110px;}
-.ferr{color:#c0392b;font-size:.76rem;padding:8px 12px;background:#fdf2f2;border-radius:7px;margin-bottom:12px;}
-.btn-send{width:100%;background:var(--vert);color:#fff;border:none;padding:16px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s,box-shadow .2s;margin-top:8px;}
-.btn-send:hover{background:var(--vert2);box-shadow:0 8px 24px rgba(27,94,53,.3);}
-.btn-send:disabled{opacity:.55;cursor:not-allowed;}
-.form-note{text-align:center;font-size:.68rem;color:var(--gris);margin-top:10px;}
+.contact-intro p{font-size:.9rem;color:var(--gris1);line-height:1.7;}
+.form-card{background:var(--blanc);border:1px solid var(--bordure);border-radius:12px;padding:36px;box-shadow:var(--ombre);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.form-row.full{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group label{font-size:.74rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--gris1);}
+.form-group input,.form-group textarea,.form-group select{
+  border:1.5px solid var(--bordure);
+  border-radius:8px;
+  padding:11px 14px;
+  font-family:'Inter',sans-serif;
+  font-size:.88rem;
+  color:var(--noir);
+  background:#ffffff;
+  outline:none;
+  width:100%;
+  transition:border-color .2s,box-shadow .2s;
+  position:relative;
+  z-index:1;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--vert);
+  box-shadow:0 0 0 3px rgba(26,92,50,.1);
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--gris3);}
+.form-group textarea{resize:vertical;min-height:110px;line-height:1.6;}
+.form-group select option{background:#fff;color:var(--noir);}
+.form-error{background:#fdf2f2;border:1px solid #f5c6c6;color:#922818;font-size:.78rem;padding:10px 14px;border-radius:7px;margin-bottom:14px;}
+.btn-submit{width:100%;background:var(--vert);color:#fff;border:none;padding:14px;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s,box-shadow .2s;margin-top:6px;}
+.btn-submit:hover{background:var(--vert2);box-shadow:0 6px 20px rgba(26,92,50,.28);}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;}
+.form-note{text-align:center;font-size:.7rem;color:var(--gris2);margin-top:10px;}
 .form-ok{text-align:center;padding:48px 20px;}
-.fok-icon{font-size:3.5rem;margin-bottom:16px;}
-.fok-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--vert);margin-bottom:8px;}
-.fok-sub{font-size:.86rem;color:var(--gris);line-height:1.7;}
+.fok-ico{font-size:3rem;margin-bottom:16px;}
+.fok-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--vert);margin-bottom:8px;}
+.fok-sub{font-size:.88rem;color:var(--gris1);line-height:1.7;}
+.contact-alt{margin-top:24px;padding:20px;background:var(--fond);border:1px solid var(--bordure);border-radius:10px;display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+.calt-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--gris1);}
+.calt-item a{color:var(--vert);text-decoration:none;font-weight:600;}
+.calt-item a:hover{text-decoration:underline;}
 
-/* ══ PANIER ══ */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
+/* ─── AVANTAGES ──────────────────────────────────── */
+.avantages{background:var(--sable);border-top:1px solid var(--bordure);border-bottom:1px solid var(--bordure);padding:52px 32px;}
+.av-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.av-item{text-align:center;}
+.av-ico{font-size:1.8rem;margin-bottom:10px;}
+.av-t{font-size:.9rem;font-weight:700;color:var(--noir);margin-bottom:5px;}
+.av-d{font-size:.78rem;color:var(--gris1);line-height:1.65;}
+
+/* ─── PANIER ─────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(3px);}
 .overlay.on{opacity:1;pointer-events:all;}
-.cart-panel{position:fixed;top:0;right:-520px;width:480px;max-width:100vw;height:100dvh;background:var(--blanc);z-index:301;display:flex;flex-direction:column;transition:right .4s var(--T);box-shadow:-12px 0 60px rgba(0,0,0,.15);}
-.cart-panel.on{right:0;}
-.c-hd{padding:22px 26px;border-bottom:1px solid var(--bordure);display:flex;justify-content:space-between;align-items:center;}
-.c-hd h2{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700;}
-.c-close{background:none;border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--gris);transition:background .2s,color .2s;}
-.c-close:hover{background:rgba(192,57,43,.1);color:var(--rouge);}
-.c-body{flex:1;overflow-y:auto;padding:18px 26px;display:flex;flex-direction:column;gap:16px;}
-.c-empty{text-align:center;color:var(--gris);padding:64px 0;font-size:.86rem;}
-.c-item{display:flex;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--bordure);align-items:flex-start;}
-.c-ico{width:50px;height:50px;background:var(--sable);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
-.c-inf{flex:1;min-width:0;}
-.c-nom{font-family:'Fraunces',serif;font-size:.92rem;font-weight:600;margin-bottom:3px;line-height:1.3;}
-.c-px{font-size:.76rem;color:var(--vert);font-weight:600;}
-.c-rm{background:none;border:none;cursor:pointer;color:var(--gris);font-size:.9rem;padding:4px;transition:color .2s;}
-.c-rm:hover{color:var(--rouge);}
-.c-ft{padding:18px 26px;border-top:1px solid var(--bordure);background:var(--fond);}
-.c-tot{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-.c-tot-l{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);}
-.c-tot-p{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--vert);}
-.btn-pay{width:100%;background:var(--vert);color:#fff;border:none;padding:16px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.cart{position:fixed;top:0;right:-500px;width:460px;max-width:100vw;height:100dvh;background:var(--blanc);z-index:301;display:flex;flex-direction:column;transition:right .4s var(--T);box-shadow:-8px 0 40px rgba(0,0,0,.12);}
+.cart.on{right:0;}
+.cart-hd{padding:20px 24px;border-bottom:1px solid var(--bordure);display:flex;justify-content:space-between;align-items:center;}
+.cart-hd h2{font-size:1.1rem;font-weight:700;}
+.cart-x{background:none;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.1rem;color:var(--gris2);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cart-x:hover{background:rgba(176,48,32,.08);color:var(--rouge);}
+.cart-body{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-direction:column;gap:14px;}
+.cart-empty{text-align:center;color:var(--gris2);padding:60px 0;font-size:.88rem;}
+.ci{display:flex;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--bordure);align-items:flex-start;}
+.ci-ico{width:46px;height:46px;background:var(--fond);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.ci-info{flex:1;min-width:0;}
+.ci-nom{font-size:.88rem;font-weight:600;margin-bottom:3px;line-height:1.3;}
+.ci-px{font-size:.76rem;color:var(--vert);font-weight:600;}
+.ci-rm{background:none;border:none;cursor:pointer;color:var(--gris2);font-size:.9rem;padding:4px;flex-shrink:0;transition:color .2s;}
+.ci-rm:hover{color:var(--rouge);}
+.cart-ft{padding:16px 24px;border-top:1px solid var(--bordure);background:var(--fond);}
+.cart-tot{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.cart-tot-l{font-size:.74rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gris2);}
+.cart-tot-p{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--vert);}
+.btn-pay{width:100%;background:var(--vert);color:#fff;border:none;padding:14px;border-radius:8px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s;}
 .btn-pay:hover{background:var(--vert2);}
 .btn-pay:disabled{opacity:.5;cursor:not-allowed;}
-.pay-note{text-align:center;font-size:.64rem;color:var(--gris);margin-top:9px;}
+.pay-note{text-align:center;font-size:.66rem;color:var(--gris2);margin-top:8px;}
 
-/* ══ TOAST ══ */
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--vert);color:#fff;padding:13px 24px;font-size:.8rem;font-weight:500;z-index:400;border-radius:10px;opacity:0;transition:transform .35s var(--T),opacity .35s;white-space:nowrap;box-shadow:0 8px 28px rgba(27,94,53,.4);max-width:90vw;}
+/* ─── TOAST ──────────────────────────────────────── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--noir);color:#fff;padding:11px 20px;font-size:.8rem;font-weight:500;z-index:500;border-radius:8px;opacity:0;transition:transform .35s var(--T),opacity .35s;white-space:nowrap;box-shadow:0 6px 24px rgba(0,0,0,.3);max-width:92vw;border-left:3px solid var(--vert);}
 .toast.on{transform:translateX(-50%) translateY(0);opacity:1;}
 
-/* ══ AI ══ */
-.ai-fab{position:fixed;bottom:28px;right:28px;z-index:500;width:58px;height:58px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--vert),var(--vert2));color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 28px rgba(27,94,53,.5);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;}
-.ai-fab:hover{transform:scale(1.08) translateY(-2px);}
-.ai-dot{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:var(--rouge);border-radius:50%;border:2px solid var(--fond);animation:ping 2s infinite;}
-@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.6}}
-.ai-win{position:fixed;bottom:100px;right:28px;z-index:500;width:380px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100dvh - 120px);background:var(--blanc);border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.2);display:flex;flex-direction:column;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:transform .35s var(--T),opacity .3s;overflow:hidden;border:1px solid var(--bordure);}
+/* ─── WHATSAPP ───────────────────────────────────── */
+.wa{position:fixed;bottom:96px;left:24px;z-index:400;width:52px;height:52px;border-radius:50%;background:#25d366;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(37,211,102,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;}
+.wa:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(37,211,102,.55);}
+.wa svg{width:26px;height:26px;fill:#fff;}
+
+/* ─── AI CHAT ────────────────────────────────────── */
+.ai-fab{position:fixed;bottom:28px;right:24px;z-index:400;width:52px;height:52px;border-radius:50%;background:var(--vert);border:none;color:#fff;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 18px rgba(26,92,50,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;}
+.ai-fab:hover{transform:scale(1.08);}
+.ai-dot{position:absolute;top:-2px;right:-2px;width:13px;height:13px;background:var(--rouge);border-radius:50%;border:2px solid var(--fond);}
+.ai-win{position:fixed;bottom:92px;right:24px;z-index:400;width:360px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100dvh - 112px);background:var(--blanc);border-radius:14px;border:1px solid var(--bordure);box-shadow:0 20px 60px rgba(0,0,0,.15);display:flex;flex-direction:column;transform:scale(.9) translateY(16px);opacity:0;pointer-events:none;transition:transform .3s var(--T),opacity .3s;overflow:hidden;}
 .ai-win.on{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-.ai-hd{padding:16px 18px;background:linear-gradient(135deg,var(--vert),var(--vert2));display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.ai-av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.ai-hd{padding:14px 16px;background:var(--vert);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ai-av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .ai-hi{flex:1;}
-.ai-name{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:#fff;}
-.ai-status{font-size:.67rem;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:5px;}
-.ai-status::before{content:'';width:6px;height:6px;background:#5ddb8a;border-radius:50%;}
-.ai-x{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:1.1rem;padding:4px;transition:color .2s;}
-.ai-x:hover{color:#fff;}
-.ai-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+.ai-nm{font-size:.9rem;font-weight:700;color:#fff;}
+.ai-st{font-size:.65rem;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:4px;}
+.ai-st::before{content:'';width:5px;height:5px;background:#5ddb8a;border-radius:50%;}
+.ai-cx{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);font-size:1rem;padding:4px;transition:color .2s;}
+.ai-cx:hover{color:#fff;}
+.ai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
 .ai-msgs::-webkit-scrollbar{width:3px;}
-.ai-msgs::-webkit-scrollbar-thumb{background:var(--bordure);border-radius:2px;}
-.msg{display:flex;gap:8px;animation:msgIn .3s var(--T);}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.msg.u{flex-direction:row-reverse;}
-.m-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;margin-top:2px;}
-.msg.b .m-av{background:linear-gradient(135deg,var(--vert),var(--vert2));}
-.msg.u .m-av{background:var(--sable);}
-.m-bub{max-width:79%;padding:10px 14px;border-radius:14px;font-size:.8rem;line-height:1.7;}
-.msg.b .m-bub{background:var(--fond);color:var(--noir);border-bottom-left-radius:4px;}
-.msg.u .m-bub{background:var(--vert);color:#fff;border-bottom-right-radius:4px;}
-.typing{display:flex;gap:4px;padding:12px 14px;background:var(--fond);border-radius:14px;border-bottom-left-radius:4px;width:fit-content;}
-.typing span{width:6px;height:6px;background:var(--gris);border-radius:50%;animation:bop 1.4s infinite;}
+.ai-msgs::-webkit-scrollbar-thumb{background:var(--bordure);}
+.m{display:flex;gap:7px;}
+.m.u{flex-direction:row-reverse;}
+.m-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:1px;}
+.m.b .m-av{background:var(--vert);color:#fff;}
+.m.u .m-av{background:var(--sable);font-size:.7rem;}
+.m-b{max-width:80%;padding:9px 12px;border-radius:12px;font-size:.78rem;line-height:1.65;}
+.m.b .m-b{background:var(--fond);color:var(--noir);border-bottom-left-radius:3px;}
+.m.u .m-b{background:var(--vert);color:#fff;border-bottom-right-radius:3px;}
+.typing{display:flex;gap:3px;padding:10px 12px;background:var(--fond);border-radius:12px;width:fit-content;}
+.typing span{width:5px;height:5px;background:var(--gris2);border-radius:50%;animation:bop 1.4s infinite;}
 .typing span:nth-child(2){animation-delay:.2s;}
 .typing span:nth-child(3){animation-delay:.4s;}
-@keyframes bop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-.ai-sugs{padding:0 12px 10px;display:flex;flex-wrap:wrap;gap:6px;}
-.sug{background:var(--fond);border:1px solid var(--bordure);color:var(--vert);padding:5px 12px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.68rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+@keyframes bop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ai-sugs{padding:0 10px 8px;display:flex;flex-wrap:wrap;gap:5px;}
+.sug{background:var(--fond);border:1px solid var(--bordure);color:var(--vert);padding:4px 10px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;cursor:pointer;transition:all .2s;}
 .sug:hover{background:var(--vert);color:#fff;border-color:var(--vert);}
-.ai-inp-row{padding:12px;border-top:1px solid var(--bordure);display:flex;gap:8px;background:#fff;flex-shrink:0;}
-.ai-inp{flex:1;border:1.5px solid var(--bordure);border-radius:10px;padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s;resize:none;max-height:80px;}
+.ai-ir{padding:10px;border-top:1px solid var(--bordure);display:flex;gap:7px;background:#fff;flex-shrink:0;}
+.ai-inp{flex:1;border:1px solid var(--bordure);border-radius:8px;padding:9px 12px;font-family:'Inter',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;resize:none;max-height:72px;background:#fff;color:var(--noir);}
 .ai-inp:focus{border-color:var(--vert);}
-.ai-snd{background:var(--vert);color:#fff;border:none;width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s;flex-shrink:0;align-self:flex-end;}
+.ai-snd{background:var(--vert);color:#fff;border:none;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;align-self:flex-end;transition:background .2s;}
 .ai-snd:hover{background:var(--vert2);}
 .ai-snd:disabled{opacity:.5;cursor:not-allowed;}
 
-/* ══ TOP BAR ══ */
-.topbar{background:var(--vert);color:rgba(255,255,255,.85);padding:8px 40px;display:flex;align-items:center;justify-content:space-between;font-size:.72rem;gap:16px;flex-wrap:wrap;}
-.topbar a{color:rgba(255,255,255,.85);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
-.topbar a:hover{color:#fff;}
-.topbar-left{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
-.topbar-right{display:flex;align-items:center;gap:16px;}
+/* ─── FOOTER ─────────────────────────────────────── */
+footer{background:var(--noir);color:#fff;}
+.foot-in{max-width:1200px;margin:0 auto;padding:56px 32px 28px;}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px;}
+.foot-brand .fb-n{font-size:1.1rem;font-weight:700;margin-bottom:12px;}
+.foot-brand .fb-n span{color:#4caf78;}
+.foot-brand p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:14px;}
+.foot-brand .fb-contact{display:flex;flex-direction:column;gap:7px;}
+.foot-brand .fb-contact a{font-size:.78rem;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px;}
+.foot-brand .fb-contact a:hover{color:#4caf78;}
+.foot-col h4{font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:#4caf78;margin-bottom:14px;font-weight:600;}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.foot-col li{font-size:.8rem;color:rgba(255,255,255,.48);cursor:pointer;transition:color .2s;}
+.foot-col li:hover{color:#4caf78;}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-bot span{font-size:.68rem;color:rgba(255,255,255,.35);}
 
-/* ══ WHATSAPP ══ */
-.wa-btn{position:fixed;bottom:100px;left:24px;z-index:500;width:54px;height:54px;border-radius:50%;background:#25d366;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;}
-.wa-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6);}
-.wa-btn svg{width:28px;height:28px;fill:#fff;}
-.wa-tooltip{position:absolute;left:64px;background:var(--noir);color:#fff;padding:6px 12px;border-radius:7px;font-size:.72rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
-.wa-btn:hover .wa-tooltip{opacity:1;}
-
-/* ══ PHOTO PRODUIT ══ */
-.pc-img-photo{height:160px;position:relative;overflow:hidden;background:#1b5e35;}
-.pc-img-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--T);}
-.pc:hover .pc-img-photo img{transform:scale(1.06);}
-.pc-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.5) 100%);}
-.pc-img-photo .pc-badge{position:absolute;top:10px;left:10px;z-index:2;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
-
-/* ══ FOOTER ══ */
-footer{background:var(--vert);color:#fff;}
-.foot{max-width:1320px;margin:0 auto;padding:56px 40px 28px;}
-.foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px;}
-.foot-brand .fb-name{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700;margin-bottom:12px;}
-.foot-brand .fb-name span{color:#5ddb8a;}
-.foot-brand p{font-size:.76rem;color:rgba(255,255,255,.55);line-height:1.85;max-width:270px;}
-.foot-col h4{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:#5ddb8a;margin-bottom:16px;font-weight:700;}
-.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.foot-col li{font-size:.78rem;color:rgba(255,255,255,.5);cursor:pointer;transition:color .2s;}
-.foot-col li:hover{color:#5ddb8a;}
-.foot-bot{border-top:1px solid rgba(255,255,255,.12);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.foot-bot span{font-size:.67rem;color:rgba(255,255,255,.35);}
-
-/* ══ RESPONSIVE ══ */
+/* ─── RESPONSIVE ─────────────────────────────────── */
 @media(max-width:1024px){
-  .nav-menu,.nav-r .btn-devis{display:none;}
+  .nav-links,.nav-right .btn-devis-nav{display:none;}
   .burger{display:flex;}
-  .mob-menu{display:flex;}
-  .garde-hero{grid-template-columns:1fr;padding:48px 24px 40px;gap:40px;}
-  .gh-right{grid-template-columns:1fr 1fr;}
+  .hero-in{grid-template-columns:1fr;padding:48px 24px 56px;gap:40px;}
   .rub-grid{grid-template-columns:repeat(2,1fr);}
-  .grid3,.grid4{grid-template-columns:repeat(2,1fr);gap:16px;}
-  .grid-svc{grid-template-columns:1fr;gap:20px;}
-  .page-header{padding:40px 24px 36px;}
-  .page-body{padding:40px 24px 60px;}
-  .rubriques{padding:56px 24px;}
+  .bch-in{grid-template-columns:repeat(2,1fr);padding:40px 24px;}
+  .g3,.g4{grid-template-columns:repeat(2,1fr);}
+  .g-svc{grid-template-columns:1fr;}
+  .av-in{grid-template-columns:repeat(2,1fr);}
   .foot-grid{grid-template-columns:1fr 1fr;gap:32px;}
-  .cart-panel{width:100%;right:-100%;}
-  .ai-win{right:16px;width:calc(100vw - 32px);}
-  .ai-fab{bottom:20px;right:16px;}
+  .page-hdr{padding:32px 20px 28px;}
+  .page-body{padding:36px 20px 56px;}
+  .rubriques{padding:48px 20px;}
+  .cart{width:100%;right:-100%;}
 }
 @media(max-width:600px){
   .nav-in{padding:0 16px;}
-  .gh-h1{font-size:2.4rem;}
-  .gh-btns{flex-direction:column;}
-  .btn-prim,.btn-sec{width:100%;text-align:center;}
-  .gh-right{grid-template-columns:1fr 1fr;}
+  .topbar-in{padding:0 16px;}
+  .hero h1{font-size:2rem;}
+  .hero-btns{flex-direction:column;}
+  .btn-p,.btn-o{width:100%;text-align:center;}
+  .hero-right{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .hcard{flex-direction:column;align-items:flex-start;padding:14px 16px;}
+  .hcard-arr{display:none;}
   .rub-grid{grid-template-columns:1fr 1fr;}
-  .grid3,.grid4{grid-template-columns:1fr;}
+  .g3,.g4{grid-template-columns:1fr;}
+  .g-svc{grid-template-columns:1fr;}
+  .bch-in{grid-template-columns:1fr 1fr;}
+  .av-in{grid-template-columns:1fr 1fr;}
   .foot-grid{grid-template-columns:1fr;gap:28px;}
-  .foot-bot{flex-direction:column;}
-  .fg{grid-template-columns:1fr;}
-  .contact-form{padding:24px 18px;}
-  .ai-win{height:calc(100dvh - 110px);}
-  .ph-in{flex-direction:column;align-items:flex-start;}
+  .form-row{grid-template-columns:1fr;}
+  .form-card{padding:22px 16px;}
+  .ftabs{flex-direction:column;width:100%;}
+  .ai-win{right:12px;width:calc(100vw - 24px);height:calc(100dvh - 110px);}
 }
+
+/* ─── ADMIN PANEL ─────────────────────────────────── */
+.adm-body{min-height:100vh;background:#f0f2f5;font-family:'Inter',sans-serif;}
+.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f2017,#1a5c32);}
+.adm-login-box{background:#fff;border-radius:16px;padding:40px;width:360px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.adm-login-logo{text-align:center;margin-bottom:28px;}
+.adm-login-logo .sq{width:52px;height:52px;background:#1a5c32;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;margin:0 auto 12px;}
+.adm-login-logo h1{font-size:1.1rem;font-weight:700;color:#12201a;}
+.adm-login-logo p{font-size:.78rem;color:#6b7c70;margin-top:4px;}
+.adm-login-box label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6b7c70;display:block;margin-bottom:6px;}
+.adm-login-box input{width:100%;border:1.5px solid #d8e4dc;border-radius:8px;padding:11px 14px;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;margin-bottom:16px;transition:border-color .2s;}
+.adm-login-box input:focus{border-color:#1a5c32;}
+.adm-btn-login{width:100%;background:#1a5c32;color:#fff;border:none;padding:13px;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.adm-btn-login:hover{background:#236b3b;}
+.adm-err{background:#fdf2f2;border:1px solid #f5c6c6;color:#922818;font-size:.78rem;padding:9px 12px;border-radius:7px;margin-bottom:12px;text-align:center;}
+.adm-top{background:#12201a;color:#fff;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.adm-top-l{display:flex;align-items:center;gap:10px;}
+.adm-top-l .sq{width:32px;height:32px;background:#1a5c32;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;}
+.adm-top-l span{font-size:.9rem;font-weight:600;color:#fff;}
+.adm-top-r{display:flex;align-items:center;gap:12px;}
+.adm-top-r a{font-size:.78rem;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.adm-top-r a:hover{color:#fff;}
+.adm-logout{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);padding:6px 14px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s;}
+.adm-logout:hover{background:rgba(255,255,255,.2);color:#fff;}
+.adm-layout{display:flex;min-height:calc(100vh - 56px);}
+.adm-sidebar{width:220px;background:#fff;border-right:1px solid #e0e8e2;padding:20px 0;flex-shrink:0;}
+.adm-nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;font-size:.84rem;font-weight:500;color:#4a5c52;cursor:pointer;transition:all .2s;border-left:3px solid transparent;}
+.adm-nav-item:hover{background:#f0f2f5;color:#1a5c32;}
+.adm-nav-item.on{background:#e6f2ea;color:#1a5c32;font-weight:600;border-left-color:#1a5c32;}
+.adm-nav-item .ni{font-size:1rem;width:20px;text-align:center;}
+.adm-content{flex:1;padding:28px;overflow-y:auto;}
+.adm-card{background:#fff;border:1px solid #e0e8e2;border-radius:10px;padding:24px;margin-bottom:20px;}
+.adm-card-title{font-size:.9rem;font-weight:700;color:#12201a;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e0e8e2;display:flex;align-items:center;justify-content:space-between;}
+.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.adm-stat{background:#fff;border:1px solid #e0e8e2;border-radius:10px;padding:20px;text-align:center;}
+.adm-stat-n{font-size:1.8rem;font-weight:700;color:#1a5c32;line-height:1;}
+.adm-stat-l{font-size:.72rem;color:#6b7c70;margin-top:5px;font-weight:500;}
+.adm-promo-box{background:#fff;border:1px solid #e0e8e2;border-radius:10px;padding:24px;margin-bottom:20px;}
+.adm-toggle{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.adm-toggle input[type="checkbox"]{width:42px;height:24px;appearance:none;background:#d8e4dc;border-radius:12px;cursor:pointer;transition:background .2s;position:relative;flex-shrink:0;}
+.adm-toggle input[type="checkbox"]::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.adm-toggle input[type="checkbox"]:checked{background:#1a5c32;}
+.adm-toggle input[type="checkbox"]:checked::after{left:21px;}
+.adm-toggle label{font-size:.88rem;font-weight:600;color:#12201a;cursor:pointer;}
+.adm-field{margin-bottom:14px;}
+.adm-field label{font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6b7c70;display:block;margin-bottom:5px;}
+.adm-field input,.adm-field textarea,.adm-field select{width:100%;border:1.5px solid #d8e4dc;border-radius:7px;padding:9px 12px;font-family:'Inter',sans-serif;font-size:.85rem;color:#12201a;background:#fff;outline:none;transition:border-color .2s;}
+.adm-field input:focus,.adm-field textarea:focus{border-color:#1a5c32;}
+.adm-field textarea{resize:vertical;min-height:80px;}
+.adm-btn{border:none;padding:9px 18px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.adm-btn-g{background:#1a5c32;color:#fff;}
+.adm-btn-g:hover{background:#236b3b;}
+.adm-btn-r{background:#b03020;color:#fff;}
+.adm-btn-r:hover{background:#922818;}
+.adm-btn-w{background:#fff;color:#4a5c52;border:1px solid #d8e4dc;}
+.adm-btn-w:hover{border-color:#1a5c32;color:#1a5c32;}
+.adm-prod-list{display:flex;flex-direction:column;gap:8px;}
+.adm-prod-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e0e8e2;border-radius:8px;cursor:pointer;transition:all .2s;background:#fff;}
+.adm-prod-item:hover{border-color:#1a5c32;background:#f8fbf9;}
+.adm-prod-item.editing{border-color:#1a5c32;background:#e6f2ea;}
+.adm-prod-name{flex:1;font-size:.84rem;font-weight:600;color:#12201a;}
+.adm-prod-prix{font-size:.8rem;color:#1a5c32;font-weight:600;white-space:nowrap;}
+.adm-prod-grp{font-size:.65rem;color:#6b7c70;margin-top:2px;}
+.adm-edit-panel{background:#f8fbf9;border:1px solid #b8d8c4;border-radius:8px;padding:16px;margin-top:8px;margin-bottom:8px;}
+.adm-save-bar{background:#fff;border-top:1px solid #e0e8e2;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;bottom:0;}
+.adm-save-bar span{font-size:.8rem;color:#6b7c70;}
+.adm-banner-preview{background:#1a5c32;color:#fff;padding:9px;text-align:center;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border-radius:6px;margin-top:12px;}
+.adm-tabs{display:flex;gap:4px;margin-bottom:20px;}
+.adm-tab{background:transparent;border:none;padding:8px 16px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;color:#6b7c70;cursor:pointer;transition:all .2s;}
+.adm-tab.on{background:#e6f2ea;color:#1a5c32;font-weight:600;}
+.adm-badge-mod{display:inline-block;width:7px;height:7px;background:#e65100;border-radius:50%;margin-left:5px;vertical-align:middle;}
+@media(max-width:768px){.adm-stats{grid-template-columns:1fr 1fr;}.adm-sidebar{display:none;}.adm-content{padding:16px;}}
 `;
 
-/* ════ DATA ════ */
+
+/* ══════════ DATA ══════════ */
+const TEL = "+212523377417";
+const WA  = "212700090365";
 const CHIM = [
-  {id:1,grp:"Coagulants",nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH. Réduction turbidité et MES.",emoji:"🧴",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:2,grp:"Coagulants",nom:"Chlorure Ferrique",desc:"Coagulant minéral puissant pour eaux industrielles et boues. Excellent pouvoir floculant.",emoji:"🟤",img:"https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:3,grp:"Coagulants",nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Soluble, facile à doser.",emoji:"🔵",img:"https://images.unsplash.com/photo-1581093196867-ca4e0b8c4f63?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:4,grp:"Floculants",nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées. Favorise des flocs denses.",emoji:"🫧",img:"https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:5,grp:"Floculants",nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues et flottation.",emoji:"💠",img:"https://images.unsplash.com/photo-1616163235154-b8efb32c9b7e?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:6,grp:"Correction pH",nom:"Stabilisant de pH",desc:"Maintient le pH dans la plage optimale de traitement.",emoji:"⚖️",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:7,grp:"Correction pH",nom:"Correcteur de pH",desc:"Correction acide ou basique du pH des effluents. Prêt à l'emploi.",emoji:"🧪",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:8,grp:"Désinfection & Traitement",nom:"Hypochlorite de Sodium",desc:"Désinfectant oxydant puissant. Élimine bactéries et virus dans les eaux.",emoji:"💧",img:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:9,grp:"Désinfection & Traitement",nom:"Antimousse",desc:"Élimine et prévient les mousses dans les bassins de traitement et STEP.",emoji:"🫗",img:"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:10,grp:"Désinfection & Traitement",nom:"Décolorant",desc:"Élimination des colorants et pigments dans les effluents textiles et industriels.",emoji:"🎨",img:"https://images.unsplash.com/photo-1562977352-f8fc96e5a6ff?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:11,grp:"Désinfection & Traitement",nom:"Peroxyde d'Hydrogène",desc:"Oxydant puissant pour eaux résiduaires. Élimine DCO, H₂S, composés organiques.",emoji:"⚗️",img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:12,grp:"Osmose Inverse",nom:"Anti-Scalant",desc:"Prévient l'entartrage et le colmatage des membranes OI. Protège contre carbonates et silice.",emoji:"🛡️",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:13,grp:"Osmose Inverse",nom:"Lavage Membranes — Acide",desc:"Nettoyage acide des membranes OI. Dissout tartre et oxydes métalliques.",emoji:"🔴",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:14,grp:"Osmose Inverse",nom:"Lavage Membranes — Basique",desc:"Nettoyage alcalin des membranes OI. Élimine biofilm et matière organique.",emoji:"🔵",img:"https://images.unsplash.com/photo-1521813605769-10c6cd6e5bb1?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:15,grp:"Osmose Inverse",nom:"Biocide Non Oxydant",desc:"Contrôle microbiologique pour circuits OI sans dégradation des membranes.",emoji:"🦠",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:16,grp:"Osmose Inverse",nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI.",emoji:"🧂",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:17,grp:"Eaux de Chaudière",nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion.",emoji:"🔩",img:"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:18,grp:"Eaux de Chaudière",nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires. Améliore le rendement thermique.",emoji:"♨️",img:"https://images.unsplash.com/photo-1611735341450-74d61e660ad2?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:19,grp:"Eaux de Chaudière",nom:"Éliminateur d'Oxygène",desc:"Désoxygénant chimique. Élimine l'oxygène dissous, cause principale de corrosion.",emoji:"💨",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=320&q=80"},
+  {id:1,grp:"Coagulants",nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH. Réduction turbidité et MES.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:2,grp:"Coagulants",nom:"Chlorure Ferrique",desc:"Coagulant minéral puissant pour eaux industrielles et boues. Excellent pouvoir floculant.",img:"https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:3,grp:"Coagulants",nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Soluble, facile à doser.",img:"https://images.unsplash.com/photo-1581093196867-ca4e0b8c4f63?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:4,grp:"Floculants",nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées. Favorise des flocs denses.",img:"https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:5,grp:"Floculants",nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues et flottation.",img:"https://images.unsplash.com/photo-1616163235154-b8efb32c9b7e?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:6,grp:"Correction pH",nom:"Stabilisant de pH",desc:"Maintient le pH dans la plage optimale de traitement.",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:7,grp:"Correction pH",nom:"Correcteur de pH",desc:"Correction acide ou basique du pH des effluents. Prêt à l'emploi.",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:8,grp:"Désinfection & Traitement",nom:"Hypochlorite de Sodium",desc:"Désinfectant oxydant puissant. Élimine bactéries et virus.",img:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:9,grp:"Désinfection & Traitement",nom:"Antimousse",desc:"Élimine et prévient les mousses dans les bassins de traitement et STEP.",img:"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:10,grp:"Désinfection & Traitement",nom:"Décolorant",desc:"Élimination des colorants et pigments dans les effluents textiles.",img:"https://images.unsplash.com/photo-1562977352-f8fc96e5a6ff?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:11,grp:"Désinfection & Traitement",nom:"Peroxyde d'Hydrogène",desc:"Oxydant puissant. Élimine DCO, H₂S et composés organiques.",img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:12,grp:"Osmose Inverse",nom:"Anti-Scalant",desc:"Prévient l'entartrage des membranes OI. Protège contre carbonates et silice.",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:13,grp:"Osmose Inverse",nom:"Lavage Membranes — Acide",desc:"Nettoyage acide des membranes OI. Dissout tartre et oxydes métalliques.",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:14,grp:"Osmose Inverse",nom:"Lavage Membranes — Basique",desc:"Nettoyage alcalin des membranes OI. Élimine biofilm et matière organique.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:15,grp:"Osmose Inverse",nom:"Biocide Non Oxydant",desc:"Contrôle microbiologique pour circuits OI.",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:16,grp:"Osmose Inverse",nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI.",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:17,grp:"Eaux de Chaudière",nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion.",img:"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:18,grp:"Eaux de Chaudière",nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires. Améliore le rendement thermique.",img:"https://images.unsplash.com/photo-1611735341450-74d61e660ad2?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:19,grp:"Eaux de Chaudière",nom:"Éliminateur d'Oxygène",desc:"Désoxygénant chimique. Élimine l'oxygène dissous, cause principale de corrosion.",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=300&q=75"},
 ];
 const MAT = [
-  {id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et total. Colorimétrie DPD. Idéal eau potable et piscines.",emoji:"🧫",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:21,nom:"Kit Mesure de Dureté",desc:"Titrimétrie EDTA pour dureté totale, calcique et magnésienne. Kit portable complet.",emoji:"💎",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:22,nom:"pH-mètre Portable",desc:"Mesure précise du pH sur terrain. Électrode combinée, calibration automatique, IP67.",emoji:"📏",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:23,nom:"Oxymètre",desc:"Mesure de l'oxygène dissous. Compensation température automatique. Idéal STEP biologiques.",emoji:"🌬️",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=320&q=80"},
-  {id:24,nom:"Conductimètre",desc:"Mesure conductivité, TDS et salinité. Gamme 0–200 mS/cm. Étalonnage multi-point.",emoji:"⚡",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=320&q=80"},
-];
-const ANALYSES = [
-  {id:30,nom:"Analyse Physicochimique & Bactériologique des Eaux",desc:"Analyse complète : pH, DCO, DBO5, MES, métaux lourds, germes totaux, coliformes.",emoji:"🧫",feats:["Prélèvement sur site par nos ingénieurs","Analyses physico-chimiques & biologiques","Rapport de conformité NM/ISO","Recommandations correctives détaillées","Suivi post-analyse inclus"]},
-  {id:31,nom:"Analyse Agronomique & Pédologique des Sols",desc:"Caractérisation complète du sol : texture, pH, matière organique, macro et microéléments.",emoji:"🌍",feats:["Prélèvement et préparation des échantillons","Analyse granulométrique complète","Dosage NPK & oligo-éléments","pH, CEC, matière organique","Rapport avec recommandations agronomiques"]},
-  {id:32,nom:"Bilan Environnemental & Conformité NM/ISO",desc:"Évaluation des rejets, mesure des paramètres réglementaires, rapport de conformité.",emoji:"🔭",feats:["Audit terrain complet","Mesure des paramètres réglementaires","Analyse des rejets liquides et solides","Rapport de conformité NM/ISO","Plan d'action correctif"]},
+  {id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et total. Colorimétrie DPD. Idéal eau potable.",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:21,nom:"Kit Mesure de Dureté",desc:"Titrimétrie EDTA pour dureté totale, calcique et magnésienne.",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:22,nom:"pH-mètre Portable",desc:"Mesure précise du pH sur terrain. Calibration automatique, étanche IP67.",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:23,nom:"Oxymètre",desc:"Mesure de l'oxygène dissous. Compensation température automatique.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:24,nom:"Conductimètre",desc:"Mesure conductivité, TDS et salinité. Gamme 0–200 mS/cm.",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=300&q=75"},
 ];
 const SVCS = [
-  {id:"s1",nom:"Conception & Dimensionnement STEP",desc:"De l'avant-projet à la mise en service. Dimensionnement hydraulique et biologique.",emoji:"🏗️",feats:["APS / APD / DCE complets","Dimensionnement hydraulique et biologique","Comparaison et sélection des filières","Dossiers autorisation loi sur l'eau","Assistance maîtrise d'ouvrage (AMO)"]},
-  {id:"s2",nom:"Optimisation des STEP Existantes",desc:"Audit technique, diagnostic, optimisation des réactifs et amélioration des performances.",emoji:"⚙️",feats:["Audit complet de votre installation","Bilan de fonctionnement","Optimisation des doses de réactifs","Mise en place d'indicateurs de suivi","Rapport de recommandations"]},
-  {id:"s3",nom:"Solutions Traitement des Eaux",desc:"Choix des procédés, sourcing des réactifs, mise en route et suivi des installations.",emoji:"💧",feats:["Étude de faisabilité technique","Choix et dimensionnement des équipements","Formation des équipes opérateurs","Contrat de suivi mensuel disponible","Assistance technique sur site"]},
+  {id:"s1",nom:"Conception & Dimensionnement STEP",desc:"De l'avant-projet à la mise en service. Dimensionnement hydraulique et biologique complet.",ico:"🏗️",tag:"st-ing",tlbl:"Service Ingénierie",feats:["APS / APD / DCE complets","Dimensionnement hydraulique et biologique","Comparaison et sélection des filières","Dossiers autorisation loi sur l'eau","Assistance maîtrise d'ouvrage (AMO)"]},
+  {id:"s2",nom:"Optimisation des STEP Existantes",desc:"Audit technique, diagnostic et optimisation des réactifs. Amélioration des performances épuratoires.",ico:"⚙️",tag:"st-ing",tlbl:"Service Ingénierie",feats:["Audit complet de l'installation","Bilan de fonctionnement","Optimisation des doses de réactifs","Mise en place d'indicateurs de suivi","Rapport de recommandations"]},
+  {id:"s3",nom:"Solutions Traitement des Eaux",desc:"Choix des procédés, sourcing des réactifs, mise en route et suivi des installations.",ico:"💧",tag:"st-ing",tlbl:"Service Ingénierie",feats:["Étude de faisabilité technique","Choix et dimensionnement des équipements","Formation des équipes opérateurs","Contrat de suivi mensuel disponible","Assistance technique sur site"]},
+];
+const ANALYSES = [
+  {id:30,nom:"Analyse Physicochimique & Bactériologique",desc:"Eaux de surface, souterraines ou résiduaires : pH, DCO, DBO5, MES, métaux lourds, germes.",ico:"🔬",tag:"st-ana",tlbl:"Analyse Certifiée",feats:["Prélèvement sur site par nos ingénieurs","Analyses physico-chimiques & biologiques","Rapport de conformité NM/ISO","Recommandations correctives","Suivi post-analyse inclus"]},
+  {id:31,nom:"Analyse Agronomique & Pédologique des Sols",desc:"Caractérisation complète : texture, pH, matière organique, macro et microéléments.",ico:"🌍",tag:"st-ana",tlbl:"Analyse Certifiée",feats:["Prélèvement et préparation échantillons","Analyse granulométrique complète","Dosage NPK & oligo-éléments","pH, CEC, matière organique","Rapport avec recommandations"]},
+  {id:32,nom:"Bilan Environnemental & Conformité NM/ISO",desc:"Évaluation des rejets, mesure des paramètres réglementaires, rapport de conformité.",ico:"🔭",tag:"st-ana",tlbl:"Analyse Certifiée",feats:["Audit terrain complet","Mesure des paramètres réglementaires","Analyse des rejets liquides et solides","Rapport de conformité NM/ISO","Plan d'action correctif"]},
 ];
 const FNUM = {
   engrais:[
-    {id:40,nom:"Engrais Foliaires",desc:"Macro et microéléments, agents chélatants, adjuvants. Calculs de concentration inclus.",prix:"790 MAD",prixVal:790,emoji:"🌿",bg:"#e8f5e9"},
-    {id:41,nom:"Engrais de Fertigation",desc:"Formulations N-P-K pour fertigation goutte-à-goutte et hydroponie. Calculateur tankmix.",prix:"890 MAD",prixVal:890,emoji:"💧",bg:"#e3f2fd"},
-    {id:42,nom:"Engrais Hydrosolubles",desc:"Complexes NPK + oligo-éléments. Fiches techniques et protocoles de dissolution.",prix:"690 MAD",prixVal:690,emoji:"🧪",bg:"#f1f8e9"},
+    {id:40,nom:"Formule Engrais Foliaires",desc:"Macro et microéléments, agents chélatants, adjuvants. Calculs de concentration inclus.",prix:"790 MAD",prixVal:790,emoji:"🌿",bg:"#e8f5e9"},
+    {id:41,nom:"Formule Engrais de Fertigation",desc:"Formulations N-P-K pour fertigation goutte-à-goutte et hydroponie. Calculateur tankmix.",prix:"890 MAD",prixVal:890,emoji:"💧",bg:"#e3f2fd"},
+    {id:42,nom:"Formule Engrais Hydrosolubles",desc:"Complexes NPK + oligo-éléments. Fiches techniques et protocoles de dissolution.",prix:"690 MAD",prixVal:690,emoji:"🧪",bg:"#f1f8e9"},
   ],
   eaux:[
-    {id:43,nom:"Coagulant-Floculant Optimisé",desc:"Protocoles de dosage selon nature des effluents. Jar-test intégré, ratios validés.",prix:"890 MAD",prixVal:890,emoji:"📄",bg:"#e8eaf6"},
-    {id:44,nom:"Traitement Eaux Résiduaires Industrielles",desc:"Protocoles STEP industrielles : physico-chimique, biologique, tertiaire.",prix:"990 MAD",prixVal:990,emoji:"🏭",bg:"#e0f7fa"},
-    {id:45,nom:"Traitement Osmose Inverse",desc:"Dosage anti-scalant, biocide et produits de lavage membranes. Indice LSI inclus.",prix:"790 MAD",prixVal:790,emoji:"🛡️",bg:"#e8f5e9"},
+    {id:43,nom:"Formule Coagulant-Floculant Optimisé",desc:"Protocoles de dosage selon effluents. Jar-test intégré, ratios validés en laboratoire.",prix:"890 MAD",prixVal:890,emoji:"📄",bg:"#e8eaf6"},
+    {id:44,nom:"Formule STEP Industrielles",desc:"Protocoles complets : physico-chimique, biologique, tertiaire. Fiches de dosage.",prix:"990 MAD",prixVal:990,emoji:"🏭",bg:"#e0f7fa"},
+    {id:45,nom:"Formule Osmose Inverse",desc:"Dosage anti-scalant, biocide et produits de lavage membranes. Indice LSI.",prix:"790 MAD",prixVal:790,emoji:"🛡️",bg:"#e8f5e9"},
   ],
   nettoyage:[
-    {id:46,nom:"Détergents Lave-Vaisselle & Vaisselle Manuelle",desc:"Industriels et domestiques : liquides, poudres, tablettes enzymatiques, antibactériens.",prix:"590 MAD",prixVal:590,emoji:"🍽️",bg:"#e3f2fd"},
-    {id:47,nom:"Lessives Liquides & Poudres",desc:"Blanc/couleur, avec/sans enzymes, concentrées, sans phosphore. Détachants inclus.",prix:"590 MAD",prixVal:590,emoji:"👕",bg:"#f3e5f5"},
-    {id:48,nom:"Agents Blanchissants & Entretien Machines",desc:"Blanchissants chlorés/oxygénés, eau de Javel concentrée. Anticalcaires, adoucissants.",prix:"490 MAD",prixVal:490,emoji:"🧺",bg:"#fff8e1"},
-    {id:49,nom:"Nettoyants Cuisine & Multi-Usages",desc:"Désinfectants plans de travail, nettoyants fours, multi-usages alcalins et chlorés.",prix:"490 MAD",prixVal:490,emoji:"🍳",bg:"#fce4ec"},
-    {id:50,nom:"Produits Sanitaires (WC, Canalisations, Douches)",desc:"Nettoyants WC acides/épaissis, déboucheurs, nettoyants douches et carrelages.",prix:"590 MAD",prixVal:590,emoji:"🚿",bg:"#e8f5e9"},
-    {id:51,nom:"Hygiène des Mains & Désinfectants",desc:"Savons liquides, moussants, gels hydroalcooliques. Désinfectants chlore et germicides.",prix:"490 MAD",prixVal:490,emoji:"🧴",bg:"#e8eaf6"},
-    {id:52,nom:"Dégraissants, Antirouille & Détartrants",desc:"Dégraissants concentrés, antirouille acides/alcalins, nettoyants vitres et écrans.",prix:"590 MAD",prixVal:590,emoji:"⚙️",bg:"#fef3e2"},
+    {id:46,nom:"Détergents Lave-Vaisselle & Vaisselle Manuelle",desc:"Industriels et domestiques : liquides, poudres, tablettes, antibactériens.",prix:"590 MAD",prixVal:590,emoji:"🍽️",bg:"#e3f2fd"},
+    {id:47,nom:"Lessives Liquides & Poudres",desc:"Blanc/couleur, enzymatiques, sans phosphore. Détachants inclus.",prix:"590 MAD",prixVal:590,emoji:"👕",bg:"#f3e5f5"},
+    {id:48,nom:"Agents Blanchissants & Machines",desc:"Blanchissants chlorés/oxygénés. Anticalcaires, adoucissants textiles.",prix:"490 MAD",prixVal:490,emoji:"🧺",bg:"#fff8e1"},
+    {id:49,nom:"Nettoyants Cuisine & Multi-Usages",desc:"Désinfectants surfaces, fours, multi-usages alcalins et chlorés.",prix:"490 MAD",prixVal:490,emoji:"🍳",bg:"#fce4ec"},
+    {id:50,nom:"Produits Sanitaires (WC, Canalisations, Douches)",desc:"Nettoyants WC acides, déboucheurs, carrelages et douches.",prix:"590 MAD",prixVal:590,emoji:"🚿",bg:"#e8f5e9"},
+    {id:51,nom:"Hygiène des Mains & Désinfectants",desc:"Savons liquides, gels hydroalcooliques, désinfectants germicides.",prix:"490 MAD",prixVal:490,emoji:"🧴",bg:"#e8eaf6"},
+    {id:52,nom:"Dégraissants, Antirouille & Détartrants",desc:"Dégraissants concentrés, antirouille acides/alcalins, nettoyants vitres.",prix:"590 MAD",prixVal:590,emoji:"⚙️",bg:"#fef3e2"},
     {id:53,nom:"Produits Sols, Tapis & Climatisation",desc:"Nettoyants sols, shampooings tapis, désinfectants climatiseurs.",prix:"490 MAD",prixVal:490,emoji:"🏠",bg:"#e0f7fa"},
   ],
 };
-const TICKERS = ["💧 Coagulants & Floculants certifiés","⚗️ Réactifs pour STEP & osmose inverse","🔬 Analyses eau, sol & environnement","📄 Formulations numériques — accès immédiat","🏗️ +200 projets STEP au Maroc","✓ Satisfait ou remboursé 30 jours","🇲🇦 Entreprise 100% marocaine","♨️ Traitement eaux de chaudière"];
-const SUGS = ["Quel coagulant pour mes eaux usées ?","Anti-scalant osmose inverse ?","Analyse de mon eau de puits ?","Je veux concevoir une STEP","Formule détergent industriel ?"];
-const SYS = `Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM). Tu connais toute la gamme : réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants anionique/cationique, correction pH, désinfection, osmose inverse, chaudière), matériel de mesure (kit chlore, dureté, pH-mètre, oxymètre, conductimètre), analyses (eaux, sols, environnement NM/ISO), services ingénierie (STEP, optimisation, solutions traitement), formulations numériques (engrais foliaires/fertigation/hydrosolubles, traitement eaux/OI, détergents/lessives/sanitaires/désinfectants). Réponds en français, concis (max 4 phrases), professionnel et chaleureux.`;
+const TICKERS = ["💧 Coagulants & Floculants certifiés","⚗️ Réactifs osmose inverse & STEP","🔬 Analyses eau, sol, environnement NM/ISO","📄 Formulations numériques — accès immédiat","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise 100% marocaine","♨️ Traitement eaux de chaudière","✓ Satisfait ou remboursé 30 jours"];
+const SUGS = ["Quel coagulant pour mes eaux ?","Anti-scalant osmose inverse ?","Analyse eau de puits ?","Concevoir une STEP ?","Formule détergent industriel ?"];
+const SYS = `Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM), El Jadida. Gammes : Réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants anionique/cationique, correction pH, hypochlorite, antimousse, anti-scalant, biocide, passivation chaudière), Matériels (pH-mètre, conductimètre, oxymètre, kits chlore/dureté), Analyses (eaux NM/ISO, sols agronomiques, bilan environnemental), Services (STEP conception/optimisation/solutions), Formulations numériques (engrais foliaires/fertigation, traitement eaux, détergents/lessives/sanitaires). Tel: +212523377417. Réponds en français, concis, professionnel.`;
 const RUBRIQUES = [
-  {k:"chimiques", icon:"⚗️", ic:"ic-p", tag:"tp", title:"Produits Chimiques", desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière — réactifs certifiés.", count:`${CHIM.length} produits`},
-  {k:"materiels",  icon:"🔧", ic:"ic-m", tag:"tm", title:"Matériels",          desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore et dureté.", count:`${MAT.length} équipements`},
-  {k:"services",   icon:"🏗️", ic:"ic-s", tag:"ts", title:"Services",           desc:"Ingénierie environnementale, analyses certifiées et conception de STEP.", count:"6 prestations"},
-  {k:"formulation",icon:"📄", ic:"ic-n", tag:"tn", title:"Formulation",         desc:"Formules numériques engrais, traitement des eaux et produits de nettoyage.", count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`},
+  {k:"chimiques", num:"01", color:"#1a5c32", ic_bg:"#e6f2ea", title:"Produits Chimiques", desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière.", count:`${CHIM.length} produits`},
+  {k:"materiels",  num:"02", color:"#1565c0", ic_bg:"#e6eef7", title:"Matériels",           desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore.", count:`${MAT.length} équipements`},
+  {k:"services",   num:"03", color:"#e65100", ic_bg:"#fdf3e7", title:"Services",            desc:"Ingénierie environnementale, analyses certifiées et STEP.", count:"6 prestations"},
+  {k:"formulation",num:"04", color:"#4527a0", ic_bg:"#eee6f7", title:"Formulation",          desc:"Formules numériques : engrais, eaux, nettoyage & détergents.", count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`},
 ];
 const grpBy = (arr,k) => arr.reduce((a,i)=>{ (a[i[k]]=a[i[k]]||[]).push(i); return a; },{});
+const NAV = [{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"services",l:"Services"},{k:"formulation",l:"Formulation"}];
+
+/* ══════════ ADMIN PANEL ══════════ */
+const ADMIN_PASS = "uem-admin-2026";
+
+function AdminPanel() {
+  const [logged,  setLogged]  = useState(()=>sessionStorage.getItem("uem_admin")==="ok");
+  const [passInp, setPassInp] = useState("");
+  const [loginErr,setLoginErr]= useState("");
+  const [section, setSection] = useState("dashboard");
+  const [promos,  setPromos]  = useState(()=>{ try{ return JSON.parse(localStorage.getItem("uem_promo")||"{}"); }catch{return {};} });
+  const [prodEdits,setProdEdits]= useState(()=>{ try{ return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}"); }catch{return {};} });
+  const [editing, setEditing] = useState(null);
+  const [editData,setEditData]= useState({});
+  const [saved,   setSaved]   = useState(false);
+  const [editTab, setEditTab] = useState("chimiques");
+
+  const login = e => {
+    e.preventDefault();
+    if(passInp === ADMIN_PASS){ sessionStorage.setItem("uem_admin","ok"); setLogged(true); }
+    else{ setLoginErr("Mot de passe incorrect."); }
+  };
+
+  const savePromo = p => {
+    const n = {...promos,...p};
+    setPromos(n);
+    localStorage.setItem("uem_promo", JSON.stringify(n));
+    setSaved(true); setTimeout(()=>setSaved(false),2000);
+  };
+
+  const startEdit = p => { setEditing(p.id); setEditData({prix:p.prix||"Sur devis",desc:p.desc,nom:p.nom}); };
+
+  const saveProd = (id) => {
+    const n = {...prodEdits,[id]:editData};
+    setProdEdits(n);
+    localStorage.setItem("uem_prod_edits",JSON.stringify(n));
+    setEditing(null); setSaved(true); setTimeout(()=>setSaved(false),2000);
+  };
+
+  const resetProd = id => {
+    const n = {...prodEdits}; delete n[id];
+    setProdEdits(n); localStorage.setItem("uem_prod_edits",JSON.stringify(n));
+    setEditing(null);
+  };
+
+  const resetAll = () => {
+    if(!window.confirm("Réinitialiser toutes les modifications ?")) return;
+    localStorage.removeItem("uem_prod_edits"); localStorage.removeItem("uem_promo");
+    setProdEdits({}); setPromos({}); setSaved(true); setTimeout(()=>setSaved(false),2000);
+  };
+
+  const logout = () => { sessionStorage.removeItem("uem_admin"); setLogged(false); };
+
+  const allProds = [...CHIM,...MAT,...FNUM.engrais,...FNUM.eaux,...FNUM.nettoyage];
+  const modCount = Object.keys(prodEdits).length;
+  const tabProds = {chimiques:CHIM,materiels:MAT,engrais:FNUM.engrais,eaux:FNUM.eaux,nettoyage:FNUM.nettoyage};
+
+  if(!logged) return (
+    <div className="adm-body">
+      <style>{CSS}</style>
+      <div className="adm-login">
+        <div className="adm-login-box">
+          <div className="adm-login-logo">
+            <div className="sq">UE</div>
+            <h1>Univers Environnement Maroc</h1>
+            <p>Espace Administrateur</p>
+          </div>
+          {loginErr&&<div className="adm-err">{loginErr}</div>}
+          <form onSubmit={login}>
+            <label>Mot de passe</label>
+            <input type="password" placeholder="••••••••••••" value={passInp} onChange={e=>setPassInp(e.target.value)} autoFocus/>
+            <button className="adm-btn-login" type="submit">Se connecter</button>
+          </form>
+          <div style={{textAlign:"center",marginTop:16,fontSize:".72rem",color:"#6b7c70"}}>
+            <a href="/" style={{color:"#1a5c32"}}>← Retour au site</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="adm-body">
+      <style>{CSS}</style>
+      {/* TOP BAR */}
+      <div className="adm-top">
+        <div className="adm-top-l">
+          <div className="sq">UE</div>
+          <span>Panel Admin — Univers Environnement Maroc</span>
+        </div>
+        <div className="adm-top-r">
+          <a href="/" target="_blank" rel="noreferrer">🌐 Voir le site</a>
+          {saved&&<span style={{color:"#5ddb8a",fontSize:".78rem",fontWeight:600}}>✓ Sauvegardé</span>}
+          <button className="adm-logout" onClick={logout}>Déconnexion</button>
+        </div>
+      </div>
+      <div className="adm-layout">
+        {/* SIDEBAR */}
+        <div className="adm-sidebar">
+          {[
+            {k:"dashboard",i:"📊",l:"Tableau de bord"},
+            {k:"catalogue",i:"⚗️",l:`Catalogue${modCount>0?" ("+modCount+" modif.)":""}`},
+            {k:"promotions",i:"🎯",l:"Promotions"},
+            {k:"contact",i:"📞",l:"Contact & Infos"},
+          ].map(n=><div key={n.k} className={`adm-nav-item${section===n.k?" on":""}`} onClick={()=>setSection(n.k)}><span className="ni">{n.i}</span>{n.l}{n.k==="catalogue"&&modCount>0&&<span className="adm-badge-mod"/>}</div>)}
+          <div style={{margin:"20px 16px 8px",fontSize:".65rem",color:"#b8c8be",fontWeight:600,letterSpacing:".1em",textTransform:"uppercase"}}>Actions</div>
+          <div className="adm-nav-item" onClick={resetAll} style={{color:"#b03020"}}><span className="ni">🔄</span>Réinitialiser tout</div>
+        </div>
+
+        {/* CONTENT */}
+        <div className="adm-content">
+
+          {/* DASHBOARD */}
+          {section==="dashboard"&&(<>
+            <h2 style={{fontSize:"1.2rem",fontWeight:700,marginBottom:20,color:"#12201a"}}>Tableau de bord</h2>
+            <div className="adm-stats">
+              {[{n:CHIM.length,l:"Réactifs chimiques"},{n:MAT.length,l:"Matériels"},{n:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length}`,l:"Formulations"},{n:"6",l:"Services"}].map((s,i)=>(
+                <div key={i} className="adm-stat"><div className="adm-stat-n">{s.n}</div><div className="adm-stat-l">{s.l}</div></div>
+              ))}
+            </div>
+            <div className="adm-card">
+              <div className="adm-card-title">État du site</div>
+              <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                {[
+                  {l:"Site en ligne",v:"✅ www.uem.ma",c:"#1a5c32"},
+                  {l:"Hébergement",v:"✅ Vercel (gratuit)"},
+                  {l:"Formulaire devis",v:"✅ EmailJS actif"},
+                  {l:"Assistant IA",v:"✅ Claude intégré"},
+                  {l:"Modifications en attente",v:modCount>0?`⚠️ ${modCount} produit(s) modifié(s)`:"✅ Aucune",c:modCount>0?"#e65100":"#1a5c32"},
+                  {l:"Promotion active",v:promos.active?"✅ Oui — "+promos.texte:"— Aucune"},
+                ].map((r,i)=>(
+                  <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"9px 0",borderBottom:"1px solid #e0e8e2",fontSize:".84rem"}}>
+                    <span style={{color:"#4a5c52",fontWeight:500}}>{r.l}</span>
+                    <span style={{fontWeight:600,color:r.c||"#12201a"}}>{r.v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="adm-card">
+              <div className="adm-card-title">Guide rapide</div>
+              {[["⚗️ Catalogue","Modifier les prix et descriptions de vos produits"],["🎯 Promotions","Activer une bannière promotionnelle sur le site"],["📞 Contact","Consulter vos informations de contact actuelles"]].map((r,i)=>(
+                <div key={i} style={{display:"flex",gap:12,padding:"10px 0",borderBottom:"1px solid #f0f2f5",alignItems:"flex-start"}}>
+                  <span style={{fontSize:"1.2rem"}}>{r[0].split(" ")[0]}</span>
+                  <div><div style={{fontSize:".84rem",fontWeight:600,color:"#12201a"}}>{r[0].slice(2)}</div><div style={{fontSize:".78rem",color:"#6b7c70",marginTop:2}}>{r[1]}</div></div>
+                </div>
+              ))}
+            </div>
+          </>)}
+
+          {/* CATALOGUE */}
+          {section==="catalogue"&&(<>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20}}>
+              <h2 style={{fontSize:"1.2rem",fontWeight:700,color:"#12201a"}}>Catalogue Produits</h2>
+              <span style={{fontSize:".78rem",color:"#6b7c70"}}>{modCount} modification(s)</span>
+            </div>
+            <div className="adm-tabs">
+              {[{k:"chimiques",l:"Réactifs (19)"},{k:"materiels",l:"Matériels (5)"},{k:"engrais",l:"Engrais"},{k:"eaux",l:"Formules Eaux"},{k:"nettoyage",l:"Nettoyage"}]
+                .map(t=><button key={t.k} className={`adm-tab${editTab===t.k?" on":""}`} onClick={()=>setEditTab(t.k)}>{t.l}</button>)}
+            </div>
+            <div className="adm-prod-list">
+              {(tabProds[editTab]||[]).map(p=>{
+                const mod = prodEdits[p.id];
+                const disp = mod ? {...p,...mod} : p;
+                return (
+                  <div key={p.id}>
+                    <div className={`adm-prod-item${editing===p.id?" editing":""}`} onClick={()=>editing===p.id?setEditing(null):startEdit(p)}>
+                      <div style={{flex:1}}>
+                        <div className="adm-prod-name">{disp.nom||p.nom}{mod&&<span style={{fontSize:".65rem",background:"#fdf3e7",color:"#e65100",padding:"1px 6px",borderRadius:3,marginLeft:6}}>modifié</span>}</div>
+                        <div className="adm-prod-grp">{p.grp||"Formulation numérique"}</div>
+                      </div>
+                      <div className="adm-prod-prix">{disp.prix||"Sur devis"}</div>
+                      <span style={{fontSize:".8rem",color:"#b8c8be",marginLeft:8}}>{editing===p.id?"▲":"▼"}</span>
+                    </div>
+                    {editing===p.id&&(
+                      <div className="adm-edit-panel">
+                        <div className="adm-field">
+                          <label>Nom du produit</label>
+                          <input value={editData.nom||""} onChange={e=>setEditData(d=>({...d,nom:e.target.value}))}/>
+                        </div>
+                        <div className="adm-field">
+                          <label>Description</label>
+                          <textarea value={editData.desc||""} onChange={e=>setEditData(d=>({...d,desc:e.target.value}))} rows={3}/>
+                        </div>
+                        <div className="adm-field">
+                          <label>Prix affiché</label>
+                          <input value={editData.prix||""} onChange={e=>setEditData(d=>({...d,prix:e.target.value}))} placeholder="Ex: 390 MAD ou Sur devis"/>
+                        </div>
+                        <div style={{display:"flex",gap:8,marginTop:4}}>
+                          <button className="adm-btn adm-btn-g" onClick={()=>saveProd(p.id)}>✓ Enregistrer</button>
+                          <button className="adm-btn adm-btn-w" onClick={()=>setEditing(null)}>Annuler</button>
+                          {mod&&<button className="adm-btn adm-btn-r" onClick={()=>resetProd(p.id)}>Réinitialiser</button>}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>)}
+
+          {/* PROMOTIONS */}
+          {section==="promotions"&&(<>
+            <h2 style={{fontSize:"1.2rem",fontWeight:700,marginBottom:20,color:"#12201a"}}>Gestion des Promotions</h2>
+            <div className="adm-promo-box">
+              <div className="adm-card-title">Bannière promotionnelle</div>
+              <div className="adm-toggle">
+                <input type="checkbox" id="promo-on" checked={!!promos.active} onChange={e=>savePromo({active:e.target.checked})}/>
+                <label htmlFor="promo-on">{promos.active?"Bannière ACTIVE sur le site":"Bannière désactivée"}</label>
+              </div>
+              <div className="adm-field">
+                <label>Texte de la bannière</label>
+                <input value={promos.texte||""} onChange={e=>savePromo({texte:e.target.value})} placeholder="Ex: 🎉 Promotion -20% sur les coagulants jusqu'au 30/07"/>
+              </div>
+              <div className="adm-field">
+                <label>Couleur de fond</label>
+                <select value={promos.couleur||"vert"} onChange={e=>savePromo({couleur:e.target.value})}>
+                  <option value="vert">Vert (défaut)</option>
+                  <option value="rouge">Rouge (urgence)</option>
+                  <option value="bleu">Bleu (info)</option>
+                  <option value="orange">Orange (solde)</option>
+                </select>
+              </div>
+              {promos.texte&&<div className="adm-banner-preview" style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promos.couleur||"vert"]}}>Aperçu : {promos.texte}</div>}
+            </div>
+            <div className="adm-card">
+              <div className="adm-card-title">Idées de promotions</div>
+              {["🎉 Promotion -20% sur les coagulants jusqu'au 31/07","⚡ Livraison offerte sur toute commande > 2000 MAD","🔬 Formulation offerte pour tout contrat STEP signé en juillet","📄 -15% sur les formulations numériques ce mois"].map((s,i)=>(
+                <div key={i} style={{padding:"8px 0",borderBottom:"1px solid #f0f2f5",fontSize:".82rem",color:"#4a5c52",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <span>{s}</span>
+                  <button className="adm-btn adm-btn-w" style={{fontSize:".7rem",padding:"4px 10px"}} onClick={()=>savePromo({texte:s})}>Utiliser</button>
+                </div>
+              ))}
+            </div>
+          </>)}
+
+          {/* CONTACT */}
+          {section==="contact"&&(<>
+            <h2 style={{fontSize:"1.2rem",fontWeight:700,marginBottom:20,color:"#12201a"}}>Informations de Contact</h2>
+            <div className="adm-card">
+              <div className="adm-card-title">Coordonnées actuelles sur le site</div>
+              {[["Téléphone","+212 523 37 74 17"],["WhatsApp","+212 700 090 365"],["Email","univers.envi@gmail.com"],["Adresse","N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc"],["Domaine","www.uem.ma"],["EmailJS Service","service_3p09q76"]].map((r,i)=>(
+                <div key={i} style={{display:"flex",gap:16,padding:"10px 0",borderBottom:"1px solid #f0f2f5",fontSize:".84rem"}}>
+                  <span style={{width:140,color:"#6b7c70",fontWeight:600,flexShrink:0}}>{r[0]}</span>
+                  <span style={{color:"#12201a",fontWeight:500}}>{r[1]}</span>
+                </div>
+              ))}
+            </div>
+            <div className="adm-card" style={{background:"#fdf3e7",borderColor:"#f5d6a0"}}>
+              <div className="adm-card-title" style={{color:"#e65100"}}>⚠️ Pour modifier ces informations</div>
+              <p style={{fontSize:".84rem",color:"#4a5c52",lineHeight:1.7}}>Les coordonnées sont intégrées dans le code source. Pour les modifier, envoyez un message à Claude avec les nouvelles informations et il mettra à jour le site.</p>
+            </div>
+          </>)}
+
+        </div>
+      </div>
+      {modCount>0&&<div className="adm-save-bar"><span>⚠️ {modCount} modification(s) — Les changements sont sauvegardés dans ce navigateur. Pour les appliquer sur tous les appareils, contactez Claude.</span><button className="adm-btn adm-btn-g" onClick={()=>setSaved(true)}>✓ OK</button></div>}
+    </div>
+  );
+}
 
 export default function App() {
   const [page,setPage]     = useState("garde");
   const [panier,setPanier] = useState([]);
   const [cart,setCart]     = useState(false);
   const [mob,setMob]       = useState(false);
-  const [scr,setScr]       = useState(false);
   const [toast,setToast]   = useState("");
   const [chat,setChat]     = useState(false);
-  const [msgs,setMsgs]     = useState([{r:"b",t:"Bonjour ! Je suis l'assistant expert d'**Univers Environnement Maroc**. 🌱\n\nJe peux vous conseiller sur nos produits, services ou formulations. Comment puis-je vous aider ?"}]);
+  const [msgs,setMsgs]     = useState([{r:"b",t:"Bonjour ! Je suis l'assistant expert d'**Univers Environnement Maroc**.\n\nJe peux vous conseiller sur nos produits chimiques, matériels, services ou formulations. Comment puis-je vous aider ?"}]);
   const [inp,setInp]       = useState("");
   const [load,setLoad]     = useState(false);
   const [sugs,setSugs]     = useState(true);
   const [ftab,setFtab]     = useState("engrais");
-  const [form,setForm]     = useState({nom:"",email:"",tel:"",produit:"",msg:""});
+  const [form,setForm]     = useState({nom:"",email:"",tel:"",produit:"",rubrique:"",msg:""});
   const [fsend,setFsend]   = useState(false);
   const [fok,setFok]       = useState(false);
   const [ferr,setFerr]     = useState("");
-  const tmr = useRef(null);
-  const end = useRef(null);
-  const iref = useRef(null);
 
-  useEffect(()=>{ const f=()=>setScr(window.scrollY>8); window.addEventListener("scroll",f,{passive:true}); return()=>window.removeEventListener("scroll",f); },[]);
+  // Admin routing
+  if(window.location.pathname==="/admin") return <AdminPanel/>;
+
+  // Load admin edits from localStorage
+  const prodEdits = (() => { try{ return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}"); }catch{return {};} })();
+  const promoData = (() => { try{ return JSON.parse(localStorage.getItem("uem_promo")||"{}"); }catch{return {};} })();
+  const applyEdits = arr => arr.map(p => prodEdits[p.id] ? {...p,...prodEdits[p.id]} : p);
+  const tmr = useRef(null); const end = useRef(null); const iref = useRef(null);
+
   useEffect(()=>{ window.scrollTo({top:0,behavior:"smooth"}); },[page]);
   useEffect(()=>{ if(chat) end.current?.scrollIntoView({behavior:"smooth"}); },[msgs,load,chat]);
   useEffect(()=>{ if(chat) setTimeout(()=>iref.current?.focus(),350); },[chat]);
 
   const shToast = m => { setToast(m); clearTimeout(tmr.current); tmr.current=setTimeout(()=>setToast(""),2800); };
   const go = p => { setPage(p); setMob(false); };
-  const addCart = p => { setPanier(pr=>{ const ex=pr.find(i=>i.id===p.id); return ex?pr.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...pr,{...p,qty:1}]; }); shToast(`✓ ${p.nom} ajouté`); };
+  const addCart = p => { setPanier(pr=>{ const ex=pr.find(i=>i.id===p.id); return ex?pr.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...pr,{...p,qty:1}]; }); shToast(`✓ "${p.nom}" ajouté au panier`); };
   const delCart = id => setPanier(p=>p.filter(i=>i.id!==id));
   const total = panier.reduce((s,i)=>s+i.prixVal*i.qty,0);
   const qty   = panier.reduce((s,i)=>s+i.qty,0);
-
   const askDevis = nom => { setForm(f=>({...f,produit:nom})); go("contact"); };
 
-  const aiSend = async text => {
-    const txt=(text||inp).trim(); if(!txt||load) return;
+  const aiSend = async t => {
+    const txt=(t||inp).trim(); if(!txt||load) return;
     setInp(""); setSugs(false);
     setMsgs(p=>[...p,{r:"u",t:txt}]); setLoad(true);
     const hist=msgs.map(m=>({role:m.r==="u"?"user":"assistant",content:m.t}));
@@ -462,376 +828,375 @@ export default function App() {
 
   const submitDevis = async e => {
     e.preventDefault();
-    if(!form.nom||!form.email||!form.produit){ setFerr("Veuillez remplir les champs obligatoires."); return; }
+    if(!form.nom||!form.email||!form.produit){ setFerr("Veuillez remplir les champs marqués d'un astérisque (*)."); return; }
     setFsend(true); setFerr("");
     try{
-      await emailjs.send(EJS.svc,EJS.tpl,{nom:form.nom,email:form.email,telephone:form.tel||"—",produit:form.produit,message:form.msg||"—"},EJS.key);
-      setFok(true); setForm({nom:"",email:"",tel:"",produit:"",msg:""});
-    }catch{ setFerr("Erreur d'envoi. Contactez-nous directement."); }
+      await emailjs.send(EJS.svc,EJS.tpl,{nom:form.nom,email:form.email,telephone:form.tel||"—",produit:form.produit+" ("+form.rubrique+")",message:form.msg||"—"},EJS.key);
+      setFok(true); setForm({nom:"",email:"",tel:"",produit:"",rubrique:"",msg:""});
+    }catch(err){ setFerr("Erreur d'envoi. Contactez-nous directement : univers.envi@gmail.com"); }
     finally{ setFsend(false); }
   };
 
   const rtx = t => t.split(/(\*\*[^*]+\*\*)/g).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>);
 
-  /* ── COMPOSANT CARTE PRODUIT ── */
-  const PC = ({p,type}) => (
+  const PCard = ({p,type}) => (
     <div className="pc">
       {p.img ? (
-        <div className="pc-img-photo">
+        <div className="pc-img">
           <img src={p.img} alt={p.nom} loading="lazy"/>
-          <div className="pc-img-overlay"/>
-          <span className={`pc-badge ${type==="n"?"tn":type==="m"?"tm":"tp"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
+          <div className="pc-overlay"/>
+          <span className={`pc-badge ${type==="n"?"badge-n":type==="m"?"badge-m":"badge-r"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
         </div>
       ) : (
-        <div className="pc-img" style={{background:p.bg||"#e8f5e9"}}>
+        <div className="pc-fallback" style={{background:p.bg||"#e8f5e9"}}>
           <span>{p.emoji}</span>
-          <span className={`pc-badge ${type==="n"?"tn":type==="m"?"tm":"tp"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
+          <span className={`pc-badge ${type==="n"?"badge-n":type==="m"?"badge-m":"badge-r"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span>
         </div>
       )}
       <div className="pc-body">
-        {p.grp&&<div className="pc-cat">{p.grp}</div>}
+        {p.grp&&<div className="pc-grp">{p.grp}</div>}
         <div className="pc-nom">{p.nom}</div>
         <div className="pc-desc">{p.desc}</div>
         <div className="pc-foot">
-          <div><div className="pc-prix">{p.prix||"Sur devis"}</div><div className="pc-unit">/{p.unite||"unité"}</div></div>
+          <div><div className="pc-prix">{p.prix||"Sur devis"}</div><div className="pc-unit">/ {p.unite||"unité"}</div></div>
           {type==="n"
-            ? <button className="btn-add ba-blue" onClick={()=>addCart(p)}>⚡ Acheter</button>
-            : <button className="btn-add ba-amber" onClick={()=>askDevis(p.nom)}>Devis →</button>}
+            ? <button className="btn-r br-b" onClick={()=>addCart(p)}>⚡ Acheter</button>
+            : <button className="btn-r br-a" onClick={()=>askDevis(p.nom)}>Demander →</button>}
         </div>
       </div>
     </div>
   );
 
-  /* ── COMPOSANT CARTE SERVICE ── */
-  const SC = ({s}) => (
-    <div className="sc">
-      <div className="sc-icon">{s.emoji}</div>
-      <div className="sc-tag">{s.feats?"Service Expert":"Analyse Certifiée"}</div>
-      <div className="sc-nom">{s.nom}</div>
-      <div className="sc-desc">{s.desc}</div>
-      {s.feats&&<ul className="sc-feats">{s.feats.map((f,i)=><li key={i}>{f}</li>)}</ul>}
-      <button className="btn-devis-card" onClick={()=>askDevis(s.nom)}>Demander un devis →</button>
+  const PageHdr = ({cat,h1,em,sub}) => (
+    <div className="page-hdr">
+      <div className="ph-in">
+        <button className="ph-back" onClick={()=>go("garde")}>←</button>
+        <div className="ph-txt">
+          <div className="ph-cat">{cat}</div>
+          <h1>{h1}{em&&<> — <em>{em}</em></>}</h1>
+          {sub&&<p>{sub}</p>}
+        </div>
+      </div>
     </div>
   );
 
-  /* ══ PAGE DE GARDE ══ */
-  const Garde = () => (
-    <div className="garde">
-      <div className="garde-hero">
-        <div className="gh-left">
-          <div className="gh-badge"><span className="gh-badge-dot"/><span>Expertise environnementale au Maroc</span></div>
-          <h1 className="gh-h1">Réactifs, matériel &<br/><em>ingénierie</em> pour<br/><span className="r">vos eaux</span></h1>
-          <p className="gh-p">Produits chimiques certifiés · Matériel de mesure · Ingénierie environnementale · Formulations techniques — tout pour le traitement de l'eau au Maroc.</p>
-          <div className="gh-btns">
-            <button className="btn-prim" onClick={()=>go("chimiques")}>Voir les produits</button>
-            <button className="btn-sec"  onClick={()=>go("services")}>Nos services</button>
-          </div>
-          <div className="gh-stats">
-            <div><div className="stat-n">200+</div><div className="stat-l">STEP conçues</div></div>
-            <div><div className="stat-n">15 ans</div><div className="stat-l">D'expertise</div></div>
-            <div><div className="stat-n">98%</div><div className="stat-l">Satisfaction</div></div>
-          </div>
-        </div>
-        <div className="gh-right">
-          {[{icon:"⚗️",tag:"tp",lbl:"Chimique", nom:"Coagulant PAC",        p:"chimiques"},
-            {icon:"📄",tag:"tn",lbl:"Formule",  nom:"Traitement des Eaux",  p:"formulation"},
-            {icon:"🏗️",tag:"ts",lbl:"Service",  nom:"Conception STEP",      p:"services"},
-            {icon:"🔧",tag:"tm",lbl:"Matériel", nom:"pH-mètre Portable",    p:"materiels"},
-          ].map((c,i)=>(
-            <div key={i} className="gh-mini" onClick={()=>go(c.p)}>
-              <div className="gm-icon">{c.icon}</div>
-              <span className={`gm-tag ${c.tag}`}>{c.lbl}</span>
-              <div className="gm-nom">{c.nom}</div>
+  /* ═══ PAGE GARDE ═══ */
+  const Garde = ()=>(
+    <>
+      <div className="hero">
+        <div className="hero-in">
+          <div>
+            <div className="hero-tag"><span/>Expertise environnementale au Maroc</div>
+            <h1>Réactifs, matériel &<br/><em>ingénierie</em> pour<br/><span className="r">vos eaux</span></h1>
+            <p className="hero-desc">Produits chimiques certifiés · Matériel de mesure · Ingénierie environnementale · Formulations techniques — tout pour le traitement de l'eau au Maroc.</p>
+            <div className="hero-btns">
+              <button className="btn-p" onClick={()=>go("chimiques")}>Explorer les produits</button>
+              <button className="btn-o" onClick={()=>go("contact")}>Demander un devis</button>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* RUBRIQUES */}
-      <div className="rubriques">
-        <div className="rub-in">
-          <div className="rub-top">
-            <div className="rub-eye">Nos rubriques</div>
-            <h2 className="rub-h2">Explorez notre <em>catalogue complet</em></h2>
+            <div className="hero-stats">
+              {[{n:"200+",l:"STEP conçues"},{n:"15 ans",l:"D'expertise"},{n:"500+",l:"Clients actifs"},{n:"98%",l:"Satisfaction"}].map((s,i)=>(
+                <div key={i}><div className="hs-n">{s.n}</div><div className="hs-l">{s.l}</div></div>
+              ))}
+            </div>
           </div>
-          <div className="rub-grid">
-            {RUBRIQUES.map(r=>(
-              <div key={r.k} className="rub-card" onClick={()=>go(r.k)}>
-                <div className={`rub-icon-wrap ${r.ic}`}>{r.icon}</div>
-                <h3>{r.title}</h3>
-                <p>{r.desc}</p>
-                <span className="rub-count">{r.count}</span>
-                <span className="rub-arrow">→</span>
+          <div className="hero-right">
+            {[{color:"#1a5c32",cat:"Réactifs Chimiques",nom:"Coagulants · Floculants · Désinfectants",p:"chimiques"},
+              {color:"#1565c0",cat:"Matériels de Mesure",nom:"pH-mètre · Conductimètre · Oxymètre",p:"materiels"},
+              {color:"#e65100",cat:"Services Ingénierie",nom:"Conception STEP · Analyses · Optimisation",p:"services"},
+              {color:"#4527a0",cat:"Formulations Numériques",nom:"Engrais · Traitement eaux · Nettoyage",p:"formulation"},
+            ].map((c,i)=>(
+              <div key={i} className="hcard" onClick={()=>go(c.p)} style={{borderLeft:`3px solid ${c.color}`}}>
+                <div className="hcard-tx">
+                  <div className="hct" style={{color:c.color}}>{c.cat}</div>
+                  <div className="hcn">{c.nom}</div>
+                </div>
+                <span className="hcard-arr" style={{color:c.color}}>→</span>
               </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
-  );
-
-  /* ══ PAGE PRODUITS CHIMIQUES ══ */
-  const PageChim = () => {
-    const gs = grpBy(CHIM,"grp");
-    return (
-      <div className="content-page">
-        <div className="page-header">
-          <div className="ph-in">
-            <button className="ph-back" onClick={()=>go("garde")}>←</button>
-            <div className="ph-text">
-              <div className="ph-eye">Catalogue</div>
-              <h1 className="ph-title">Produits <em>Chimiques</em></h1>
-              <p className="ph-sub">Réactifs certifiés pour le traitement des eaux — coagulants, floculants, désinfectants, osmose inverse et chaudière. Livraison 24h au Maroc.</p>
-            </div>
-          </div>
-        </div>
-        <div className="page-body">
-          {Object.entries(gs).map(([grp,items])=>(
-            <div key={grp} className="grp">
-              <div className="grp-title">{grp} <span>{items.length} produits</span></div>
-              <div className="grid3">{items.map((p,i)=><PC key={p.id} p={p} type="p" style={{animationDelay:`${i*.06}s`}}/>)}</div>
-            </div>
+      <div className="bchiffres">
+        <div className="bch-in">
+          {[{n:"Livraison 24h",l:"Partout au Maroc"},{n:"NM / ISO",l:"Analyses certifiées"},{n:"Gratuit",l:"Hébergement Vercel"},{n:"🇲🇦",l:"100% Marocain"}].map((c,i)=>(
+            <div key={i}><div className="bchn">{c.n}</div><div className="bchl">{c.l}</div></div>
           ))}
         </div>
       </div>
-    );
-  };
-
-  /* ══ PAGE MATÉRIELS ══ */
-  const PageMat = () => (
-    <div className="content-page">
-      <div className="page-header">
-        <div className="ph-in">
-          <button className="ph-back" onClick={()=>go("garde")}>←</button>
-          <div className="ph-text">
-            <div className="ph-eye">Équipements</div>
-            <h1 className="ph-title">Matériels de <em>Mesure</em></h1>
-            <p className="ph-sub">Instruments professionnels pour le contrôle qualité de vos eaux — pH, conductivité, oxygène dissous, chlore et dureté.</p>
-          </div>
-        </div>
-      </div>
-      <div className="page-body">
-        <div className="grid4">{MAT.map(p=><PC key={p.id} p={p} type="m"/>)}</div>
-      </div>
-    </div>
-  );
-
-  /* ══ PAGE SERVICES ══ */
-  const PageSvc = () => (
-    <div className="content-page">
-      <div className="page-header">
-        <div className="ph-in">
-          <button className="ph-back" onClick={()=>go("garde")}>←</button>
-          <div className="ph-text">
-            <div className="ph-eye">Ingénierie & Analyses</div>
-            <h1 className="ph-title">Nos <em>Services</em></h1>
-            <p className="ph-sub">Accompagnement A à Z : conception STEP, analyses certifiées NM/ISO et optimisation de vos procédés de traitement des eaux.</p>
-          </div>
-        </div>
-      </div>
-      <div className="page-body">
-        <div className="grp">
-          <div className="grp-title">🏗️ Services d'Ingénierie <span>3 prestations</span></div>
-          <div className="grid-svc">{SVCS.map(s=><SC key={s.id} s={s}/>)}</div>
-        </div>
-        <div className="grp" style={{marginTop:48}}>
-          <div className="grp-title">🔬 Analyses Environnementales <span>3 analyses</span></div>
-          <div className="grid-svc">{ANALYSES.map(a=><SC key={a.id} s={a}/>)}</div>
-        </div>
-      </div>
-    </div>
-  );
-
-  /* ══ PAGE FORMULATION ══ */
-  const PageForm = () => {
-    const tabs=[{k:"engrais",l:"🌿 Engrais"},{k:"eaux",l:"💧 Traitement des Eaux"},{k:"nettoyage",l:"🧴 Nettoyage & Détergents"}];
-    return (
-      <div className="content-page">
-        <div className="page-header">
-          <div className="ph-in">
-            <button className="ph-back" onClick={()=>go("garde")}>←</button>
-            <div className="ph-text">
-              <div className="ph-eye">Produits Numériques</div>
-              <h1 className="ph-title">Formulations <em>Techniques</em></h1>
-              <p className="ph-sub">Fichiers PDF + Excel — accès permanent après achat. Formules validées en laboratoire pour engrais, traitement des eaux et nettoyage industriel.</p>
-            </div>
-          </div>
-        </div>
-        <div className="page-body">
-          <div className="ftabs">{tabs.map(t=><button key={t.k} className={`ftab${ftab===t.k?" on":""}`} onClick={()=>setFtab(t.k)}>{t.l}</button>)}</div>
-          <div className="grid3">{FNUM[ftab].map(p=><PC key={p.id} p={{...p,unite:"accès permanent"}} type="n"/>)}</div>
-        </div>
-      </div>
-    );
-  };
-
-  /* ══ PAGE CONTACT ══ */
-  const PageContact = () => (
-    <div className="content-page">
-      <div className="page-header">
-        <div className="ph-in">
-          <button className="ph-back" onClick={()=>go("garde")}>←</button>
-          <div className="ph-text">
-            <div className="ph-eye">Devis & Contact</div>
-            <h1 className="ph-title">Parlons de votre <em>projet</em></h1>
-            <p className="ph-sub">Remplissez le formulaire — notre équipe vous répond sous 24h.</p>
-          </div>
-        </div>
-      </div>
-      <div className="page-body">
-        <div className="contact-wrap">
-          <div className="contact-form">
-            {fok ? (
-              <div className="form-ok">
-                <div className="fok-icon">✅</div>
-                <div className="fok-title">Demande envoyée !</div>
-                <div className="fok-sub">Notre équipe vous contactera sous 24h à l'adresse indiquée.<br/>Merci pour votre confiance.</div>
-                <button className="btn-prim" style={{marginTop:28,width:"auto",padding:"12px 28px"}} onClick={()=>setFok(false)}>Nouvelle demande</button>
+      <div className="rubriques">
+        <div className="rub-in">
+          <div className="sec-label">Nos rubriques</div>
+          <h2 className="sec-title">Explorez notre <em>catalogue complet</em></h2>
+          <p className="sec-sub">Produits chimiques, matériels, services d'ingénierie et formulations numériques.</p>
+          <div className="rub-grid">
+            {RUBRIQUES.map(r=>(
+              <div key={r.k} className="rcard" onClick={()=>go(r.k)} style={{borderTop:`3px solid ${r.color}`}}>
+                <div style={{fontSize:"1.4rem",fontWeight:700,color:r.color,fontFamily:"Inter,sans-serif",marginBottom:12,letterSpacing:"-.02em"}}>{r.num}</div>
+                <h3>{r.title}</h3>
+                <p>{r.desc}</p>
+                <span className="rcard-count" style={{background:`${r.color}18`,color:r.color}}>{r.count}</span>
               </div>
-            ):(
-              <form onSubmit={submitDevis}>
-                <div className="fg">
-                  <div className="ff"><label className="fl">Nom complet *</label><input className="fi" placeholder="Votre nom" value={form.nom} onChange={e=>setForm(f=>({...f,nom:e.target.value}))} required/></div>
-                  <div className="ff"><label className="fl">Email *</label><input className="fi" type="email" placeholder="votre@email.com" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} required/></div>
-                  <div className="ff"><label className="fl">Téléphone</label><input className="fi" placeholder="+212 6XX XXX XXX" value={form.tel} onChange={e=>setForm(f=>({...f,tel:e.target.value}))}/></div>
-                  <div className="ff"><label className="fl">Produit / Service *</label><input className="fi" placeholder="Ex: PAC, Analyse eau, STEP…" value={form.produit} onChange={e=>setForm(f=>({...f,produit:e.target.value}))} required/></div>
-                  <div className="ff full"><label className="fl">Message</label><textarea className="ft" placeholder="Décrivez votre besoin, quantité, délai…" value={form.msg} onChange={e=>setForm(f=>({...f,msg:e.target.value}))}/></div>
-                </div>
-                {ferr&&<div className="ferr">{ferr}</div>}
-                <button className="btn-send" type="submit" disabled={fsend}>{fsend?"⏳ Envoi en cours…":"📩 Envoyer la demande de devis"}</button>
-                <div className="form-note">Réponse sous 24h · univers.envi@gmail.com</div>
-              </form>
-            )}
-          </div>
-          <div style={{textAlign:"center",marginTop:24}}>
-            <button className="btn-sec" style={{margin:"0 auto"}} onClick={()=>setChat(true)}>💬 Parler à l'assistant IA</button>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+      <div className="avantages">
+        <div className="av-in">
+          {[{i:"🚚",t:"Livraison 24h",d:"Expédition rapide partout au Maroc."},
+            {i:"⚡",t:"Accès immédiat",d:"Formulations numériques dès paiement."},
+            {i:"🔒",t:"Paiement sécurisé",d:"CMI, virement, PayPal — 100% sécurisé."},
+            {i:"🇲🇦",t:"Expertise locale",d:"15 ans d'expérience terrain au Maroc."}
+          ].map((a,i)=><div key={i} className="av-item"><div className="av-ico">{a.i}</div><div className="av-t">{a.t}</div><div className="av-d">{a.d}</div></div>)}
+        </div>
+      </div>
+    </>
   );
 
-  const PAGES = { garde:<Garde/>, chimiques:<PageChim/>, materiels:<PageMat/>, services:<PageSvc/>, formulation:<PageForm/>, contact:<PageContact/> };
-  const NAV = [{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"services",l:"Services"},{k:"formulation",l:"Formulation"}];
+  /* ═══ PAGE CHIMIQUES ═══ */
+  const PageChim = ()=>{
+    const gs=grpBy(CHIM,"grp");
+    return(<>
+      <PageHdr cat="Catalogue" h1="Produits Chimiques" em="Réactifs certifiés" sub="Coagulants, floculants, désinfectants, osmose inverse et chaudière — qualité certifiée, livraison 24h au Maroc."/>
+      <div className="page-body">
+        {Object.entries(gs).map(([grp,items])=>(
+          <div key={grp} className="grp">
+            <div className="grp-hd"><h2>{grp}</h2><span className="grp-pill">{items.length} produits</span></div>
+            <div className="g3">{items.map(p=><PCard key={p.id} p={p} type="p"/>)}</div>
+          </div>
+        ))}
+      </div>
+    </>);
+  };
+
+  /* ═══ PAGE MATÉRIELS ═══ */
+  const PageMat = ()=>(<>
+    <PageHdr cat="Équipements" h1="Matériels de Mesure" em="Instruments professionnels" sub="pH-mètres, conductimètres, oxymètres, kits terrain — équipements fiables pour le contrôle qualité de vos eaux."/>
+    <div className="page-body"><div className="g4">{MAT.map(p=><PCard key={p.id} p={p} type="m"/>)}</div></div>
+  </>);
+
+  /* ═══ PAGE SERVICES ═══ */
+  const PageSvc = ()=>(<>
+    <PageHdr cat="Ingénierie & Analyses" h1="Nos Services" em="Expertise terrain" sub="Conception STEP, analyses certifiées NM/ISO et optimisation de vos procédés — accompagnement A à Z."/>
+    <div className="page-body">
+      <div className="grp">
+        <div className="grp-hd"><h2>Services d'ingénierie</h2><span className="grp-pill">3 prestations</span></div>
+        <div className="g-svc">{SVCS.map(s=>(<div key={s.id} className="sc"><div className="sc-ico">{s.ico}</div><span className={`sc-tag ${s.tag}`}>{s.tlbl}</span><div className="sc-nom">{s.nom}</div><div className="sc-desc">{s.desc}</div><ul className="sc-feats">{s.feats.map((f,i)=><li key={i}>{f}</li>)}</ul><button className="btn-dvc" onClick={()=>askDevis(s.nom)}>Demander un devis →</button></div>))}</div>
+      </div>
+      <div className="grp">
+        <div className="grp-hd"><h2>Analyses environnementales</h2><span className="grp-pill">3 analyses</span></div>
+        <div className="g-svc">{ANALYSES.map(a=>(<div key={a.id} className="sc"><div className="sc-ico">{a.ico}</div><span className={`sc-tag ${a.tag}`}>{a.tlbl}</span><div className="sc-nom">{a.nom}</div><div className="sc-desc">{a.desc}</div><ul className="sc-feats">{a.feats.map((f,i)=><li key={i}>{f}</li>)}</ul><button className="btn-dvc" onClick={()=>askDevis(a.nom)}>Demander un devis →</button></div>))}</div>
+      </div>
+    </div>
+  </>);
+
+  /* ═══ PAGE FORMULATION ═══ */
+  const PageForm = ()=>(<>
+    <PageHdr cat="Produits Numériques" h1="Formulations Techniques" em="PDF + Excel" sub="Accès permanent après achat. Formules validées en laboratoire pour engrais, traitement des eaux et nettoyage industriel."/>
+    <div className="page-body">
+      <div className="ftabs">
+        {[{k:"engrais",l:"🌿 Engrais"},{k:"eaux",l:"💧 Traitement des Eaux"},{k:"nettoyage",l:"🧴 Nettoyage & Détergents"}]
+          .map(t=><button key={t.k} className={`ftab${ftab===t.k?" on":""}`} onClick={()=>setFtab(t.k)}>{t.l}</button>)}
+      </div>
+      <div className="g3">{FNUM[ftab].map(p=><PCard key={p.id} p={{...p,unite:"accès permanent"}} type="n"/>)}</div>
+    </div>
+  </>);
+
+  /* ═══ PAGE CONTACT ═══ */
+  const PageContact = ()=>(<>
+    <PageHdr cat="Devis & Contact" h1="Demandez votre devis" em="gratuit" sub="Notre équipe vous répond sous 24h — El Jadida, Maroc."/>
+    <div className="page-body">
+      <div className="contact-wrap">
+        <div className="contact-intro">
+          <h2>Parlons de votre <em>projet</em></h2>
+          <p>Remplissez le formulaire ci-dessous. Tous les champs marqués * sont obligatoires.</p>
+        </div>
+        <div className="form-card">
+          {fok?(
+            <div className="form-ok">
+              <div className="fok-ico">✅</div>
+              <div className="fok-title">Demande envoyée !</div>
+              <div className="fok-sub">Merci, nous avons bien reçu votre demande.<br/>Notre équipe vous contactera sous 24h.</div>
+              <button className="btn-p" style={{marginTop:24,width:"auto",padding:"11px 28px"}} onClick={()=>setFok(false)}>Nouvelle demande</button>
+            </div>
+          ):(
+            <form onSubmit={submitDevis} autoComplete="on">
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="f-nom">Nom complet *</label>
+                  <input id="f-nom" type="text" name="nom" placeholder="Votre nom et prénom" autoComplete="name" value={form.nom} onChange={e=>setForm(f=>({...f,nom:e.target.value}))} required/>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="f-email">Adresse email *</label>
+                  <input id="f-email" type="email" name="email" placeholder="votre@email.com" autoComplete="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} required/>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="f-tel">Téléphone</label>
+                  <input id="f-tel" type="tel" name="telephone" placeholder="+212 6XX XXX XXX" autoComplete="tel" value={form.tel} onChange={e=>setForm(f=>({...f,tel:e.target.value}))}/>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="f-rub">Rubrique</label>
+                  <select id="f-rub" name="rubrique" value={form.rubrique} onChange={e=>setForm(f=>({...f,rubrique:e.target.value}))}>
+                    <option value="">Sélectionnez...</option>
+                    <option value="Produits Chimiques">Produits Chimiques</option>
+                    <option value="Matériels">Matériels de Mesure</option>
+                    <option value="Services">Services d'Ingénierie</option>
+                    <option value="Analyses">Analyses Environnementales</option>
+                    <option value="Formulation">Formulations Numériques</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-row full">
+                <div className="form-group">
+                  <label htmlFor="f-prod">Produit / Service concerné *</label>
+                  <input id="f-prod" type="text" name="produit" placeholder="Ex : PAC Coagulant, Analyse eau, STEP 500m³/j..." value={form.produit} onChange={e=>setForm(f=>({...f,produit:e.target.value}))} required/>
+                </div>
+              </div>
+              <div className="form-row full">
+                <div className="form-group">
+                  <label htmlFor="f-msg">Message & détails de votre besoin</label>
+                  <textarea id="f-msg" name="message" placeholder="Décrivez votre besoin : quantité souhaitée, débit de la STEP, type d'eau à traiter, délai..." value={form.msg} onChange={e=>setForm(f=>({...f,msg:e.target.value}))}/>
+                </div>
+              </div>
+              {ferr&&<div className="form-error">{ferr}</div>}
+              <button className="btn-submit" type="submit" disabled={fsend}>{fsend?"⏳ Envoi en cours...":"📩 Envoyer la demande de devis"}</button>
+              <div className="form-note">🔒 Vos données sont confidentielles · Réponse sous 24h</div>
+            </form>
+          )}
+        </div>
+        <div className="contact-alt">
+          <div className="calt-item">📞 <a href={`tel:+${TEL}`}>+212 523 37 74 17</a></div>
+          <div className="calt-item">💬 <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">WhatsApp</a></div>
+          <div className="calt-item">✉️ <a href="mailto:univers.envi@gmail.com">univers.envi@gmail.com</a></div>
+          <div className="calt-item">📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</div>
+        </div>
+      </div>
+    </div>
+  </>);
+
+  const PAGES = {garde:<Garde/>,chimiques:<PageChim/>,materiels:<PageMat/>,services:<PageSvc/>,formulation:<PageForm/>,contact:<PageContact/>};
 
   return (
     <>
       <style>{CSS}</style>
       <div className={`toast${toast?" on":""}`}>{toast}</div>
 
-      {/* TOP BAR */}
-      <div className="topbar">
-        <div className="topbar-left">
-          <a href="tel:+212523377417">📞 +212 523 37 74 17</a>
-          <a href="https://wa.me/212700090365">💬 +212 700 090 365</a>
-          <span>📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
-        </div>
-        <div className="topbar-right">
-          <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
-        </div>
-      </div>
-
-      {/* WHATSAPP FLOTTANT */}
-      <a href="https://wa.me/212700090365?text=Bonjour%20UEM%2C%20je%20souhaite%20des%20informations%20sur%20vos%20produits." target="_blank" rel="noreferrer" className="wa-btn" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-        <span className="wa-tooltip">Nous écrire sur WhatsApp</span>
-      </a>
-
       {/* PANIER */}
       <div className={`overlay${cart?" on":""}`} onClick={()=>setCart(false)}/>
-      <div className={`cart-panel${cart?" on":""}`}>
-        <div className="c-hd"><h2>🛒 Panier{qty>0?` (${qty})`:""}</h2><button className="c-close" onClick={()=>setCart(false)}>✕</button></div>
-        <div className="c-body">
-          {panier.length===0?<div className="c-empty">💧<br/><br/>Votre panier est vide</div>
-            :panier.map(i=>(
-            <div key={i.id} className="c-item">
-              <div className="c-ico">{i.emoji}</div>
-              <div className="c-inf"><div className="c-nom">{i.nom}</div><div className="c-px">{i.prixVal.toLocaleString("fr-MA")} MAD × {i.qty} = {(i.prixVal*i.qty).toLocaleString("fr-MA")} MAD</div></div>
-              <button className="c-rm" onClick={()=>delCart(i.id)}>✕</button>
-            </div>
-          ))}
+      <div className={`cart${cart?" on":""}`}>
+        <div className="cart-hd"><h2>🛒 Panier{qty>0?` (${qty})`:""}</h2><button className="cart-x" onClick={()=>setCart(false)}>✕</button></div>
+        <div className="cart-body">
+          {panier.length===0?<div className="cart-empty">Votre panier est vide.</div>
+            :panier.map(i=><div key={i.id} className="ci"><div className="ci-ico">{i.emoji||"📄"}</div><div className="ci-info"><div className="ci-nom">{i.nom}</div><div className="ci-px">{i.prixVal.toLocaleString("fr-MA")} MAD × {i.qty} = {(i.prixVal*i.qty).toLocaleString("fr-MA")} MAD</div></div><button className="ci-rm" onClick={()=>delCart(i.id)}>✕</button></div>)}
         </div>
-        <div className="c-ft">
-          <div className="c-tot"><span className="c-tot-l">Total TTC</span><span className="c-tot-p">{total.toLocaleString("fr-MA")} MAD</span></div>
+        <div className="cart-ft">
+          <div className="cart-tot"><span className="cart-tot-l">Total TTC</span><span className="cart-tot-p">{total.toLocaleString("fr-MA")} MAD</span></div>
           <button className="btn-pay" disabled={!panier.length}>🔒 Passer la commande</button>
           <div className="pay-note">Paiement sécurisé · CMI · Virement · PayPal</div>
         </div>
       </div>
 
-      {/* NAVBAR */}
-      <nav className={`nav${scr?" solid":""}`}>
-        <div className="nav-in">
-          <div className="logo" onClick={()=>go("garde")}>
-            <div className="logo-sq">UE</div>
-            <div className="logo-tx"><span className="l1">Univers Environnement</span><span className="l2">Maroc</span></div>
+      {/* TOP BAR */}
+      <div className="topbar">
+        <div className="topbar-in">
+          <div style={{display:"flex",gap:"16px",flexWrap:"wrap"}}>
+            <a href={`tel:+${TEL}`}>📞 +212 523 37 74 17</a>
+            <span className="tb-sep">|</span>
+            <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">💬 +212 700 090 365</a>
+            <span className="tb-sep">|</span>
+            <span>📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
           </div>
-          <ul className="nav-menu">
-            {NAV.map(n=><li key={n.k}><button className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button></li>)}
-          </ul>
-          <div className="nav-r">
-            <button className="btn-devis" onClick={()=>go("contact")}>Demander un devis</button>
-            <button className="cart-ico" onClick={()=>setCart(true)}>🛒{qty>0&&<span className="cbadge">{qty}</span>}</button>
+          <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
+        </div>
+      </div>
+
+      {/* NAVBAR */}
+      <div className="nav">
+        <div className="nav-in">
+          <div className="logo" onClick={()=>go("garde")} role="button" tabIndex={0}>
+            <div className="logo-sq">UE</div>
+            <div className="logo-tx"><span className="n1">Univers Environnement</span><span className="n2">Maroc — El Jadida</span></div>
+          </div>
+          <div className="nav-links">
+            {NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}
+          </div>
+          <div className="nav-right">
+            <button className="btn-devis-nav" onClick={()=>go("contact")}>Demander un devis</button>
+            <button className="cart-x" style={{position:"relative"}} onClick={()=>setCart(true)}>🛒{qty>0&&<span style={{position:"absolute",top:"-6px",right:"-6px",background:"#b03020",color:"#fff",borderRadius:"50%",width:"16px",height:"16px",fontSize:".6rem",fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{qty}</span>}</button>
           </div>
           <button className={`burger${mob?" on":""}`} onClick={()=>setMob(v=>!v)}><span/><span/><span/></button>
         </div>
         <div className={`mob-menu${mob?" on":""}`}>
-          {NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}
-          <button className="mob-devis" onClick={()=>go("contact")}>Demander un devis</button>
+          <nav>
+            {NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}
+            <button className="mob-cta" onClick={()=>go("contact")}>Demander un devis</button>
+          </nav>
         </div>
-      </nav>
+      </div>
 
       {/* TICKER */}
-      <div className="ticker"><div className="ticker-in">{[...TICKERS,...TICKERS].map((t,i)=><span key={i} className="tick">{t}</span>)}</div></div>
+      <div className="ticker"><div className="ticker-t">{[...TICKERS,...TICKERS].map((t,i)=><span key={i} className="ticker-i">{t}</span>)}</div></div>
+
+      {/* BANNIÈRE PROMO */}
+      {promoData.active&&promoData.texte&&(
+        <div style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promoData.couleur||"vert"],color:"#fff",padding:"10px",textAlign:"center",fontSize:".8rem",fontWeight:600,letterSpacing:".04em"}}>
+          {promoData.texte}
+        </div>
+      )}
 
       {/* PAGE */}
-      {PAGES[page]}
+      {PAGES[page]||<Garde/>}
 
       {/* FOOTER */}
       <footer>
-        <div className="foot">
+        <div className="foot-in">
           <div className="foot-grid">
             <div className="foot-brand">
-              <div className="fb-name">Univers Environnement <span>Maroc</span></div>
-              <p style={{marginBottom:12}}>Solutions intégrées pour le traitement des eaux et l'ingénierie environnementale au Maroc depuis plus de 15 ans.</p>
-              <p style={{fontSize:".76rem",color:"rgba(255,255,255,.6)",lineHeight:1.8}}>
-                📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida<br/>
-                📞 <a href="tel:+212523377417" style={{color:"rgba(255,255,255,.7)",textDecoration:"none"}}>+212 523 37 74 17</a><br/>
-                💬 <a href="https://wa.me/212700090365" style={{color:"#5ddb8a",textDecoration:"none"}}>+212 700 090 365</a><br/>
-                ✉️ <a href="mailto:univers.envi@gmail.com" style={{color:"rgba(255,255,255,.7)",textDecoration:"none"}}>univers.envi@gmail.com</a>
-              </p>
+              <div className="fb-n">Univers Environnement <span>Maroc</span></div>
+              <p>Solutions intégrées pour le traitement des eaux et l'ingénierie environnementale au Maroc depuis plus de 15 ans.</p>
+              <div className="fb-contact">
+                <a href={`tel:+${TEL}`}>📞 +212 523 37 74 17</a>
+                <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">💬 +212 700 090 365</a>
+                <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
+                <a href="#">📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</a>
+              </div>
             </div>
-            <div className="foot-col"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("contact")}>Contact</li></ul></div>
+            <div className="foot-col"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("contact")}>Contact & Devis</li></ul></div>
             <div className="foot-col"><h4>Services</h4><ul><li>Conception STEP</li><li>Analyse environnementale</li><li>Optimisation process</li><li>Formation opérateurs</li></ul></div>
-            <div className="foot-col"><h4>Légal</h4><ul><li>Mentions légales</li><li>CGV</li><li>Confidentialité</li><li onClick={()=>go("contact")}>Contact</li></ul></div>
+            <div className="foot-col"><h4>Informations</h4><ul><li>À propos</li><li>Mentions légales</li><li>CGV</li><li>Confidentialité</li></ul></div>
           </div>
           <div className="foot-bot"><span>© 2026 Univers Environnement Maroc — Tous droits réservés</span><span>🔒 Paiements sécurisés · CMI · SSL</span></div>
         </div>
       </footer>
 
-      {/* AI WIDGET */}
-      <button className="ai-fab" onClick={()=>setChat(v=>!v)} style={{position:"relative"}}>
-        {chat?"✕":"🤖"}{!chat&&<span className="ai-dot"/>}
+      {/* WHATSAPP */}
+      <a href={`https://wa.me/${WA}?text=Bonjour%20UEM%2C%20je%20souhaite%20des%20informations.`} target="_blank" rel="noreferrer" className="wa" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+
+      {/* AI CHAT */}
+      <button className="ai-fab" onClick={()=>setChat(v=>!v)} style={{position:"relative"}} aria-label="Assistant IA">
+        {chat?"✕":"💬"}{!chat&&<span className="ai-dot"/>}
       </button>
       <div className={`ai-win${chat?" on":""}`}>
         <div className="ai-hd">
           <div className="ai-av">🌱</div>
-          <div className="ai-hi"><div className="ai-name">Assistant UEM</div><div className="ai-status">En ligne · Expert eau & environnement</div></div>
-          <button className="ai-x" onClick={()=>setChat(false)}>✕</button>
+          <div className="ai-hi"><div className="ai-nm">Assistant UEM</div><div className="ai-st">En ligne · Expert eau & environnement</div></div>
+          <button className="ai-cx" onClick={()=>setChat(false)}>✕</button>
         </div>
         <div className="ai-msgs">
           {msgs.map((m,i)=>(
-            <div key={i} className={`msg ${m.r==="u"?"u":"b"}`}>
+            <div key={i} className={`m ${m.r==="u"?"u":"b"}`}>
               <div className="m-av">{m.r==="u"?"👤":"🌱"}</div>
-              <div className="m-bub" style={{whiteSpace:"pre-wrap"}}>{rtx(m.t)}</div>
+              <div className="m-b" style={{whiteSpace:"pre-wrap"}}>{rtx(m.t)}</div>
             </div>
           ))}
-          {load&&<div className="msg b"><div className="m-av">🌱</div><div className="typing"><span/><span/><span/></div></div>}
+          {load&&<div className="m b"><div className="m-av">🌱</div><div className="typing"><span/><span/><span/></div></div>}
           <div ref={end}/>
         </div>
         {sugs&&<div className="ai-sugs">{SUGS.map((s,i)=><button key={i} className="sug" onClick={()=>aiSend(s)}>{s}</button>)}</div>}
-        <div className="ai-inp-row">
+        <div className="ai-ir">
           <textarea ref={iref} className="ai-inp" placeholder="Posez votre question…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();aiSend();}}} rows={1}/>
           <button className="ai-snd" onClick={()=>aiSend()} disabled={!inp.trim()||load}>➤</button>
         </div>
