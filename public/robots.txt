@@ -1,0 +1,20 @@
+# Univers Environnement Maroc — www.uem.ma
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.uem.ma/sitemap.xml
+
+# Bloquer l'admin
+Disallow: /admin
+
+# Autoriser les ressources statiques
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Crawl delay
+Crawl-delay: 1
