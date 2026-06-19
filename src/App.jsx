@@ -11,17 +11,18 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --v:#1a5c32;--v2:#236b3b;--v3:#2e8b57;
-  --r:#b03020;--fond:#f5f7f5;--w:#fff;--k:#12201a;
-  --g1:#4a5c52;--g2:#7a8c82;--g3:#b8c8be;
-  --b:#d8e4dc;--s:#f0ece4;
-  --sh:0 2px 12px rgba(18,32,26,.08);
+  --v:#1565c0;--v2:#0d47a1;--v3:#42a5f5;
+  --gr:#5cb800;--gr2:#4a9200;--gr3:#8bc34a;
+  --r:#e53935;--fond:#f4f9ff;--w:#fff;--k:#0d1b2e;
+  --g1:#3a5068;--g2:#7090a8;--g3:#b0c8d8;
+  --b:#cce0f5;--s:#e8f4fd;
+  --sh:0 2px 12px rgba(13,27,46,.08);
   --T:cubic-bezier(.4,0,.2,1);
 }
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6;}
 /* TOPBAR */
-.tb{background:var(--k);color:rgba(255,255,255,.72);font-size:.74rem;padding:7px 0;}
+.tb{background:linear-gradient(135deg,#0d47a1,#1565c0);color:rgba(255,255,255,.82);font-size:.74rem;padding:7px 0;}
 .tb-in{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
 .tb a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .2s;}
 .tb a:hover{color:#fff;}
@@ -30,9 +31,9 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .nav{position:sticky;top:0;z-index:100;background:var(--w);border-bottom:1px solid var(--b);box-shadow:var(--sh);}
 .nav-in{max-width:1200px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
-.logo-sq{width:38px;height:38px;background:var(--v);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0;}
+.logo-sq{width:38px;height:38px;background:linear-gradient(135deg,var(--v),var(--gr));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0;}
 .logo-t .n1{font-size:.86rem;font-weight:700;color:var(--k);display:block;line-height:1.2;}
-.logo-t .n2{font-size:.58rem;font-weight:500;color:var(--v);letter-spacing:.1em;text-transform:uppercase;}
+.logo-t .n2{font-size:.58rem;font-weight:600;color:var(--gr2);letter-spacing:.1em;text-transform:uppercase;}
 .nav-links{display:flex;align-items:center;gap:2px;}
 .nav-links button{background:none;border:none;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;color:var(--g1);padding:6px 11px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .nav-links button:hover{background:var(--fond);color:var(--v);}
@@ -55,19 +56,19 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .mob button:hover,.mob button.on{background:rgba(26,92,50,.07);color:var(--v);}
 .mob .mob-cta{background:var(--v);color:#fff;text-align:center!important;font-weight:600;margin:10px 20px;border-radius:7px;border-bottom:none;}
 /* TICKER */
-.tkr{background:var(--v);overflow:hidden;padding:8px 0;}
+.tkr{background:linear-gradient(135deg,var(--gr2),var(--gr));overflow:hidden;padding:8px 0;}
 .tkr-t{display:flex;gap:52px;animation:slid 30s linear infinite;width:max-content;}
 .tkr-i{font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75);white-space:nowrap;}
 @keyframes slid{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* HERO */
 .hero{background:var(--w);border-bottom:1px solid var(--b);}
 .hero-in{max-width:1200px;margin:0 auto;padding:60px 28px 68px;display:grid;grid-template-columns:1fr 400px;gap:64px;align-items:center;}
-.h-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(176,48,32,.22);background:rgba(176,48,32,.06);padding:5px 13px;border-radius:4px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-bottom:18px;}
-.h-tag span{width:6px;height:6px;background:var(--r);border-radius:50%;animation:bl 2s infinite;}
+.h-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(92,184,0,.3);background:rgba(92,184,0,.08);padding:5px 13px;border-radius:4px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gr2);margin-bottom:18px;}
+.h-tag span{width:6px;height:6px;background:var(--gr);border-radius:50%;animation:bl 2s infinite;}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:700;line-height:1.12;color:var(--k);margin-bottom:14px;}
 .hero h1 em{color:var(--v);font-style:italic;}
-.hero h1 .r{color:var(--r);}
+.hero h1 .r{color:var(--gr);}
 .h-desc{font-size:.9rem;color:var(--g1);line-height:1.8;max-width:460px;margin-bottom:24px;}
 .h-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
 .btn-p{background:var(--v);color:#fff;border:none;padding:12px 26px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:background .2s,box-shadow .2s;}
@@ -100,7 +101,7 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .rcard p{font-size:.75rem;color:var(--g1);line-height:1.6;margin-bottom:12px;}
 .rcnt{font-size:.65rem;font-weight:600;padding:2px 9px;border-radius:4px;display:inline-block;}
 /* BANDE CHIFFRES */
-.bch{background:var(--v);padding:44px 28px;}
+.bch{background:linear-gradient(135deg,var(--v2),var(--v));padding:44px 28px;}
 .bch-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center;}
 .bcn{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:#fff;}
 .bcl{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-top:5px;}
@@ -112,7 +113,7 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .av-t{font-size:.88rem;font-weight:700;color:var(--k);margin-bottom:4px;}
 .av-d{font-size:.75rem;color:var(--g1);line-height:1.6;}
 /* PAGE HEADER */
-.ph{background:var(--k);padding:36px 28px 32px;}
+.ph{background:linear-gradient(135deg,var(--v2),var(--v));padding:36px 28px 32px;}
 .ph-in{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;gap:14px;}
 .ph-bk{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:background .2s;flex-shrink:0;margin-top:3px;}
 .ph-bk:hover{background:rgba(255,255,255,.2);}
@@ -277,7 +278,7 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .ai-dot{position:absolute;top:-2px;right:-2px;width:12px;height:12px;background:var(--r);border-radius:50%;border:2px solid var(--fond);}
 .ai-win{position:fixed;bottom:88px;right:22px;z-index:200;width:350px;max-width:calc(100vw - 28px);height:500px;max-height:calc(100dvh - 108px);background:var(--w);border-radius:13px;border:1px solid var(--b);box-shadow:0 18px 56px rgba(0,0,0,.14);display:flex;flex-direction:column;transform:scale(.9) translateY(16px);opacity:0;pointer-events:none;transition:transform .3s var(--T),opacity .28s;overflow:hidden;}
 .ai-win.on{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-.ai-hd{padding:13px 15px;background:var(--v);display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.ai-hd{padding:13px 15px;background:linear-gradient(135deg,var(--v),var(--gr2));display:flex;align-items:center;gap:9px;flex-shrink:0;}
 .ai-av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .ai-nm{font-size:.88rem;font-weight:700;color:#fff;}
 .ai-st{font-size:.63rem;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:4px;}
@@ -310,11 +311,11 @@ body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overfl
 .ai-snd:hover{background:var(--v2);}
 .ai-snd:disabled{opacity:.5;cursor:not-allowed;}
 /* FOOTER */
-footer{background:var(--k);color:#fff;}
+footer{background:linear-gradient(135deg,#0a1628,#0d2240);color:#fff;}
 .fi-in{max-width:1200px;margin:0 auto;padding:52px 28px 24px;}
 .fi-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;}
 .fb-n{font-size:1.05rem;font-weight:700;margin-bottom:11px;}
-.fb-n span{color:#4caf78;}
+.fb-n span{color:var(--gr3);}
 .fb-desc{font-size:.75rem;color:rgba(255,255,255,.48);line-height:1.8;margin-bottom:13px;}
 .fb-ct{display:flex;flex-direction:column;gap:6px;}
 .fb-ct a{font-size:.75rem;color:rgba(255,255,255,.52);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:5px;}
@@ -327,10 +328,10 @@ footer{background:var(--k);color:#fff;}
 .fi-bot span{font-size:.66rem;color:rgba(255,255,255,.32);}
 /* ADMIN */
 .adm-body{min-height:100vh;background:#f0f2f5;font-family:'Inter',sans-serif;}
-.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f2017,#1a5c32);}
+.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1628,#1565c0);}
 .adm-box{background:#fff;border-radius:14px;padding:36px;width:340px;max-width:90vw;box-shadow:0 18px 56px rgba(0,0,0,.28);}
 .adm-logo{text-align:center;margin-bottom:24px;}
-.adm-logo .sq{width:48px;height:48px;background:#1a5c32;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;margin:0 auto 10px;}
+.adm-logo .sq{width:48px;height:48px;background:linear-gradient(135deg,#1565c0,#5cb800);border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;margin:0 auto 10px;}
 .adm-logo h1{font-size:1rem;font-weight:700;color:#12201a;}
 .adm-logo p{font-size:.74rem;color:#6b7c70;margin-top:3px;}
 .adm-box label{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6b7c70;display:block;margin-bottom:5px;}
@@ -472,7 +473,7 @@ function PageGarde({onGo}){
       <div className="hero">
         <div className="hero-in">
           <div>
-            <div className="h-tag"><span/>Expertise environnementale au Maroc</div>
+            <div className="h-tag"><span/>L'Expertise Verte au Service du Maroc</div>
             <h1>Réactifs, matériel &<br/><em>ingénierie</em> pour<br/><span className="r">vos eaux</span></h1>
             <p className="h-desc">Produits chimiques certifiés · Matériel de mesure · Ingénierie environnementale · Formulations techniques — tout pour le traitement de l'eau au Maroc.</p>
             <div className="h-btns">
@@ -718,7 +719,75 @@ export default function App(){
   const prodEdits=(()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}})();
   const promoData=(()=>{try{return JSON.parse(localStorage.getItem("uem_promo")||"{}");}catch{return {};}})();
 
-  const tmr=useRef(null),end=useRef(null),iref=useRef(null);
+  /* SEO dynamique par page */
+  const SEO_PAGES = {
+    garde:       { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Fournisseur de réactifs chimiques (coagulants, floculants, anti-scalant), conception STEP et analyses environnementales certifiées NM/ISO. El Jadida, Maroc." },
+    chimiques:   { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"Gamme complète de réactifs chimiques : PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h partout au Maroc." },
+    materiels:   { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels pour le contrôle qualité des eaux : pH-mètres, conductimètres, oxymètres, kits chlore et dureté. El Jadida." },
+    services:    { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception et dimensionnement STEP, optimisation de stations d'épuration, analyses physicochimiques et bactériologiques certifiées NM/ISO au Maroc." },
+    formulation: { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux, Détergents | UEM", desc:"Formules numériques PDF+Excel : engrais foliaires, fertigation, coagulants-floculants, osmose inverse, détergents et produits de nettoyage industriels." },
+    contact:     { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez Univers Environnement Maroc pour un devis gratuit. Téléphone: +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida. Réponse sous 24h." },
+  };
+
+  useEffect(()=>{
+    const seo = SEO_PAGES[page] || SEO_PAGES.garde;
+    document.title = seo.title;
+    let meta = document.querySelector('meta[name="description"]');
+    if(meta) meta.setAttribute("content", seo.desc);
+    // Canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if(canonical) canonical.setAttribute("href", `https://www.uem.ma/${page==="garde"?"":page}`);
+    // OG tags
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if(ogTitle) ogTitle.setAttribute("content", seo.title);
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if(ogDesc) ogDesc.setAttribute("content", seo.desc);
+  },[page]);
+
+  /* Schema.org dynamique par page */
+  useEffect(()=>{
+    const existing = document.getElementById("schema-dynamic");
+    if(existing) existing.remove();
+    const script = document.createElement("script");
+    script.id = "schema-dynamic";
+    script.type = "application/ld+json";
+    let schema = null;
+    if(page==="chimiques"){
+      schema = {
+        "@context":"https://schema.org","@type":"ItemList",
+        "name":"Réactifs Chimiques — Univers Environnement Maroc",
+        "url":"https://www.uem.ma/chimiques",
+        "itemListElement": CHIM.slice(0,5).map((p,i)=>({
+          "@type":"ListItem","position":i+1,
+          "item":{"@type":"Product","name":p.nom,"description":p.desc,
+            "brand":{"@type":"Brand","name":"Univers Environnement Maroc"},
+            "offers":{"@type":"Offer","availability":"https://schema.org/InStock","priceCurrency":"MAD","seller":{"@type":"Organization","name":"UEM"}}}
+        }))
+      };
+    } else if(page==="services"){
+      schema = {
+        "@context":"https://schema.org","@type":"ItemList",
+        "name":"Services Ingénierie Environnementale — UEM Maroc",
+        "itemListElement": SVCS.map((s,i)=>({
+          "@type":"ListItem","position":i+1,
+          "item":{"@type":"Service","name":s.nom,"description":s.desc,
+            "provider":{"@type":"LocalBusiness","name":"Univers Environnement Maroc","url":"https://www.uem.ma"},
+            "areaServed":"Maroc","serviceType":"Ingénierie environnementale"}
+        }))
+      };
+    } else if(page==="garde"){
+      schema = {
+        "@context":"https://schema.org","@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.uem.ma/"},
+          {"@type":"ListItem","position":2,"name":"Produits Chimiques","item":"https://www.uem.ma/chimiques"},
+          {"@type":"ListItem","position":3,"name":"Services","item":"https://www.uem.ma/services"}
+        ]
+      };
+    }
+    if(schema){ script.textContent = JSON.stringify(schema); document.head.appendChild(script); }
+    return()=>{ const el=document.getElementById("schema-dynamic"); if(el)el.remove(); };
+  },[page]);
 
   useEffect(()=>{window.scrollTo({top:0,behavior:"smooth"});},[page]);
   useEffect(()=>{if(chat)end.current?.scrollIntoView({behavior:"smooth"});},[msgs,load,chat]);
