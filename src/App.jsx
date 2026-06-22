@@ -790,6 +790,7 @@ export default function App(){
   },[page]);
 
   useEffect(()=>{window.scrollTo({top:0,behavior:"smooth"});},[page]);
+  const tmr=useRef(null),end=useRef(null),iref=useRef(null);
   useEffect(()=>{if(chat)end.current?.scrollIntoView({behavior:"smooth"});},[msgs,load,chat]);
   useEffect(()=>{if(chat)setTimeout(()=>iref.current?.focus(),350);},[chat]);
 
