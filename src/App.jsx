@@ -699,110 +699,71 @@ function AdminPanel(){
    APP PRINCIPAL
 ══════════════════════════════ */
 export default function App(){
-  const [page,setPage]=useState("garde");
-  const [panier,setPanier]=useState([]);
-  const [cart,setCart]=useState(false);
-  const [mob,setMob]=useState(false);
-  const [toast,setToast]=useState("");
-  const [chat,setChat]=useState(false);
-  const [msgs,setMsgs]=useState([{r:"b",t:"Bonjour ! Je suis l'assistant expert d'**Univers Environnement Maroc**.\n\nJe peux vous conseiller sur nos produits chimiques, matériels, services ou formulations. Comment puis-je vous aider ?"}]);
-  const [inp,setInp]=useState("");
-  const [load,setLoad]=useState(false);
-  const [sugs,setSugs]=useState(true);
-  const [ftab,setFtab]=useState("engrais");
-  const [devisProd,setDevisProd]=useState("");
+  /* ── TOUS LES HOOKS EN PREMIER — AVANT TOUT RETURN ── */
+  const [page,setPage]     = useState("garde");
+  const [panier,setPanier] = useState([]);
+  const [cart,setCart]     = useState(false);
+  const [mob,setMob]       = useState(false);
+  const [toast,setToast]   = useState("");
+  const [chat,setChat]     = useState(false);
+  const [msgs,setMsgs]     = useState([{r:"b",t:"Bonjour ! Je suis l'assistant expert d'**Univers Environnement Maroc**.\n\nJe peux vous conseiller sur nos produits chimiques, matériels, services ou formulations. Comment puis-je vous aider ?"}]);
+  const [inp,setInp]       = useState("");
+  const [load,setLoad]     = useState(false);
+  const [sugs,setSugs]     = useState(true);
+  const [ftab,setFtab]     = useState("engrais");
+  const [devisProd,setDevisProd] = useState("");
 
-  /* Admin routing */
-  if(window.location.pathname==="/admin")return <AdminPanel/>;
+  const tmr = useRef(null);
+  const end = useRef(null);
+  const iref = useRef(null);
 
-  /* Read localStorage edits */
-  const prodEdits=(()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}})();
-  const promoData=(()=>{try{return JSON.parse(localStorage.getItem("uem_promo")||"{}");}catch{return {};}})();
+  const isAdmin = window.location.pathname === "/admin";
 
-  /* SEO dynamique par page */
+  /* SEO dynamique */
   const SEO_PAGES = {
-    garde:       { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Fournisseur de réactifs chimiques (coagulants, floculants, anti-scalant), conception STEP et analyses environnementales certifiées NM/ISO. El Jadida, Maroc." },
-    chimiques:   { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"Gamme complète de réactifs chimiques : PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h partout au Maroc." },
-    materiels:   { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels pour le contrôle qualité des eaux : pH-mètres, conductimètres, oxymètres, kits chlore et dureté. El Jadida." },
-    services:    { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception et dimensionnement STEP, optimisation de stations d'épuration, analyses physicochimiques et bactériologiques certifiées NM/ISO au Maroc." },
-    formulation: { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux, Détergents | UEM", desc:"Formules numériques PDF+Excel : engrais foliaires, fertigation, coagulants-floculants, osmose inverse, détergents et produits de nettoyage industriels." },
-    contact:     { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez Univers Environnement Maroc pour un devis gratuit. Téléphone: +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida. Réponse sous 24h." },
+    garde:       { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Fournisseur de réactifs chimiques, conception STEP et analyses environnementales certifiées NM/ISO. El Jadida, Maroc." },
+    chimiques:   { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
+    materiels:   { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
+    services:    { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation de stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
+    formulation: { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
+    contact:     { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez UEM pour un devis gratuit. +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida." },
   };
 
   useEffect(()=>{
+    if(isAdmin) return;
     const seo = SEO_PAGES[page] || SEO_PAGES.garde;
     document.title = seo.title;
-    let meta = document.querySelector('meta[name="description"]');
+    const meta = document.querySelector('meta[name="description"]');
     if(meta) meta.setAttribute("content", seo.desc);
-    // Canonical URL
-    let canonical = document.querySelector('link[rel="canonical"]');
+    const canonical = document.querySelector('link[rel="canonical"]');
     if(canonical) canonical.setAttribute("href", `https://www.uem.ma/${page==="garde"?"":page}`);
-    // OG tags
-    let ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogTitle = document.querySelector('meta[property="og:title"]');
     if(ogTitle) ogTitle.setAttribute("content", seo.title);
-    let ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
     if(ogDesc) ogDesc.setAttribute("content", seo.desc);
-  },[page]);
+  },[page, isAdmin]);
 
-  /* Schema.org dynamique par page */
   useEffect(()=>{
-    const existing = document.getElementById("schema-dynamic");
+    if(isAdmin) return;
+    const existing = document.getElementById("sd");
     if(existing) existing.remove();
-    const script = document.createElement("script");
-    script.id = "schema-dynamic";
-    script.type = "application/ld+json";
     let schema = null;
-    if(page==="chimiques"){
-      schema = {
-        "@context":"https://schema.org","@type":"ItemList",
-        "name":"Réactifs Chimiques — Univers Environnement Maroc",
-        "url":"https://www.uem.ma/chimiques",
-        "itemListElement": CHIM.slice(0,5).map((p,i)=>({
-          "@type":"ListItem","position":i+1,
-          "item":{"@type":"Product","name":p.nom,"description":p.desc,
-            "brand":{"@type":"Brand","name":"Univers Environnement Maroc"},
-            "offers":{"@type":"Offer","availability":"https://schema.org/InStock","priceCurrency":"MAD","seller":{"@type":"Organization","name":"UEM"}}}
-        }))
-      };
-    } else if(page==="services"){
-      schema = {
-        "@context":"https://schema.org","@type":"ItemList",
-        "name":"Services Ingénierie Environnementale — UEM Maroc",
-        "itemListElement": SVCS.map((s,i)=>({
-          "@type":"ListItem","position":i+1,
-          "item":{"@type":"Service","name":s.nom,"description":s.desc,
-            "provider":{"@type":"LocalBusiness","name":"Univers Environnement Maroc","url":"https://www.uem.ma"},
-            "areaServed":"Maroc","serviceType":"Ingénierie environnementale"}
-        }))
-      };
-    } else if(page==="garde"){
-      schema = {
-        "@context":"https://schema.org","@type":"BreadcrumbList",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.uem.ma/"},
-          {"@type":"ListItem","position":2,"name":"Produits Chimiques","item":"https://www.uem.ma/chimiques"},
-          {"@type":"ListItem","position":3,"name":"Services","item":"https://www.uem.ma/services"}
-        ]
-      };
-    }
-    if(schema){ script.textContent = JSON.stringify(schema); document.head.appendChild(script); }
-    return()=>{ const el=document.getElementById("schema-dynamic"); if(el)el.remove(); };
-  },[page]);
+    if(page==="chimiques") schema={"@context":"https://schema.org","@type":"ItemList","name":"Réactifs Chimiques UEM","itemListElement":CHIM.slice(0,5).map((p,i)=>({"@type":"ListItem","position":i+1,"item":{"@type":"Product","name":p.nom,"description":p.desc}}))};
+    else if(page==="garde") schema={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.uem.ma/"},{"@type":"ListItem","position":2,"name":"Produits Chimiques","item":"https://www.uem.ma/chimiques"}]};
+    if(schema){const s=document.createElement("script");s.id="sd";s.type="application/ld+json";s.textContent=JSON.stringify(schema);document.head.appendChild(s);}
+    return()=>{const el=document.getElementById("sd");if(el)el.remove();};
+  },[page, isAdmin]);
 
-  useEffect(()=>{window.scrollTo({top:0,behavior:"smooth"});},[page]);
-  const tmr=useRef(null),end=useRef(null),iref=useRef(null);
-  useEffect(()=>{if(chat)end.current?.scrollIntoView({behavior:"smooth"});},[msgs,load,chat]);
-  useEffect(()=>{if(chat)setTimeout(()=>iref.current?.focus(),350);},[chat]);
+  useEffect(()=>{ if(!isAdmin) window.scrollTo({top:0,behavior:"smooth"}); },[page, isAdmin]);
+  useEffect(()=>{ if(!isAdmin&&chat) end.current?.scrollIntoView({behavior:"smooth"}); },[msgs,load,chat,isAdmin]);
+  useEffect(()=>{ if(!isAdmin&&chat) setTimeout(()=>iref.current?.focus(),350); },[chat,isAdmin]);
 
-  const shToast=useCallback(m=>{setToast(m);clearTimeout(tmr.current);tmr.current=setTimeout(()=>setToast(""),2800);},[]);
-  const go=useCallback(p=>{setPage(p);setMob(false);},[]);
-  const addCart=useCallback(p=>{setPanier(pr=>{const ex=pr.find(i=>i.id===p.id);return ex?pr.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...pr,{...p,qty:1}];});shToast(`✓ "${p.nom}" ajouté au panier`);},[shToast]);
-  const delCart=useCallback(id=>setPanier(p=>p.filter(i=>i.id!==id)),[]);
-  const askDevis=useCallback(nom=>{setDevisProd(nom);go("contact");},[go]);
-  const total=panier.reduce((s,i)=>s+i.prixVal*i.qty,0);
-  const qty=panier.reduce((s,i)=>s+i.qty,0);
-
-  const aiSend=useCallback(async t=>{
+  const shToast = useCallback(m=>{setToast(m);clearTimeout(tmr.current);tmr.current=setTimeout(()=>setToast(""),2800);},[]);
+  const go      = useCallback(p=>{setPage(p);setMob(false);},[]);
+  const addCart = useCallback(p=>{setPanier(pr=>{const ex=pr.find(i=>i.id===p.id);return ex?pr.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...pr,{...p,qty:1}];});shToast(`✓ "${p.nom}" ajouté`);},[shToast]);
+  const delCart = useCallback(id=>setPanier(p=>p.filter(i=>i.id!==id)),[]);
+  const askDevis= useCallback(nom=>{setDevisProd(nom);go("contact");},[go]);
+  const aiSend  = useCallback(async t=>{
     const txt=(t||inp).trim(); if(!txt||load)return;
     setInp(""); setSugs(false);
     setMsgs(p=>[...p,{r:"u",t:txt}]); setLoad(true);
@@ -811,20 +772,28 @@ export default function App(){
       const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:SYS,messages:[...hist,{role:"user",content:txt}]})});
       const d=await res.json();
       setMsgs(p=>[...p,{r:"b",t:d.content?.map(b=>b.text||"").join("")||"Désolé, une erreur est survenue."}]);
-    }catch{setMsgs(p=>[...p,{r:"b",t:"Une erreur est survenue. Veuillez réessayer."}]);}
+    }catch{setMsgs(p=>[...p,{r:"b",t:"Une erreur est survenue."}]);}
     finally{setLoad(false);}
   },[inp,load,msgs]);
+
+  /* ── APRÈS TOUS LES HOOKS — return conditionnel ── */
+  if(isAdmin) return <AdminPanel/>;
+
+  const prodEdits = (()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}})();
+  const promoData = (()=>{try{return JSON.parse(localStorage.getItem("uem_promo")||"{}");}catch{return {};}})();
+  const total = panier.reduce((s,i)=>s+i.prixVal*i.qty,0);
+  const qty   = panier.reduce((s,i)=>s+i.qty,0);
 
   const renderPage=()=>{
     const props={onBack:()=>go("garde"),onDevis:askDevis,onCart:addCart,edits:prodEdits};
     switch(page){
-      case"garde":      return <PageGarde onGo={go}/>;
-      case"chimiques":  return <PageChim {...props}/>;
-      case"materiels":  return <PageMat {...props}/>;
-      case"services":   return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
-      case"formulation":return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
-      case"contact":    return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
-      default:          return <PageGarde onGo={go}/>;
+      case"garde":       return <PageGarde onGo={go}/>;
+      case"chimiques":   return <PageChim {...props}/>;
+      case"materiels":   return <PageMat {...props}/>;
+      case"services":    return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
+      case"formulation": return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
+      case"contact":     return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
+      default:           return <PageGarde onGo={go}/>;
     }
   };
 
