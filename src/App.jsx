@@ -408,7 +408,7 @@ const TICKERS=["💧 Coagulants & Floculants certifiés","⚗️ Réactifs osmos
 const SUGS=["Quel coagulant pour mes eaux ?","Anti-scalant osmose inverse ?","Analyse eau de puits ?","Concevoir une STEP ?","Formule détergent industriel ?"];
 const SYS=`Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM), El Jadida. Gammes : Réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants, correction pH, hypochlorite, anti-scalant, biocide, passivation chaudière), Matériels (pH-mètre, conductimètre, oxymètre, kits chlore/dureté), Analyses (eaux NM/ISO, sols agronomiques, bilan environnemental), Services (STEP conception/optimisation/solutions), Formulations numériques (engrais foliaires/fertigation, traitement eaux, détergents/lessives/sanitaires). Tel: +212523377417. Réponds en français, concis, professionnel.`;
 const RUBRIQUES=[{k:"chimiques",num:"01",color:"#1a5c32",title:"Produits Chimiques",desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière.",count:`${CHIM.length} produits`},{k:"materiels",num:"02",color:"#1565c0",title:"Matériels",desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore.",count:`${MAT.length} équipements`},{k:"services",num:"03",color:"#e65100",title:"Services",desc:"Ingénierie environnementale, analyses certifiées et STEP.",count:"6 prestations"},{k:"formulation",num:"04",color:"#4527a0",title:"Formulation",desc:"Formules numériques : engrais, eaux, nettoyage & détergents.",count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`}];
-const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"services",l:"Services"},{k:"formulation",l:"Formulation"}];
+const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"formulation",l:"Formulation"}];
 const grpBy=(arr,k)=>arr.reduce((a,i)=>{ (a[i[k]]=a[i[k]]||[]).push(i); return a; },{});
 const rtx=t=>t.split(/(\*\*[^*]+\*\*)/g).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>);
 
@@ -468,41 +468,50 @@ function PageHdr({cat,h1,em,sub,onBack}){
 
 /* PAGE GARDE */
 function PageGarde({onGo}){
+  const [slide,setSlide]=useState(0);
+  const slides=[
+    {img:"/images/step-maroc.jpg",label:"Station d'Épuration — Projet UEM au Maroc"},
+    {img:"/images/mesure-debit.jpg",label:"Contrôle des rejets en milieu naturel"},
+    {img:"/images/labo-uem.jpg",label:"Laboratoire d'Analyse UEM — El Jadida"},
+  ];
+  useEffect(()=>{const t=setInterval(()=>setSlide(s=>(s+1)%slides.length),4500);return()=>clearInterval(t);},[]);
   return(
     <>
       <div className="hero">
         <div className="hero-in">
           <div>
             <div className="h-tag"><span/>L'Expertise Verte au Service du Maroc</div>
-            <h1>Réactifs, matériel &<br/><em>ingénierie</em> pour<br/><span className="r">vos eaux</span></h1>
-            <p className="h-desc">Produits chimiques certifiés · Matériel de mesure · Ingénierie environnementale · Formulations techniques — tout pour le traitement de l'eau au Maroc.</p>
+            <h1>Leader marocain du<br/><em>traitement des eaux</em><br/>et des <span className="r">analyses environnementales</span></h1>
+            <p className="h-desc">Plus de 15 ans d'expertise au service des industriels, collectivités et laboratoires au Maroc. Réactifs certifiés · Analyses NM/ISO · Conception STEP.</p>
             <div className="h-btns">
-              <button className="btn-p" onClick={()=>onGo("chimiques")}>Explorer les produits</button>
-              <button className="btn-o" onClick={()=>onGo("contact")}>Demander un devis</button>
+              <button className="btn-p" onClick={()=>onGo("contact")}>Demander un devis gratuit</button>
+              <button className="btn-o" onClick={()=>onGo("realisations")}>Voir nos réalisations</button>
             </div>
             <div className="h-stats">
-              {[{n:"200+",l:"STEP conçues"},{n:"15 ans",l:"D'expertise"},{n:"500+",l:"Clients actifs"},{n:"98%",l:"Satisfaction"}].map((s,i)=><div key={i}><div className="hs-n">{s.n}</div><div className="hs-l">{s.l}</div></div>)}
+              {[{n:"15+",l:"Ans d'expérience"},{n:"200+",l:"Projets réalisés"},{n:"500+",l:"Clients satisfaits"},{n:"98%",l:"Satisfaction"}].map((s,i)=><div key={i}><div className="hs-n">{s.n}</div><div className="hs-l">{s.l}</div></div>)}
             </div>
           </div>
-          <div className="h-right">
-            {[{color:"#1a5c32",cat:"Réactifs Chimiques",nom:"Coagulants · Floculants · Désinfectants",p:"chimiques"},{color:"#1565c0",cat:"Matériels de Mesure",nom:"pH-mètre · Conductimètre · Oxymètre",p:"materiels"},{color:"#e65100",cat:"Services Ingénierie",nom:"Conception STEP · Analyses · Optimisation",p:"services"},{color:"#4527a0",cat:"Formulations Numériques",nom:"Engrais · Traitement eaux · Nettoyage",p:"formulation"}].map((c,i)=>(
-              <div key={i} className="hcard" onClick={()=>onGo(c.p)} style={{borderLeft:`3px solid ${c.color}`}}>
-                <div><div className="hct" style={{color:c.color}}>{c.cat}</div><div className="hcn">{c.nom}</div></div>
-                <span className="harr" style={{color:c.color}}>→</span>
+          <div style={{position:"relative",borderRadius:12,overflow:"hidden",height:360,boxShadow:"0 10px 40px rgba(0,0,0,.2)",flex:"0 0 400px"}}>
+            {slides.map((s,i)=>(
+              <div key={i} style={{position:"absolute",inset:0,opacity:slide===i?1:0,transition:"opacity 1s ease",backgroundImage:`url(${s.img})`,backgroundSize:"cover",backgroundPosition:"center"}}>
+                <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(13,27,46,.7) 0%,rgba(0,0,0,.1) 60%)"}}/>
+                <div style={{position:"absolute",bottom:14,left:14,right:14,color:"#fff",fontSize:".72rem",fontWeight:600,letterSpacing:".05em",background:"rgba(21,101,192,.7)",padding:"5px 12px",borderRadius:5}}>{s.label}</div>
               </div>
             ))}
+            <div style={{position:"absolute",bottom:42,right:14,display:"flex",gap:6,zIndex:2}}>
+              {slides.map((_,i)=><button key={i} onClick={()=>setSlide(i)} style={{width:8,height:8,borderRadius:"50%",border:"2px solid rgba(255,255,255,.6)",background:slide===i?"#5cb800":"transparent",cursor:"pointer",padding:0,transition:"all .3s"}}/>)}
+            </div>
           </div>
         </div>
       </div>
-      <div className="bch"><div className="bch-in">{[{n:"Livraison 24h",l:"Partout au Maroc"},{n:"NM / ISO",l:"Analyses certifiées"},{n:"Gratuit",l:"Hébergement Vercel"},{n:"🇲🇦",l:"100% Marocain"}].map((c,i)=><div key={i}><div className="bcn">{c.n}</div><div className="bcl">{c.l}</div></div>)}</div></div>
+      <div className="bch"><div className="bch-in">{[{n:"15+ ans",l:"D'expérience terrain"},{n:"200+",l:"Projets STEP réalisés"},{n:"NM/ISO",l:"Analyses certifiées"},{n:"🇲🇦",l:"100% Marocain"}].map((c,i)=><div key={i}><div className="bcn">{c.n}</div><div className="bcl">{c.l}</div></div>)}</div></div>
       <div className="rubs"><div className="rubs-in">
-        <div className="slbl">Nos rubriques</div>
+        <div className="slbl">Nos domaines d'expertise</div>
         <h2 className="stitle">Explorez notre <em>catalogue complet</em></h2>
-        <p className="ssub">Produits chimiques, matériels, services d'ingénierie et formulations numériques.</p>
+        <p className="ssub">Produits chimiques, matériels, services d'ingénierie et formulations numériques — tout pour le traitement de l'eau au Maroc.</p>
         <div className="rub-grid">
           {RUBRIQUES.map(r=>(
-            <div key={r.k} className="rcard" onClick={()=>onGo(r.k)} style={{borderTop:`3px solid ${r.color}`,borderColor:r.color}}>
-              <style>{`.rcard:nth-child(${RUBRIQUES.indexOf(r)+1})::before{background:${r.color};}`}</style>
+            <div key={r.k} className="rcard" onClick={()=>onGo(r.k)} style={{borderTop:`3px solid ${r.color}`}}>
               <div style={{fontSize:"1.3rem",fontWeight:700,color:r.color,fontFamily:"Inter,sans-serif",letterSpacing:"-.02em"}}>{r.num}</div>
               <h3>{r.title}</h3>
               <p>{r.desc}</p>
@@ -511,7 +520,24 @@ function PageGarde({onGo}){
           ))}
         </div>
       </div></div>
-      <div className="av"><div className="av-in">{[{i:"🚚",t:"Livraison 24h",d:"Expédition rapide partout au Maroc."},{i:"⚡",t:"Accès immédiat",d:"Formulations numériques dès paiement."},{i:"🔒",t:"Paiement sécurisé",d:"CMI, virement, PayPal — 100% sécurisé."},{i:"🇲🇦",t:"Expertise locale",d:"15 ans d'expérience terrain au Maroc."}].map((a,i)=><div key={i} className="av-it"><div className="av-i">{a.i}</div><div className="av-t">{a.t}</div><div className="av-d">{a.d}</div></div>)}</div></div>
+      {/* SECTION LABORATOIRE */}
+      <div style={{background:"var(--s)",borderTop:"1px solid var(--b)",borderBottom:"1px solid var(--b)",padding:"52px 28px"}}>
+        <div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center"}}>
+          <div>
+            <div className="slbl">Notre laboratoire</div>
+            <h2 className="stitle">Laboratoire d'Analyse <em>certifié</em></h2>
+            <p style={{fontSize:".9rem",color:"var(--g1)",lineHeight:1.8,margin:"16px 0 20px"}}>Notre laboratoire d'analyse à El Jadida est équipé d'instruments de précision pour réaliser toutes vos analyses physicochimiques, bactériologiques et agronomiques selon les normes NM et ISO en vigueur au Maroc.</p>
+            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:24}}>
+              {["Analyses physicochimiques & bactériologiques des eaux","Analyses agronomiques et pédologiques des sols","Bilans environnementaux et conformité NM/ISO","Microscope, spectrophotomètre, étuve, agitateur"].map((f,i)=><div key={i} style={{display:"flex",gap:10,fontSize:".82rem",color:"var(--g1)"}}><span style={{color:"var(--gr)",fontWeight:700}}>✓</span>{f}</div>)}
+            </div>
+            <button className="btn-p" onClick={()=>onGo("services")}>Demander une analyse →</button>
+          </div>
+          <div style={{borderRadius:12,overflow:"hidden",height:320,position:"relative",boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
+            <img src="/images/labo-uem.jpg" alt="Laboratoire Univers Environnement Maroc El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+          </div>
+        </div>
+      </div>
+      <div className="av"><div className="av-in">{[{i:"🚚",t:"Livraison 24h",d:"Expédition rapide partout au Maroc."},{i:"⚡",t:"Accès immédiat",d:"Formulations numériques dès paiement."},{i:"🔒",t:"Analyses certifiées",d:"Conformes aux normes NM et ISO."},{i:"🇲🇦",t:"Expertise locale",d:"15 ans d'expérience terrain au Maroc."}].map((a,i)=><div key={i} className="av-it"><div className="av-i">{a.i}</div><div className="av-t">{a.t}</div><div className="av-d">{a.d}</div></div>)}</div></div>
     </>
   );
 }
@@ -551,6 +577,160 @@ function PageForm({onBack,onCart,ftab,setFtab,edits}){
     <div className="pbody">
       <div className="ftabs">{[{k:"engrais",l:"🌿 Engrais"},{k:"eaux",l:"💧 Traitement des Eaux"},{k:"nettoyage",l:"🧴 Nettoyage & Détergents"}].map(t=><button key={t.k} className={`ftab${ftab===t.k?" on":""}`} onClick={()=>setFtab(t.k)}>{t.l}</button>)}</div>
       <div className="g3">{FNUM[ftab].map(p=><PCard key={p.id} p={{...p,unite:"accès permanent"}} type="n" onDevis={()=>{}} onCart={onCart} edits={edits}/>)}</div>
+    </div>
+  </>);
+}
+
+/* PAGE RÉALISATIONS — avec vraies photos UEM */
+const PROJETS=[
+  {id:1,img:"/images/step-maroc.jpg",titre:"Station d'Épuration — Industrie Agroalimentaire",lieu:"Région de Meknès",cat:"STEP",pb:"Traitement des eaux usées industrielles chargées en DCO et MES",sol:"Conception et installation d'une filière physico-chimique complète avec dosage de PAC et floculant",tags:["Conception STEP","Coagulation","Floculation"]},
+  {id:2,img:"/images/bassins-step.jpg",titre:"Optimisation Filière Biologique STEP",lieu:"El Jadida",cat:"Optimisation",pb:"Rendements d'épuration insuffisants, non-conformité aux normes de rejet",sol:"Audit complet, recalibration des doses de réactifs, mise en place d'un suivi analytique régulier",tags:["Audit","Optimisation","Suivi analytique"]},
+  {id:3,img:"/images/mesure-debit.jpg",titre:"Bilan Environnemental — Rejet Industriel",lieu:"Côte Atlantique, Maroc",cat:"Analyse",pb:"Évaluation de l'impact environnemental des rejets en milieu naturel",sol:"Campagne de prélèvements et analyses physico-chimiques complètes selon normes NM/ISO",tags:["Bilan environnemental","Analyses NM/ISO","Rejet industriel"]},
+  {id:4,img:"/images/analyse-terrain.jpg",titre:"Analyse Qualité Eau de Puits",lieu:"Zone Rurale — Province de Settat",cat:"Analyse",pb:"Vérification de la potabilité d'une eau de puits destinée à l'alimentation humaine",sol:"Prélèvement sur site, analyses bactériologiques et physicochimiques complètes en laboratoire UEM",tags:["Eau potable","Analyse bactériologique","Terrain"]},
+  {id:5,img:"/images/installation-step.jpg",titre:"Installation Système de Dosage",lieu:"Usine Textile — Casablanca",cat:"Installation",pb:"Absence de système de dosage automatisé des coagulants",sol:"Conception et installation d'un système de dosage PAC/floculant avec régulation automatique",tags:["Dosage automatique","PAC","Installation"]},
+  {id:6,img:"/images/mesure-site.jpg",titre:"Mesures Atmosphériques STEP",lieu:"Station d'Épuration — Ouarzazate",cat:"Analyse",pb:"Contrôle des émissions gazeuses (H₂S, NH₃) et évaluation des nuisances olfactives",sol:"Campagne de mesures avec analyseur Testo, rapport de conformité environnementale",tags:["Mesures atmosphériques","H₂S","Conformité"]},
+  {id:7,img:"/images/analyse-kit.jpg",titre:"Surveillance Qualité Eau de Surface",lieu:"Oued — Région Souss-Massa",cat:"Analyse",pb:"Suivi mensuel de la qualité physico-chimique d'un cours d'eau industriel",sol:"Programme de surveillance périodique avec prélèvements et analyses en laboratoire certifié",tags:["Surveillance","Eaux de surface","Suivi mensuel"]},
+  {id:8,img:"/images/electrique-step.jpg",titre:"Mise en Service Équipements STEP",lieu:"Agglomération Rurale — El Jadida",cat:"STEP",pb:"Mise en service d'une micro-STEP pour un groupement de communes",sol:"Installation complète du tableau de commande électrique, paramétrage et formation des opérateurs",tags:["Mise en service","Électrique","Formation"]},
+  {id:9,img:"/images/cuve-traitement.jpg",titre:"Installation Cuves de Réactifs",lieu:"Site Industriel — Kénitra",cat:"Installation",pb:"Stockage et dosage des réactifs chimiques liquides pour STEP industrielle",sol:"Fourniture et installation de cuves PE avec agitateurs, vannes et systèmes de sécurité",tags:["Réactifs chimiques","Stockage","Installation"]},
+  {id:10,img:"/images/labo-uem.jpg",titre:"Accréditation Laboratoire d'Analyse",lieu:"UEM — El Jadida",cat:"Laboratoire",pb:"Développement des capacités analytiques et qualification des méthodes d'analyse",sol:"Équipement complet du laboratoire, validation des méthodes, qualification ISO des équipements",tags:["Laboratoire","Accréditation","Analyses"]},
+];
+
+function PageRealisations({onBack,onDevis}){
+  const [filtre,setFiltre]=useState("Tous");
+  const cats=["Tous","STEP","Analyse","Installation","Optimisation","Laboratoire"];
+  const proj=filtre==="Tous"?PROJETS:PROJETS.filter(p=>p.cat===filtre);
+  return(<>
+    <PageHdr cat="Nos Réalisations" h1="Projets réalisés" em="200+ références au Maroc" sub="Découvrez nos réalisations concrètes en ingénierie environnementale, traitement des eaux et analyses certifiées à travers tout le Maroc." onBack={onBack}/>
+    <div className="pbody">
+      {/* Filtres */}
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:28}}>
+        {cats.map(c=><button key={c} onClick={()=>setFiltre(c)} style={{border:`1.5px solid ${filtre===c?"var(--v)":"var(--b)"}`,background:filtre===c?"var(--v)":"var(--w)",color:filtre===c?"#fff":"var(--g1)",padding:"7px 16px",borderRadius:20,fontFamily:"Inter,sans-serif",fontSize:".78rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}>{c}</button>)}
+      </div>
+      {/* Grille projets */}
+      <div className="g3">
+        {proj.map(p=>(
+          <div key={p.id} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,overflow:"hidden",transition:"transform .2s,box-shadow .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 8px 28px rgba(0,0,0,.1)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
+            <div style={{height:190,overflow:"hidden",position:"relative"}}>
+              <img src={p.img} alt={p.titre} style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+              <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(13,27,46,.6) 0%,rgba(0,0,0,.05) 60%)"}}/>
+              <span style={{position:"absolute",top:10,left:10,background:"var(--v)",color:"#fff",fontSize:".6rem",fontWeight:700,padding:"3px 9px",borderRadius:4,letterSpacing:".06em",textTransform:"uppercase"}}>{p.cat}</span>
+              <span style={{position:"absolute",bottom:10,left:10,color:"rgba(255,255,255,.8)",fontSize:".7rem",fontWeight:500}}>📍 {p.lieu}</span>
+            </div>
+            <div style={{padding:"16px 18px 20px"}}>
+              <div style={{fontWeight:700,fontSize:".92rem",color:"var(--k)",marginBottom:8,lineHeight:1.35}}>{p.titre}</div>
+              <div style={{fontSize:".74rem",color:"var(--g2)",marginBottom:6,fontWeight:600}}>Problématique :</div>
+              <div style={{fontSize:".76rem",color:"var(--g1)",lineHeight:1.65,marginBottom:8}}>{p.pb}</div>
+              <div style={{fontSize:".74rem",color:"var(--v)",fontWeight:600,marginBottom:6}}>✅ Solution apportée :</div>
+              <div style={{fontSize:".76rem",color:"var(--g1)",lineHeight:1.65,marginBottom:14}}>{p.sol}</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
+                {p.tags.map((t,i)=><span key={i} style={{background:"rgba(21,101,192,.08)",color:"var(--v)",fontSize:".62rem",fontWeight:600,padding:"2px 8px",borderRadius:4}}>{t}</span>)}
+              </div>
+              <button style={{width:"100%",background:"transparent",color:"var(--v)",border:"1.5px solid var(--v)",padding:"8px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".76rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}
+                onMouseEnter={e=>{e.currentTarget.style.background="var(--v)";e.currentTarget.style.color="#fff";}}
+                onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.color="var(--v)";}}
+                onClick={()=>onDevis("Projet similaire — "+p.titre)}>Demander un projet similaire →</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* CTA bas de page */}
+      <div style={{marginTop:48,background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"36px 32px",textAlign:"center",color:"#fff"}}>
+        <div style={{fontSize:"1.4rem",fontWeight:700,marginBottom:8,fontFamily:"Playfair Display,serif"}}>Votre projet nous intéresse</div>
+        <div style={{fontSize:".88rem",color:"rgba(255,255,255,.8)",marginBottom:20,lineHeight:1.7}}>Plus de 200 projets réalisés à travers le Maroc. Décrivez-nous votre besoin et obtenez une réponse sous 24h.</div>
+        <button className="btn-p" style={{background:"#fff",color:"var(--v)",fontSize:".9rem",padding:"13px 32px"}} onClick={()=>onDevis("Projet ingénierie environnementale")}>📩 Demander un devis gratuit</button>
+      </div>
+    </div>
+  </>);
+}
+
+/* PAGE À PROPOS */
+function PageAPropos({onBack,onGo}){
+  return(<>
+    <PageHdr cat="Qui sommes-nous" h1="Univers Environnement Maroc" em="15 ans d'expertise" sub="Société marocaine d'ingénierie environnementale fondée à El Jadida, spécialisée dans le traitement des eaux, les analyses certifiées et la fourniture de réactifs chimiques." onBack={onBack}/>
+    <div className="pbody">
+      {/* Histoire */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",marginBottom:56}}>
+        <div>
+          <div className="slbl">Notre histoire</div>
+          <h2 className="stitle">Fondée à <em>El Jadida</em>, rayonnant sur tout le Maroc</h2>
+          <p style={{fontSize:".88rem",color:"var(--g1)",lineHeight:1.85,margin:"14px 0 16px"}}>Univers Environnement Maroc (UEM) est une société marocaine d'ingénierie environnementale créée à El Jadida. Depuis plus de 15 ans, nous accompagnons industriels, collectivités et bureaux d'études dans leurs projets de traitement des eaux et de protection de l'environnement.</p>
+          <p style={{fontSize:".88rem",color:"var(--g1)",lineHeight:1.85,marginBottom:20}}>Notre équipe d'ingénieurs et techniciens certifiés intervient sur l'ensemble du territoire marocain, de la conception à la mise en service, en passant par l'exploitation et le suivi analytique.</p>
+          <div style={{display:"flex",gap:24,marginTop:8}}>
+            {[{n:"2009",l:"Année de création"},{n:"El Jadida",l:"Siège social"},{n:"Maroc",l:"Zone d'intervention"}].map((s,i)=><div key={i}><div style={{fontFamily:"Playfair Display,serif",fontSize:"1.3rem",fontWeight:700,color:"var(--v)"}}>{s.n}</div><div style={{fontSize:".65rem",color:"var(--g2)",fontWeight:600,letterSpacing:".07em",textTransform:"uppercase",marginTop:3}}>{s.l}</div></div>)}
+          </div>
+        </div>
+        <div style={{borderRadius:12,overflow:"hidden",height:340,boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
+          <img src="/images/equipe-uem.jpg" alt="Équipe Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+        </div>
+      </div>
+
+      {/* Vision & Mission */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:20,marginBottom:52}}>
+        {[{ico:"🎯",titre:"Notre Mission",txt:"Fournir des solutions environnementales intégrées et certifiées pour le traitement des eaux, les analyses et l'ingénierie STEP au Maroc, avec un engagement constant pour la qualité et la conformité NM/ISO."},{ico:"🔭",titre:"Notre Vision",txt:"Être la référence marocaine en ingénierie environnementale et devenir le partenaire de confiance de tous les acteurs industriels et institutionnels engagés dans la préservation des ressources en eau au Maroc."},{ico:"⭐",titre:"Nos Valeurs",txt:"Excellence technique · Intégrité scientifique · Engagement environnemental · Réactivité terrain · Accompagnement personnalisé · Innovation continue"}].map((v,i)=>(
+          <div key={i} style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"24px 20px"}}>
+            <div style={{fontSize:"1.8rem",marginBottom:12}}>{v.ico}</div>
+            <div style={{fontWeight:700,fontSize:"1rem",color:"var(--k)",marginBottom:10}}>{v.titre}</div>
+            <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.75}}>{v.txt}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Laboratoire */}
+      <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"36px",color:"#fff",marginBottom:52,display:"grid",gridTemplateColumns:"1fr 340px",gap:32,alignItems:"center"}}>
+        <div>
+          <div style={{fontSize:".68rem",fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:"rgba(255,255,255,.6)",marginBottom:8}}>Notre infrastructure</div>
+          <h3 style={{fontFamily:"Playfair Display,serif",fontSize:"1.5rem",fontWeight:700,marginBottom:12}}>Laboratoire d'Analyse Certifié à El Jadida</h3>
+          <p style={{fontSize:".86rem",color:"rgba(255,255,255,.82)",lineHeight:1.8,marginBottom:16}}>Notre laboratoire est équipé de matériel de précision pour réaliser l'ensemble de vos analyses physico-chimiques, bactériologiques et agronomiques selon les normes NM et ISO.</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+            {["Spectrophotomètre","Microscope binoculaire","Balance analytique","Étuve","Agitateur magnétique","pH-mètre de précision","Conductimètre","Turbidimètre"].map((e,i)=><span key={i} style={{background:"rgba(255,255,255,.15)",color:"rgba(255,255,255,.9)",fontSize:".68rem",padding:"3px 10px",borderRadius:4}}>{e}</span>)}
+          </div>
+        </div>
+        <div style={{borderRadius:8,overflow:"hidden",height:220}}>
+          <img src="/images/labo-uem.jpg" alt="Laboratoire UEM El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+        </div>
+      </div>
+
+      {/* Domaines d'expertise */}
+      <div style={{marginBottom:48}}>
+        <div className="slbl">Domaines d'expertise</div>
+        <h2 className="stitle">Ce que nous <em>faisons</em></h2>
+        <div className="g4" style={{marginTop:20}}>
+          {[{ico:"💧",t:"Traitement des Eaux",items:["Conception et dimensionnement STEP","Optimisation des filières","Coagulation / Floculation","Désinfection et osmose inverse"]},{ico:"🔬",t:"Analyses Environnementales",items:["Eaux : pH, DCO, DBO5, métaux","Sols : agronomie et pédologie","Bilan environnemental NM/ISO","Mesures atmosphériques"]},{ico:"⚗️",t:"Réactifs & Matériels",items:["Coagulants et floculants","Anti-scalant pour OI","pH-mètres et conductimètres","Kits d'analyse terrain"]},{ico:"📄",t:"Formulation Technique",items:["Formules engrais foliaires","Détergents industriels","Traitement eaux de chaudière","Protocoles de dosage"]}].map((d,i)=>(
+            <div key={i} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,padding:"20px"}}>
+              <div style={{fontSize:"1.7rem",marginBottom:10}}>{d.ico}</div>
+              <div style={{fontWeight:700,fontSize:".9rem",color:"var(--k)",marginBottom:10}}>{d.t}</div>
+              <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:6}}>
+                {d.items.map((it,j)=><li key={j} style={{fontSize:".75rem",color:"var(--g1)",display:"flex",gap:8}}><span style={{color:"var(--gr)",fontWeight:700,flexShrink:0}}>✓</span>{it}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Photos terrain */}
+      <div style={{marginBottom:48}}>
+        <div className="slbl">Notre équipe sur le terrain</div>
+        <h2 className="stitle">Des ingénieurs <em>présents partout au Maroc</em></h2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginTop:20}}>
+          {["/images/analyse-terrain.jpg","/images/mesure-site.jpg","/images/bassins-step.jpg","/images/installation-step.jpg","/images/mesure-debit.jpg","/images/machines-industrielles.jpg"].map((img,i)=>(
+            <div key={i} style={{height:180,borderRadius:8,overflow:"hidden"}}>
+              <img src={img} alt={`UEM terrain ${i+1}`} style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:12,padding:"28px 32px",textAlign:"center"}}>
+        <div style={{fontFamily:"Playfair Display,serif",fontSize:"1.3rem",fontWeight:700,color:"var(--k)",marginBottom:8}}>Travaillons ensemble</div>
+        <div style={{fontSize:".88rem",color:"var(--g1)",marginBottom:18}}>Notre équipe est disponible pour étudier votre projet et vous proposer la solution la plus adaptée.</div>
+        <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+          <button className="btn-p" onClick={()=>onGo("contact")}>📩 Demander un devis</button>
+          <a href="https://wa.me/212700090365?text=Bonjour%20UEM" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"12px 24px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".86rem",fontWeight:600,textDecoration:"none"}}>💬 WhatsApp direct</a>
+        </div>
+      </div>
     </div>
   </>);
 }
@@ -721,12 +901,14 @@ export default function App(){
 
   /* SEO dynamique */
   const SEO_PAGES = {
-    garde:       { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Fournisseur de réactifs chimiques, conception STEP et analyses environnementales certifiées NM/ISO. El Jadida, Maroc." },
-    chimiques:   { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
-    materiels:   { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
-    services:    { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation de stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
-    formulation: { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
-    contact:     { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez UEM pour un devis gratuit. +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida." },
+    garde:         { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Leader marocain en traitement des eaux, réactifs chimiques certifiés, analyses NM/ISO et conception STEP. El Jadida, Maroc." },
+    chimiques:     { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
+    materiels:     { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
+    services:      { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
+    realisations:  { title:"Nos Réalisations — 200+ Projets STEP & Analyses au Maroc | UEM", desc:"Découvrez les réalisations d'Univers Environnement Maroc : stations d'épuration, analyses terrain, installations industrielles à travers tout le Maroc." },
+    apropos:       { title:"À Propos — Univers Environnement Maroc, 15 ans d'expertise | UEM", desc:"Société marocaine d'ingénierie environnementale fondée à El Jadida. Laboratoire certifié, équipe d'ingénieurs, 200+ projets réalisés au Maroc." },
+    formulation:   { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
+    contact:       { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez UEM pour un devis gratuit. +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida." },
   };
 
   useEffect(()=>{
@@ -787,13 +969,15 @@ export default function App(){
   const renderPage=()=>{
     const props={onBack:()=>go("garde"),onDevis:askDevis,onCart:addCart,edits:prodEdits};
     switch(page){
-      case"garde":       return <PageGarde onGo={go}/>;
-      case"chimiques":   return <PageChim {...props}/>;
-      case"materiels":   return <PageMat {...props}/>;
-      case"services":    return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
-      case"formulation": return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
-      case"contact":     return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
-      default:           return <PageGarde onGo={go}/>;
+      case"garde":        return <PageGarde onGo={go}/>;
+      case"chimiques":    return <PageChim {...props}/>;
+      case"materiels":    return <PageMat {...props}/>;
+      case"services":     return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
+      case"realisations": return <PageRealisations onBack={()=>go("garde")} onDevis={askDevis}/>;
+      case"apropos":      return <PageAPropos onBack={()=>go("garde")} onGo={go}/>;
+      case"formulation":  return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
+      case"contact":      return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
+      default:            return <PageGarde onGo={go}/>;
     }
   };
 
@@ -837,6 +1021,7 @@ export default function App(){
       </div>
       <div className={`mob${mob?" on":""}`}><nav>
         {NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}
+        <button className={page==="apropos"?"on":""} onClick={()=>go("apropos")}>À Propos</button>
         <button className="mob-cta" onClick={()=>go("contact")}>Demander un devis</button>
       </nav></div></div>
 
@@ -866,7 +1051,7 @@ export default function App(){
               <a href="#">📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</a>
             </div>
           </div>
-          <div className="fc"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("contact")}>Contact & Devis</li></ul></div>
+          <div className="fc"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("apropos")}>À Propos</li><li onClick={()=>go("contact")}>Contact & Devis</li></ul></div>
           <div className="fc"><h4>Services</h4><ul><li>Conception STEP</li><li>Analyse environnementale</li><li>Optimisation process</li><li>Formation opérateurs</li></ul></div>
           <div className="fc"><h4>Informations</h4><ul><li>À propos</li><li>Mentions légales</li><li>CGV</li><li>Confidentialité</li></ul></div>
         </div>
