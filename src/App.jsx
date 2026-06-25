@@ -470,9 +470,9 @@ function PageHdr({cat,h1,em,sub,onBack}){
 function PageGarde({onGo}){
   const [slide,setSlide]=useState(0);
   const slides=[
-    {img:"/images/step-maroc.jpg",label:"Station d'Épuration — Projet UEM au Maroc"},
-    {img:"/images/mesure-debit.jpg",label:"Contrôle des rejets en milieu naturel"},
-    {img:"/images/labo-uem.jpg",label:"Laboratoire d'Analyse UEM — El Jadida"},
+    {img:"/Step-traitement.jpg.jpeg",label:"Station d'Épuration — Projet UEM au Maroc"},
+    {img:"/prélevement-eau de mer.jpg.jpeg",label:"Contrôle des rejets en milieu naturel"},
+    {img:"/Laboratoire-uem.jpg.jpeg",label:"Laboratoire d'Analyse UEM — El Jadida"},
   ];
   useEffect(()=>{const t=setInterval(()=>setSlide(s=>(s+1)%slides.length),4500);return()=>clearInterval(t);},[]);
   return(
@@ -533,7 +533,7 @@ function PageGarde({onGo}){
             <button className="btn-p" onClick={()=>onGo("services")}>Demander une analyse →</button>
           </div>
           <div style={{borderRadius:12,overflow:"hidden",height:320,position:"relative",boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
-            <img src="/images/labo-uem.jpg" alt="Laboratoire Univers Environnement Maroc El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+            <img src="/Laboratoire-uem.jpg.jpeg" alt="Laboratoire Univers Environnement Maroc El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
           </div>
         </div>
       </div>
@@ -583,16 +583,16 @@ function PageForm({onBack,onCart,ftab,setFtab,edits}){
 
 /* PAGE RÉALISATIONS — avec vraies photos UEM */
 const PROJETS=[
-  {id:1,img:"/images/step-maroc.jpg",titre:"Station d'Épuration — Industrie Agroalimentaire",lieu:"Région de Meknès",cat:"STEP",pb:"Traitement des eaux usées industrielles chargées en DCO et MES",sol:"Conception et installation d'une filière physico-chimique complète avec dosage de PAC et floculant",tags:["Conception STEP","Coagulation","Floculation"]},
-  {id:2,img:"/images/bassins-step.jpg",titre:"Optimisation Filière Biologique STEP",lieu:"El Jadida",cat:"Optimisation",pb:"Rendements d'épuration insuffisants, non-conformité aux normes de rejet",sol:"Audit complet, recalibration des doses de réactifs, mise en place d'un suivi analytique régulier",tags:["Audit","Optimisation","Suivi analytique"]},
-  {id:3,img:"/images/mesure-debit.jpg",titre:"Bilan Environnemental — Rejet Industriel",lieu:"Côte Atlantique, Maroc",cat:"Analyse",pb:"Évaluation de l'impact environnemental des rejets en milieu naturel",sol:"Campagne de prélèvements et analyses physico-chimiques complètes selon normes NM/ISO",tags:["Bilan environnemental","Analyses NM/ISO","Rejet industriel"]},
-  {id:4,img:"/images/analyse-terrain.jpg",titre:"Analyse Qualité Eau de Puits",lieu:"Zone Rurale — Province de Settat",cat:"Analyse",pb:"Vérification de la potabilité d'une eau de puits destinée à l'alimentation humaine",sol:"Prélèvement sur site, analyses bactériologiques et physicochimiques complètes en laboratoire UEM",tags:["Eau potable","Analyse bactériologique","Terrain"]},
-  {id:5,img:"/images/installation-step.jpg",titre:"Installation Système de Dosage",lieu:"Usine Textile — Casablanca",cat:"Installation",pb:"Absence de système de dosage automatisé des coagulants",sol:"Conception et installation d'un système de dosage PAC/floculant avec régulation automatique",tags:["Dosage automatique","PAC","Installation"]},
-  {id:6,img:"/images/mesure-site.jpg",titre:"Mesures Atmosphériques STEP",lieu:"Station d'Épuration — Ouarzazate",cat:"Analyse",pb:"Contrôle des émissions gazeuses (H₂S, NH₃) et évaluation des nuisances olfactives",sol:"Campagne de mesures avec analyseur Testo, rapport de conformité environnementale",tags:["Mesures atmosphériques","H₂S","Conformité"]},
-  {id:7,img:"/images/analyse-kit.jpg",titre:"Surveillance Qualité Eau de Surface",lieu:"Oued — Région Souss-Massa",cat:"Analyse",pb:"Suivi mensuel de la qualité physico-chimique d'un cours d'eau industriel",sol:"Programme de surveillance périodique avec prélèvements et analyses en laboratoire certifié",tags:["Surveillance","Eaux de surface","Suivi mensuel"]},
-  {id:8,img:"/images/electrique-step.jpg",titre:"Mise en Service Équipements STEP",lieu:"Agglomération Rurale — El Jadida",cat:"STEP",pb:"Mise en service d'une micro-STEP pour un groupement de communes",sol:"Installation complète du tableau de commande électrique, paramétrage et formation des opérateurs",tags:["Mise en service","Électrique","Formation"]},
-  {id:9,img:"/images/cuve-traitement.jpg",titre:"Installation Cuves de Réactifs",lieu:"Site Industriel — Kénitra",cat:"Installation",pb:"Stockage et dosage des réactifs chimiques liquides pour STEP industrielle",sol:"Fourniture et installation de cuves PE avec agitateurs, vannes et systèmes de sécurité",tags:["Réactifs chimiques","Stockage","Installation"]},
-  {id:10,img:"/images/labo-uem.jpg",titre:"Accréditation Laboratoire d'Analyse",lieu:"UEM — El Jadida",cat:"Laboratoire",pb:"Développement des capacités analytiques et qualification des méthodes d'analyse",sol:"Équipement complet du laboratoire, validation des méthodes, qualification ISO des équipements",tags:["Laboratoire","Accréditation","Analyses"]},
+  {id:1,img:"/Step-traitement.jpg.jpeg",titre:"Station d'Épuration — Industrie Agroalimentaire",lieu:"Région de Meknès",cat:"STEP",pb:"Traitement des eaux usées industrielles chargées en DCO et MES",sol:"Conception et installation d'une filière physico-chimique complète avec dosage de PAC et floculant",tags:["Conception STEP","Coagulation","Floculation"]},
+  {id:2,img:"/bassin-desinfection.jpg.jpeg",titre:"Optimisation Filière Biologique STEP",lieu:"El Jadida",cat:"Optimisation",pb:"Rendements d'épuration insuffisants, non-conformité aux normes de rejet",sol:"Audit complet, recalibration des doses de réactifs, mise en place d'un suivi analytique régulier",tags:["Audit","Optimisation","Suivi analytique"]},
+  {id:3,img:"/prélevement-eau de mer.jpg.jpeg",titre:"Bilan Environnemental — Rejet Industriel",lieu:"Côte Atlantique, Maroc",cat:"Analyse",pb:"Évaluation de l'impact environnemental des rejets en milieu naturel",sol:"Campagne de prélèvements et analyses physico-chimiques complètes selon normes NM/ISO",tags:["Bilan environnemental","Analyses NM/ISO","Rejet industriel"]},
+  {id:4,img:"/analyse -terrain.jpg.jpeg",titre:"Analyse Qualité Eau de Puits",lieu:"Zone Rurale — Province de Settat",cat:"Analyse",pb:"Vérification de la potabilité d'une eau de puits destinée à l'alimentation humaine",sol:"Prélèvement sur site, analyses bactériologiques et physicochimiques complètes en laboratoire UEM",tags:["Eau potable","Analyse bactériologique","Terrain"]},
+  {id:5,img:"/Step-traitement.jpg.jpeg",titre:"Installation Système de Dosage",lieu:"Usine Textile — Casablanca",cat:"Installation",pb:"Absence de système de dosage automatisé des coagulants",sol:"Conception et installation d'un système de dosage PAC/floculant avec régulation automatique",tags:["Dosage automatique","PAC","Installation"]},
+  {id:6,img:"/mesure-site.jpg.jpeg",titre:"Mesures Atmosphériques STEP",lieu:"Station d'Épuration — Ouarzazate",cat:"Analyse",pb:"Contrôle des émissions gazeuses (H₂S, NH₃) et évaluation des nuisances olfactives",sol:"Campagne de mesures avec analyseur Testo, rapport de conformité environnementale",tags:["Mesures atmosphériques","H₂S","Conformité"]},
+  {id:7,img:"/mesure-bruit.jpg.jpeg",titre:"Surveillance Qualité Eau de Surface",lieu:"Oued — Région Souss-Massa",cat:"Analyse",pb:"Suivi mensuel de la qualité physico-chimique d'un cours d'eau industriel",sol:"Programme de surveillance périodique avec prélèvements et analyses en laboratoire certifié",tags:["Surveillance","Eaux de surface","Suivi mensuel"]},
+  {id:8,img:"/bassin-desinfection.jpg.jpeg",titre:"Mise en Service Équipements STEP",lieu:"Agglomération Rurale — El Jadida",cat:"STEP",pb:"Mise en service d'une micro-STEP pour un groupement de communes",sol:"Installation complète du tableau de commande électrique, paramétrage et formation des opérateurs",tags:["Mise en service","Électrique","Formation"]},
+  {id:9,img:"/Step-traitement.jpg.jpeg",titre:"Installation Cuves de Réactifs",lieu:"Site Industriel — Kénitra",cat:"Installation",pb:"Stockage et dosage des réactifs chimiques liquides pour STEP industrielle",sol:"Fourniture et installation de cuves PE avec agitateurs, vannes et systèmes de sécurité",tags:["Réactifs chimiques","Stockage","Installation"]},
+  {id:10,img:"/Laboratoire-uem.jpg.jpeg",titre:"Accréditation Laboratoire d'Analyse",lieu:"UEM — El Jadida",cat:"Laboratoire",pb:"Développement des capacités analytiques et qualification des méthodes d'analyse",sol:"Équipement complet du laboratoire, validation des méthodes, qualification ISO des équipements",tags:["Laboratoire","Accréditation","Analyses"]},
 ];
 
 function PageRealisations({onBack,onDevis}){
@@ -662,7 +662,7 @@ function PageAPropos({onBack,onGo}){
           </div>
         </div>
         <div style={{borderRadius:12,overflow:"hidden",height:340,boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
-          <img src="/images/equipe-uem.jpg" alt="Équipe Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+          <img src="/equipe-uem.jpg.jpeg" alt="Équipe Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
         </div>
       </div>
 
@@ -688,7 +688,7 @@ function PageAPropos({onBack,onGo}){
           </div>
         </div>
         <div style={{borderRadius:8,overflow:"hidden",height:220}}>
-          <img src="/images/labo-uem.jpg" alt="Laboratoire UEM El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
+          <img src="/Laboratoire-uem.jpg.jpeg" alt="Laboratoire UEM El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
         </div>
       </div>
 
@@ -714,7 +714,7 @@ function PageAPropos({onBack,onGo}){
         <div className="slbl">Notre équipe sur le terrain</div>
         <h2 className="stitle">Des ingénieurs <em>présents partout au Maroc</em></h2>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginTop:20}}>
-          {["/images/analyse-terrain.jpg","/images/mesure-site.jpg","/images/bassins-step.jpg","/images/installation-step.jpg","/images/mesure-debit.jpg","/images/machines-industrielles.jpg"].map((img,i)=>(
+          {["/analyse -terrain.jpg.jpeg","/mesure-site.jpg.jpeg","/bassin-desinfection.jpg.jpeg","/Step-traitement.jpg.jpeg","/prélevement-eau de mer.jpg.jpeg","/mesure-bruit.jpg.jpeg"].map((img,i)=>(
             <div key={i} style={{height:180,borderRadius:8,overflow:"hidden"}}>
               <img src={img} alt={`UEM terrain ${i+1}`} style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
             </div>
