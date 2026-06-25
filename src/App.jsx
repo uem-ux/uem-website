@@ -404,11 +404,27 @@ const MAT=[{id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et
 const SVCS=[{id:"s1",nom:"Conception & Dimensionnement STEP",desc:"De l'avant-projet à la mise en service. Dimensionnement hydraulique et biologique complet.",ico:"🏗️",tag:"st-i",tlbl:"Service Ingénierie",feats:["APS / APD / DCE complets","Dimensionnement hydraulique et biologique","Comparaison et sélection des filières","Dossiers autorisation loi sur l'eau","Assistance maîtrise d'ouvrage (AMO)"]},{id:"s2",nom:"Optimisation des STEP Existantes",desc:"Audit technique, diagnostic et optimisation des réactifs et des performances.",ico:"⚙️",tag:"st-i",tlbl:"Service Ingénierie",feats:["Audit complet de l'installation","Bilan de fonctionnement","Optimisation des doses de réactifs","Mise en place d'indicateurs de suivi","Rapport de recommandations"]},{id:"s3",nom:"Solutions Traitement des Eaux",desc:"Choix des procédés, sourcing des réactifs, mise en route et suivi des installations.",ico:"💧",tag:"st-i",tlbl:"Service Ingénierie",feats:["Étude de faisabilité technique","Choix et dimensionnement des équipements","Formation des équipes opérateurs","Contrat de suivi mensuel disponible","Assistance technique sur site"]}];
 const ANALYSES=[{id:30,nom:"Analyse Physicochimique & Bactériologique des Eaux",desc:"pH, DCO, DBO5, MES, métaux lourds, germes totaux, coliformes.",ico:"🔬",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Prélèvement sur site par nos ingénieurs","Analyses physico-chimiques & biologiques","Rapport de conformité NM/ISO","Recommandations correctives","Suivi post-analyse inclus"]},{id:31,nom:"Analyse Agronomique & Pédologique des Sols",desc:"Texture, pH, matière organique, macro et microéléments.",ico:"🌍",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Prélèvement et préparation échantillons","Analyse granulométrique complète","Dosage NPK & oligo-éléments","pH, CEC, matière organique","Rapport avec recommandations"]},{id:32,nom:"Bilan Environnemental & Conformité NM/ISO",desc:"Évaluation des rejets, mesure des paramètres réglementaires.",ico:"🔭",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Audit terrain complet","Mesure des paramètres réglementaires","Analyse des rejets liquides et solides","Rapport de conformité NM/ISO","Plan d'action correctif"]}];
 const FNUM={engrais:[{id:40,nom:"Formule Engrais Foliaires",desc:"Macro et microéléments, agents chélatants, adjuvants. Calculs de concentration inclus.",prix:"790 MAD",prixVal:790,emoji:"🌿",bg:"#e8f5e9"},{id:41,nom:"Formule Engrais de Fertigation",desc:"Formulations N-P-K pour fertigation et hydroponie. Calculateur tankmix inclus.",prix:"890 MAD",prixVal:890,emoji:"💧",bg:"#e3f2fd"},{id:42,nom:"Formule Engrais Hydrosolubles",desc:"Complexes NPK + oligo-éléments. Fiches techniques et protocoles de dissolution.",prix:"690 MAD",prixVal:690,emoji:"🧪",bg:"#f1f8e9"}],eaux:[{id:43,nom:"Formule Coagulant-Floculant Optimisé",desc:"Protocoles de dosage selon effluents. Jar-test intégré, ratios validés.",prix:"890 MAD",prixVal:890,emoji:"📄",bg:"#e8eaf6"},{id:44,nom:"Formule STEP Industrielles",desc:"Protocoles complets : physico-chimique, biologique, tertiaire.",prix:"990 MAD",prixVal:990,emoji:"🏭",bg:"#e0f7fa"},{id:45,nom:"Formule Osmose Inverse",desc:"Dosage anti-scalant, biocide et lavage membranes. Indice LSI inclus.",prix:"790 MAD",prixVal:790,emoji:"🛡️",bg:"#e8f5e9"}],nettoyage:[{id:46,nom:"Détergents Lave-Vaisselle & Vaisselle Manuelle",desc:"Industriels et domestiques : liquides, poudres, tablettes, antibactériens.",prix:"590 MAD",prixVal:590,emoji:"🍽️",bg:"#e3f2fd"},{id:47,nom:"Lessives Liquides & Poudres",desc:"Blanc/couleur, enzymatiques, sans phosphore. Détachants inclus.",prix:"590 MAD",prixVal:590,emoji:"👕",bg:"#f3e5f5"},{id:48,nom:"Agents Blanchissants & Machines",desc:"Blanchissants chlorés/oxygénés. Anticalcaires, adoucissants textiles.",prix:"490 MAD",prixVal:490,emoji:"🧺",bg:"#fff8e1"},{id:49,nom:"Nettoyants Cuisine & Multi-Usages",desc:"Désinfectants surfaces, fours, multi-usages alcalins et chlorés.",prix:"490 MAD",prixVal:490,emoji:"🍳",bg:"#fce4ec"},{id:50,nom:"Produits Sanitaires (WC, Canalisations, Douches)",desc:"Nettoyants WC acides, déboucheurs, carrelages et douches.",prix:"590 MAD",prixVal:590,emoji:"🚿",bg:"#e8f5e9"},{id:51,nom:"Hygiène des Mains & Désinfectants",desc:"Savons liquides, gels hydroalcooliques, désinfectants germicides.",prix:"490 MAD",prixVal:490,emoji:"🧴",bg:"#e8eaf6"},{id:52,nom:"Dégraissants, Antirouille & Détartrants",desc:"Dégraissants concentrés, antirouille acides/alcalins, nettoyants vitres.",prix:"590 MAD",prixVal:590,emoji:"⚙️",bg:"#fef3e2"},{id:53,nom:"Produits Sols, Tapis & Climatisation",desc:"Nettoyants sols, shampooings tapis, désinfectants climatiseurs.",prix:"490 MAD",prixVal:490,emoji:"🏠",bg:"#e0f7fa"}]};
-const TICKERS=["💧 Coagulants & Floculants certifiés","⚗️ Réactifs osmose inverse & STEP","🔬 Analyses eau, sol, environnement NM/ISO","📄 Formulations numériques — accès immédiat","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise 100% marocaine","♨️ Traitement eaux de chaudière","✓ Satisfait ou remboursé 30 jours"];
-const SUGS=["Quel coagulant pour mes eaux ?","Anti-scalant osmose inverse ?","Analyse eau de puits ?","Concevoir une STEP ?","Formule détergent industriel ?"];
-const SYS=`Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM), El Jadida. Gammes : Réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants, correction pH, hypochlorite, anti-scalant, biocide, passivation chaudière), Matériels (pH-mètre, conductimètre, oxymètre, kits chlore/dureté), Analyses (eaux NM/ISO, sols agronomiques, bilan environnemental), Services (STEP conception/optimisation/solutions), Formulations numériques (engrais foliaires/fertigation, traitement eaux, détergents/lessives/sanitaires). Tel: +212523377417. Réponds en français, concis, professionnel.`;
-const RUBRIQUES=[{k:"chimiques",num:"01",color:"#1a5c32",title:"Produits Chimiques",desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière.",count:`${CHIM.length} produits`},{k:"materiels",num:"02",color:"#1565c0",title:"Matériels",desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore.",count:`${MAT.length} équipements`},{k:"services",num:"03",color:"#e65100",title:"Services",desc:"Ingénierie environnementale, analyses certifiées et STEP.",count:"6 prestations"},{k:"formulation",num:"04",color:"#4527a0",title:"Formulation",desc:"Formules numériques : engrais, eaux, nettoyage & détergents.",count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`}];
-const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"formulation",l:"Formulation"}];
+const OSMOSEURS=[
+  {id:60,debit:"500 L/h",nom:"Système d'Osmose Inverse Industriel 500 L/h",desc:"Unité compacte idéale pour petites industries, hôtels et cliniques. Membranes haute rejection, châssis inox, tableau de commande intégré.",prix:"48 000 MAD",prixVal:48000,specs:["Débit : 500 L/h","Pression : 10–15 bar","Taux de rejection : >97%","Alimentation : eau de réseau ou de puits","Châssis acier inoxydable 304"],img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:61,debit:"1 m³/h",nom:"Système d'Osmose Inverse Industriel 1 m³/h",desc:"Solution performante pour industries agroalimentaires, pharmaceutiques et laboratoires. Pompe haute pression, membranes spiralées 4040.",prix:"82 500 MAD",prixVal:82500,specs:["Débit : 1 000 L/h","Pression : 10–15 bar","Taux de rejection : >97%","Préfiltre sédiment + charbon actif","Compteur d'eau intégré"],img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:62,debit:"2 m³/h",nom:"Système d'Osmose Inverse Industriel 2 m³/h",desc:"Capacité moyenne pour industries manufacturières et stations de conditionnement. Système de nettoyage CIP intégré.",prix:"109 500 MAD",prixVal:109500,specs:["Débit : 2 000 L/h","Pression : 12–16 bar","Taux de rejection : >98%","Contrôleur de conductivité","Vanne bypass automatique"],img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:63,debit:"3 m³/h",nom:"Système d'Osmose Inverse Industriel 3 m³/h",desc:"Unité robuste pour industries lourdes, agro-industrie et collectivités. Double passage disponible pour eau ultra-pure.",prix:"120 000 MAD",prixVal:120000,specs:["Débit : 3 000 L/h","Pression : 12–16 bar","Taux de rejection : >98%","Membranes 8040 haute performance","Système CIP intégré"],img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:64,debit:"4 m³/h",nom:"Système d'Osmose Inverse Industriel 4 m³/h",desc:"Idéal pour grandes industries alimentaires, textiles et traitement des eaux usées. Supervision à distance disponible.",prix:"128 000 MAD",prixVal:128000,specs:["Débit : 4 000 L/h","Pression : 14–18 bar","Taux de rejection : >98%","Châssis inox 316L","Écran tactile de supervision"],img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:65,debit:"6 m³/h",nom:"Système d'Osmose Inverse Industriel 6 m³/h",desc:"Système semi-industriel pour grandes unités de production. Pompe multistage, économiseur d'énergie intégré.",prix:"183 500 MAD",prixVal:183500,specs:["Débit : 6 000 L/h","Pression : 14–18 bar","Taux de rejection : >98%","Récupérateur d'énergie","Alarme et protection automatique"],img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:66,debit:"8 m³/h",nom:"Système d'Osmose Inverse Industriel 8 m³/h",desc:"Haute capacité pour stations de dessalement, industries lourdes et grandes collectivités. Système duplex disponible.",prix:"194 300 MAD",prixVal:194300,specs:["Débit : 8 000 L/h","Pression : 15–20 bar","Taux de rejection : >99%","Double train de membranes","SCADA compatible"],img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},
+  {id:67,debit:"10 m³/h",nom:"Système d'Osmose Inverse Industriel 10 m³/h",desc:"Unité industrielle haute performance pour dessalement, industries pharmaceutiques et grandes STEP. Installation clé en main.",prix:"230 000 MAD",prixVal:230000,specs:["Débit : 10 000 L/h","Pression : 15–20 bar","Taux de rejection : >99%","Installation et mise en service inclus","Garantie 2 ans + SAV UEM"],img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},
+];
+const TICKERS=["💧 Coagulants & Floculants certifiés","⚗️ Osmoseurs industriels 500L/h à 10m³/h","🔬 Analyses eau, sol, environnement NM/ISO","📄 Formulations numériques — accès immédiat","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise 100% marocaine","♨️ Traitement eaux de chaudière","✓ Satisfait ou remboursé 30 jours"];
+const SUGS=["Quel coagulant pour mes eaux ?","Osmoseur industriel 1m³/h ?","Analyse eau de puits ?","Concevoir une STEP ?","Prix osmose inverse Maroc ?"];
+const SYS=`Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM), El Jadida. Gammes : Réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants, correction pH, hypochlorite, anti-scalant, biocide, passivation chaudière), Matériels (pH-mètre, conductimètre, oxymètre, kits chlore/dureté), Osmoseurs industriels (500L/h à 10m³/h, prix 48 000 à 230 000 MAD), Analyses (eaux NM/ISO, sols agronomiques, bilan environnemental), Services (STEP conception/optimisation/solutions), Formulations numériques (engrais foliaires/fertigation, traitement eaux, détergents/lessives/sanitaires). Tel: +212523377417. Réponds en français, concis, professionnel.`;
+const RUBRIQUES=[
+  {k:"chimiques",num:"01",color:"#1565c0",title:"Produits Chimiques",desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière.",count:`${CHIM.length} produits`},
+  {k:"materiels",num:"02",color:"#0277bd",title:"Matériels de Mesure",desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore.",count:`${MAT.length} équipements`},
+  {k:"osmoseurs",num:"03",color:"#006064",title:"Osmoseurs Industriels",desc:"Systèmes d'osmose inverse 500 L/h à 10 m³/h — clé en main.",count:`${OSMOSEURS.length} modèles`},
+  {k:"services",num:"04",color:"#e65100",title:"Services Ingénierie",desc:"Ingénierie environnementale, analyses certifiées et STEP.",count:"6 prestations"},
+  {k:"formulation",num:"05",color:"#4527a0",title:"Formulation",desc:"Formules numériques : engrais, eaux, nettoyage & détergents.",count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`},
+];
+const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"osmoseurs",l:"Osmoseurs"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"formulation",l:"Formulation"}];
 const grpBy=(arr,k)=>arr.reduce((a,i)=>{ (a[i[k]]=a[i[k]]||[]).push(i); return a; },{});
 const rtx=t=>t.split(/(\*\*[^*]+\*\*)/g).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>);
 
@@ -577,6 +593,112 @@ function PageForm({onBack,onCart,ftab,setFtab,edits}){
     <div className="pbody">
       <div className="ftabs">{[{k:"engrais",l:"🌿 Engrais"},{k:"eaux",l:"💧 Traitement des Eaux"},{k:"nettoyage",l:"🧴 Nettoyage & Détergents"}].map(t=><button key={t.k} className={`ftab${ftab===t.k?" on":""}`} onClick={()=>setFtab(t.k)}>{t.l}</button>)}</div>
       <div className="g3">{FNUM[ftab].map(p=><PCard key={p.id} p={{...p,unite:"accès permanent"}} type="n" onDevis={()=>{}} onCart={onCart} edits={edits}/>)}</div>
+    </div>
+  </>);
+}
+
+/* PAGE OSMOSEURS INDUSTRIELS */
+function PageOsmoseurs({onBack,onDevis}){
+  return(<>
+    <PageHdr cat="Équipements" h1="Osmoseurs Industriels" em="Clé en main" sub="Systèmes d'osmose inverse industriels de 500 L/h à 10 m³/h — installation, mise en service et SAV assurés par les ingénieurs UEM au Maroc." onBack={onBack}/>
+    <div className="pbody">
+      {/* Intro */}
+      <div style={{background:"linear-gradient(135deg,rgba(21,101,192,.06),rgba(0,96,100,.06))",border:"1px solid rgba(21,101,192,.15)",borderRadius:10,padding:"20px 24px",marginBottom:36,display:"flex",gap:24,alignItems:"center",flexWrap:"wrap"}}>
+        <div style={{fontSize:"2.5rem"}}>💧</div>
+        <div style={{flex:1}}>
+          <div style={{fontWeight:700,fontSize:"1rem",color:"var(--k)",marginBottom:6}}>Systèmes d'osmose inverse industriels — Livraison & installation partout au Maroc</div>
+          <div style={{fontSize:".82rem",color:"var(--g1)",lineHeight:1.7}}>Membranes haute performance · Châssis inox · Tableau de commande intégré · Anti-scalant fourni · Garantie 2 ans · SAV UEM El Jadida</div>
+        </div>
+        <a href="https://wa.me/212700090365?text=Bonjour%20UEM%2C%20je%20souhaite%20un%20devis%20pour%20un%20osmoseur%20industriel" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"11px 20px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".82rem",fontWeight:700,textDecoration:"none",whiteSpace:"nowrap"}}>💬 Devis WhatsApp</a>
+      </div>
+
+      {/* Grille osmoseurs */}
+      <div className="g4">
+        {OSMOSEURS.map(os=>(
+          <div key={os.id} style={{background:"var(--w)",border:"1.5px solid var(--b)",borderRadius:10,overflow:"hidden",transition:"transform .2s,box-shadow .2s,border-color .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 10px 32px rgba(0,0,0,.1)";e.currentTarget.style.borderColor="var(--v)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";e.currentTarget.style.borderColor="var(--b)";}}>
+            {/* Image */}
+            <div style={{height:140,position:"relative",overflow:"hidden",background:"linear-gradient(135deg,#e3f2fd,#e0f7fa)"}}>
+              <img src={os.img} alt={os.nom} style={{width:"100%",height:"100%",objectFit:"cover",opacity:.7}} loading="lazy"/>
+              <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(21,101,192,.4),rgba(0,96,100,.3))"}}/>
+              {/* Badge débit */}
+              <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}>
+                <div style={{fontSize:"1.6rem",fontWeight:800,color:"#fff",fontFamily:"Inter,sans-serif",letterSpacing:"-.02em",textShadow:"0 2px 8px rgba(0,0,0,.3)"}}>{os.debit}</div>
+                <div style={{fontSize:".65rem",fontWeight:600,color:"rgba(255,255,255,.85)",letterSpacing:".12em",textTransform:"uppercase",marginTop:2}}>Débit nominal</div>
+              </div>
+              <span style={{position:"absolute",top:8,right:8,background:"rgba(255,255,255,.2)",backdropFilter:"blur(4px)",color:"#fff",fontSize:".58rem",fontWeight:700,padding:"2px 8px",borderRadius:4,border:"1px solid rgba(255,255,255,.3)"}}>OI Industriel</span>
+            </div>
+            {/* Contenu */}
+            <div style={{padding:"14px 16px 18px"}}>
+              <div style={{fontWeight:700,fontSize:".86rem",color:"var(--k)",marginBottom:6,lineHeight:1.3}}>{os.nom}</div>
+              <div style={{fontSize:".74rem",color:"var(--g1)",lineHeight:1.65,marginBottom:10}}>{os.desc}</div>
+              {/* Specs */}
+              <div style={{marginBottom:14}}>
+                {os.specs.map((s,i)=>(
+                  <div key={i} style={{display:"flex",gap:7,fontSize:".7rem",color:"var(--g1)",padding:"3px 0",borderBottom:i<os.specs.length-1?"1px solid var(--b)":"none"}}>
+                    <span style={{color:"var(--v)",fontWeight:700,flexShrink:0}}>✓</span>{s}
+                  </div>
+                ))}
+              </div>
+              {/* Prix */}
+              <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:8,marginTop:12}}>
+                <div>
+                  <div style={{fontSize:"1.05rem",fontWeight:800,color:"var(--v)",fontFamily:"Playfair Display,serif"}}>{os.prix}</div>
+                  <div style={{fontSize:".62rem",color:"var(--g2)",marginTop:2}}>TTC · Installation en sus</div>
+                </div>
+                <button style={{background:"var(--v)",color:"#fff",border:"none",padding:"8px 14px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".72rem",fontWeight:700,cursor:"pointer",transition:"background .2s",whiteSpace:"nowrap"}}
+                  onMouseEnter={e=>e.currentTarget.style.background="var(--v2)"}
+                  onMouseLeave={e=>e.currentTarget.style.background="var(--v)"}
+                  onClick={()=>onDevis(os.nom)}>
+                  Demander →
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Tableau comparatif */}
+      <div style={{marginTop:48,background:"var(--w)",border:"1px solid var(--b)",borderRadius:12,overflow:"hidden"}}>
+        <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",padding:"16px 24px"}}>
+          <div style={{fontWeight:700,fontSize:"1rem",color:"#fff"}}>📊 Tableau comparatif — Osmoseurs industriels UEM</div>
+        </div>
+        <div style={{overflowX:"auto"}}>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:".78rem"}}>
+            <thead>
+              <tr style={{background:"var(--s)"}}>
+                {["Modèle","Débit","Pression","Rejection","Prix TTC"].map((h,i)=><th key={i} style={{padding:"10px 16px",textAlign:"left",fontWeight:700,color:"var(--k)",borderBottom:"1px solid var(--b)",whiteSpace:"nowrap"}}>{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {OSMOSEURS.map((os,i)=>(
+                <tr key={os.id} style={{background:i%2===0?"var(--w)":"var(--fond)"}}>
+                  <td style={{padding:"10px 16px",color:"var(--k)",fontWeight:600,borderBottom:"1px solid var(--b)"}}>{os.debit}</td>
+                  <td style={{padding:"10px 16px",color:"var(--g1)",borderBottom:"1px solid var(--b)"}}>{os.debit}</td>
+                  <td style={{padding:"10px 16px",color:"var(--g1)",borderBottom:"1px solid var(--b)"}}>{i<2?"10–15 bar":i<6?"12–18 bar":"15–20 bar"}</td>
+                  <td style={{padding:"10px 16px",borderBottom:"1px solid var(--b)"}}><span style={{background:i<2?"rgba(21,101,192,.1)":"rgba(0,96,100,.1)",color:i<2?"var(--v)":"#006064",fontWeight:700,padding:"2px 8px",borderRadius:4}}>{i<2?">97%":i<6?">98%":">99%"}</span></td>
+                  <td style={{padding:"10px 16px",color:"var(--v)",fontWeight:800,borderBottom:"1px solid var(--b)"}}>{os.prix}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{marginTop:36,display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+        <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"20px 24px"}}>
+          <div style={{fontSize:"1.3rem",marginBottom:10}}>🔧</div>
+          <div style={{fontWeight:700,color:"var(--k)",marginBottom:6}}>Installation clé en main</div>
+          <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.7}}>Nos ingénieurs assurent la livraison, l'installation et la mise en service de votre osmoseur partout au Maroc. Formation des opérateurs incluse.</div>
+        </div>
+        <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"20px 24px"}}>
+          <div style={{fontSize:"1.3rem",marginBottom:10}}>🛡️</div>
+          <div style={{fontWeight:700,color:"var(--k)",marginBottom:6}}>SAV & Maintenance</div>
+          <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.7}}>Garantie 2 ans sur tous nos osmoseurs. Contrats de maintenance annuelle disponibles. Fourniture de membranes, anti-scalant et consommables UEM.</div>
+        </div>
+      </div>
     </div>
   </>);
 }
@@ -905,7 +1027,7 @@ export default function App(){
     chimiques:     { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
     materiels:     { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
     services:      { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
-    realisations:  { title:"Nos Réalisations — 200+ Projets STEP & Analyses au Maroc | UEM", desc:"Découvrez les réalisations d'Univers Environnement Maroc : stations d'épuration, analyses terrain, installations industrielles à travers tout le Maroc." },
+    osmoseurs:     { title:"Osmoseurs Industriels 500L/h à 10m³/h — Prix Maroc | UEM El Jadida", desc:"Systèmes d'osmose inverse industriels clé en main au Maroc. De 500 L/h à 10 m³/h. Prix de 48 000 à 230 000 MAD TTC. Installation et SAV UEM El Jadida." }, desc:"Découvrez les réalisations d'Univers Environnement Maroc : stations d'épuration, analyses terrain, installations industrielles à travers tout le Maroc." },
     apropos:       { title:"À Propos — Univers Environnement Maroc, 15 ans d'expertise | UEM", desc:"Société marocaine d'ingénierie environnementale fondée à El Jadida. Laboratoire certifié, équipe d'ingénieurs, 200+ projets réalisés au Maroc." },
     formulation:   { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
     contact:       { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez UEM pour un devis gratuit. +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida." },
@@ -973,6 +1095,7 @@ export default function App(){
       case"chimiques":    return <PageChim {...props}/>;
       case"materiels":    return <PageMat {...props}/>;
       case"services":     return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
+      case"osmoseurs":    return <PageOsmoseurs onBack={()=>go("garde")} onDevis={askDevis}/>;
       case"realisations": return <PageRealisations onBack={()=>go("garde")} onDevis={askDevis}/>;
       case"apropos":      return <PageAPropos onBack={()=>go("garde")} onGo={go}/>;
       case"formulation":  return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
