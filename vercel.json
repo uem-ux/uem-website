@@ -1,1 +1,20 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+{
+  "rewrites": [
+    { "source": "/osmoseurs", "destination": "/" },
+    { "source": "/chimiques", "destination": "/" },
+    { "source": "/materiels", "destination": "/" },
+    { "source": "/services", "destination": "/" },
+    { "source": "/realisations", "destination": "/" },
+    { "source": "/formulation", "destination": "/" },
+    { "source": "/apropos", "destination": "/" },
+    { "source": "/contact", "destination": "/" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "index, follow" }
+      ]
+    }
+  ]
+}
