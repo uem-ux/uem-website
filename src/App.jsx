@@ -424,7 +424,115 @@ const RUBRIQUES=[
   {k:"services",num:"04",color:"#e65100",title:"Services Ingénierie",desc:"Ingénierie environnementale, analyses certifiées et STEP.",count:"6 prestations"},
   {k:"formulation",num:"05",color:"#4527a0",title:"Formulation",desc:"Formules numériques : engrais, eaux, nettoyage & détergents.",count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`},
 ];
-const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"osmoseurs",l:"Osmoseurs"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"formulation",l:"Formulation"}];
+const ARTICLES=[
+  {
+    id:"etude-impact-maroc",
+    titre:"Comment réaliser une étude d'impact environnemental au Maroc ?",
+    resume:"Guide complet pour réaliser une étude d'impact environnemental (EIE) conforme à la loi 12-03 au Maroc. Étapes, documents requis et délais.",
+    date:"15 juin 2026",
+    cat:"Réglementation",
+    emoji:"📋",
+    temps:"8 min",
+    contenu:[
+      {type:"intro",texte:"L'étude d'impact environnemental (EIE) est une obligation légale au Maroc pour tout projet susceptible de porter atteinte à l'environnement. Encadrée par la loi 12-03 relative aux études d'impact sur l'environnement, cette démarche est désormais incontournable pour les industriels, promoteurs immobiliers et collectivités. Voici un guide pratique pour comprendre et réaliser votre EIE."},
+      {type:"h2",texte:"Qu'est-ce qu'une étude d'impact environnemental au Maroc ?"},
+      {type:"p",texte:"Une EIE est un document technique qui évalue les effets positifs et négatifs d'un projet sur l'environnement avant sa réalisation. Au Maroc, la loi 12-03 promulguée en 2003 rend cette étude obligatoire pour une liste de projets définis par décret. L'objectif est d'identifier les risques environnementaux en amont et de proposer des mesures d'atténuation adaptées."},
+      {type:"h2",texte:"Quels projets sont soumis à l'EIE au Maroc ?"},
+      {type:"p",texte:"La liste des projets soumis à l'EIE comprend notamment : les industries extractives et minières, les unités de production chimique et pétrochimique, les stations d'épuration (STEP) de plus de 5 000 équivalents habitants, les barrages et ouvrages hydrauliques, les zones industrielles et zones franches, les projets touristiques de grande envergure, les routes et autoroutes, et les unités d'incinération ou de traitement de déchets. Pour les projets industriels dotés de systèmes de traitement des eaux usées, UEM peut vous accompagner dans la description des procédés de traitement."},
+      {type:"h2",texte:"Les étapes d'une étude d'impact environnemental"},
+      {type:"h3",texte:"1. État initial de l'environnement"},
+      {type:"p",texte:"La première étape consiste à établir un état de référence (baseline) de l'environnement dans la zone d'influence du projet. Cette phase comprend des analyses de la qualité des eaux superficielles et souterraines, une caractérisation des sols, un inventaire de la faune et de la flore, une évaluation de la qualité de l'air et une étude du milieu humain (population, activités économiques, patrimoine culturel)."},
+      {type:"h3",texte:"2. Description du projet et de ses impacts"},
+      {type:"p",texte:"Cette section décrit en détail le projet, ses phases de construction et d'exploitation, les ressources consommées (eau, énergie, matières premières) et les rejets générés (eaux usées, déchets solides, émissions atmosphériques, bruit). Pour chaque impact identifié, on évalue sa nature (positif/négatif), son intensité, son étendue spatiale et sa durée."},
+      {type:"h3",texte:"3. Mesures d'atténuation et programme de surveillance"},
+      {type:"p",texte:"Pour chaque impact négatif significatif, l'EIE doit proposer des mesures concrètes : traitement des eaux usées industrielles (STEP, osmoseurs, décanteurs), gestion des déchets, réduction des émissions atmosphériques, mesures de compensation écologique. Un programme de surveillance environnementale avec des analyses périodiques (eau, sol, air) doit être défini."},
+      {type:"h2",texte:"Procédure d'instruction de l'EIE au Maroc"},
+      {type:"p",texte:"Une fois l'EIE réalisée, le dossier est soumis au Département de l'Environnement (Ministère de la Transition Énergétique et du Développement Durable). Un comité national ou régional examine le dossier lors d'une audience publique. L'acceptabilité environnementale est ensuite accordée sous conditions (ou refusée) dans un délai légal de 3 mois. Sans cette décision d'acceptabilité, aucune autorisation de construction ne peut être délivrée."},
+      {type:"h2",texte:"Coûts et délais d'une EIE au Maroc"},
+      {type:"p",texte:"Le coût d'une étude d'impact varie selon la complexité du projet : de 50 000 MAD pour un projet de taille modeste à plusieurs centaines de milliers de dirhams pour un grand projet industriel. Les délais de réalisation sont généralement de 3 à 6 mois, auxquels s'ajoutent 2 à 4 mois pour l'instruction administrative. Univers Environnement Maroc peut vous accompagner dans la réalisation des bilans environnementaux et analyses terrain nécessaires à votre EIE."},
+      {type:"cta",texte:"Besoin d'analyses environnementales pour votre EIE ? Contactez UEM El Jadida"}
+    ]
+  },
+  {
+    id:"analyse-eau-potable-maroc",
+    titre:"Analyse de l'eau potable au Maroc : méthodes, normes et laboratoires",
+    resume:"Tout savoir sur l'analyse de l'eau potable au Maroc : paramètres obligatoires, normes NM, fréquences d'analyses et procédure pour faire analyser votre eau.",
+    date:"1 juin 2026",
+    cat:"Analyses",
+    emoji:"🔬",
+    temps:"7 min",
+    contenu:[
+      {type:"intro",texte:"La qualité de l'eau potable est une préoccupation majeure au Maroc, tant pour les réseaux publics que pour les puits privés et forages industriels. Des analyses régulières sont indispensables pour garantir la conformité aux normes marocaines et protéger la santé des consommateurs. Voici tout ce que vous devez savoir sur l'analyse de l'eau potable au Maroc."},
+      {type:"h2",texte:"Les normes marocaines de qualité de l'eau potable"},
+      {type:"p",texte:"La qualité de l'eau potable au Maroc est régie par la norme NM 03.7.001 qui définit les valeurs limites pour plus de 60 paramètres physicochimiques et microbiologiques. Cette norme est alignée sur les directives de l'Organisation Mondiale de la Santé (OMS) et reprend les exigences de la réglementation européenne en matière de qualité des eaux destinées à la consommation humaine."},
+      {type:"h2",texte:"Paramètres obligatoires d'analyse de l'eau potable"},
+      {type:"h3",texte:"Paramètres organoleptiques et physico-chimiques"},
+      {type:"p",texte:"Les paramètres de base comprennent : pH (6,5 à 9,5), conductivité électrique (< 2700 µS/cm), turbidité (< 2 NTU), couleur, goût et odeur, température. Les paramètres chimiques incluent les nitrates (< 50 mg/L), nitrites (< 0,5 mg/L), fluorures (< 1,5 mg/L), chlorures (< 750 mg/L), sulfates (< 400 mg/L), et la dureté totale (TH)."},
+      {type:"h3",texte:"Paramètres microbiologiques"},
+      {type:"p",texte:"Les analyses microbiologiques recherchent : les coliformes totaux (absence dans 100 mL), les coliformes fécaux ou Escherichia coli (absence dans 100 mL), les entérocoques (absence dans 100 mL), les bactéries aérobies à 22°C et 37°C (pour le suivi des réseaux), et le Clostridium perfringens (indicateur de contamination fécale ancienne)."},
+      {type:"h2",texte:"Fréquence des analyses selon l'usage"},
+      {type:"p",texte:"La fréquence des analyses dépend de l'usage et du volume d'eau distribué. Pour un réseau d'eau potable, la fréquence est définie par l'ONEE et les régies de distribution selon la taille de la population desservie. Pour une entreprise industrielle utilisant un forage privé, il est recommandé de réaliser au minimum une analyse complète par an et une analyse microbiologique trimestrielle. Pour les établissements de restauration, hôtels et cliniques, des analyses semestrielles sont conseillées."},
+      {type:"h2",texte:"Comment faire analyser son eau au Maroc ?"},
+      {type:"p",texte:"Pour faire analyser votre eau, vous devez contacter un laboratoire accrédité comme celui d'Univers Environnement Maroc à El Jadida. Nos techniciens se déplacent sur site pour effectuer le prélèvement dans des conditions strictes (flacons stériles, conservation sous glace, délais respectés). Le rapport d'analyse certifié NM/ISO vous est remis sous 5 à 7 jours ouvrables avec une interprétation des résultats et des recommandations correctives si nécessaire."},
+      {type:"h2",texte:"Que faire en cas de non-conformité ?"},
+      {type:"p",texte:"Si votre eau ne respecte pas les normes, plusieurs solutions existent selon le paramètre concerné : traitement par osmose inverse pour les nitrates, sels dissous et métaux lourds (nos osmoseurs industriels traitent efficacement ces contaminants), désinfection au chlore ou UV pour les contaminations microbiologiques, adoucissement pour les problèmes de dureté excessive, et filtration par charbon actif pour les problèmes organoleptiques."},
+      {type:"cta",texte:"Faire analyser mon eau — Contacter le laboratoire UEM El Jadida"}
+    ]
+  },
+  {
+    id:"step-industrielle-maroc",
+    titre:"Station d'épuration industrielle (STEP) : guide complet pour les entreprises au Maroc",
+    resume:"Comment concevoir, dimensionner et exploiter une station d'épuration industrielle (STEP) au Maroc. Normes de rejet, filières de traitement et coûts.",
+    date:"15 mai 2026",
+    cat:"STEP",
+    emoji:"🏗️",
+    temps:"10 min",
+    contenu:[
+      {type:"intro",texte:"La mise en conformité environnementale des industries marocaines est désormais une obligation légale et une nécessité économique. La station d'épuration industrielle (STEP) est au cœur de cette démarche. Que vous soyez une industrie agroalimentaire, textile, chimique ou pharmaceutique, ce guide vous explique tout sur la conception, le dimensionnement et l'exploitation de votre STEP au Maroc."},
+      {type:"h2",texte:"Pourquoi une STEP industrielle au Maroc ?"},
+      {type:"p",texte:"La loi 36-15 sur l'eau et ses textes d'application fixent des valeurs limites de rejet des effluents liquides industriels dans les cours d'eau, lacs et mer. Les entreprises qui ne respectent pas ces normes s'exposent à des sanctions administratives, des arrêtés de fermeture et des poursuites judiciaires. Au-delà de l'obligation légale, une STEP bien conçue permet de réduire les coûts de redevance d'assainissement et d'améliorer l'image environnementale de l'entreprise."},
+      {type:"h2",texte:"Les principales filières de traitement des eaux industrielles"},
+      {type:"h3",texte:"Traitement physico-chimique"},
+      {type:"p",texte:"Le traitement physico-chimique est adapté aux effluents contenant des matières en suspension (MES), des graisses, des métaux lourds et des composés non biodégradables. Il repose sur la coagulation (ajout de PAC ou chlorure ferrique), la floculation (ajout de polyacrylamide), la décantation et la filtration. UEM fournit l'ensemble des réactifs nécessaires (coagulants, floculants, correcteurs de pH) et assure le suivi des doses par jar-test."},
+      {type:"h3",texte:"Traitement biologique"},
+      {type:"p",texte:"Le traitement biologique (boues activées, lit bactérien, lagunage) est indiqué pour les effluents contenant des polluants organiques biodégradables (DCO, DBO5). Il fait appel à des microorganismes qui dégradent la matière organique. Ce traitement est particulièrement adapté aux industries agroalimentaires (laiteries, conserveries, abattoirs), aux industries de fermentation et aux eaux usées domestiques."},
+      {type:"h3",texte:"Traitement tertiaire"},
+      {type:"p",texte:"Le traitement tertiaire permet d'affiner la qualité de l'eau traitée avant rejet ou réutilisation. Il comprend la filtration sur sable ou charbon actif, la désinfection au chlore ou UV, et l'osmose inverse pour la production d'eau recyclée de haute qualité."},
+      {type:"h2",texte:"Dimensionnement d'une STEP industrielle : les paramètres clés"},
+      {type:"p",texte:"Le dimensionnement d'une STEP repose sur la caractérisation préalable des effluents (débit, DCO, DBO5, MES, pH, température) par analyse en laboratoire. UEM réalise des campagnes de mesures et des bilans de pollution pour établir le dossier de conception. Les principaux paramètres de dimensionnement sont : le débit journalier moyen (m³/j), le débit de pointe horaire, la charge polluante journalière (kg DCO/j, kg DBO5/j), et le rendement épuratoire requis pour respecter les normes de rejet."},
+      {type:"h2",texte:"Coûts d'une STEP industrielle au Maroc"},
+      {type:"p",texte:"Le coût d'une STEP industrielle varie considérablement selon la capacité et la filière choisie. À titre indicatif : une STEP physico-chimique de 100 m³/j coûte entre 500 000 et 1 500 000 MAD en investissement, avec des coûts d'exploitation de 5 à 15 MAD/m³ traité (réactifs, énergie, personnel). UEM propose des solutions clé en main avec un accompagnement de la conception jusqu'à la mise en service et la formation des opérateurs."},
+      {type:"cta",texte:"Demander une étude de conception STEP — UEM El Jadida"}
+    ]
+  },
+  {
+    id:"reglementation-environnementale-maroc-2026",
+    titre:"Réglementation environnementale marocaine 2026 : guide complet pour les entreprises",
+    resume:"Synthèse de la réglementation environnementale marocaine applicable aux entreprises en 2026 : lois, décrets, normes de rejet et obligations déclaratives.",
+    date:"1 mai 2026",
+    cat:"Réglementation",
+    emoji:"⚖️",
+    temps:"9 min",
+    contenu:[
+      {type:"intro",texte:"La réglementation environnementale marocaine s'est considérablement renforcée ces dernières années. Les entreprises industrielles doivent désormais maîtriser un cadre juridique complexe pour éviter sanctions et litiges. Ce guide synthétise les principales obligations légales en matière d'environnement pour les entreprises au Maroc en 2026."},
+      {type:"h2",texte:"Les textes fondamentaux de la législation environnementale marocaine"},
+      {type:"p",texte:"La loi-cadre 99-12 portant Charte Nationale de l'Environnement et du Développement Durable constitue le socle de la politique environnementale marocaine. Elle est complétée par la loi 11-03 relative à la protection et à la mise en valeur de l'environnement, la loi 36-15 sur l'eau (qui abroge la loi 10-95), la loi 12-03 sur les études d'impact environnemental, la loi 28-00 relative à la gestion des déchets et à leur élimination, et la loi 13-03 sur la lutte contre la pollution de l'air."},
+      {type:"h2",texte:"Normes de rejet des eaux usées industrielles"},
+      {type:"p",texte:"Le décret n°2-04-553 fixe les valeurs limites générales de rejets des eaux usées dans les eaux de surface, les eaux côtières et marines, et les réseaux d'assainissement. Les paramètres réglementés incluent : pH (6,5 à 8,5), température (< 30°C), MES (< 50 mg/L pour les eaux de surface), DCO (< 120 mg/L), DBO5 (< 40 mg/L), azote total Kjeldahl (< 40 mg/L), phosphore total (< 10 mg/L), et des valeurs spécifiques pour les métaux lourds."},
+      {type:"h3",texte:"Valeurs limites spécifiques par secteur"},
+      {type:"p",texte:"Des normes spécifiques s'appliquent à certains secteurs industriels : industries agroalimentaires, tanneries, industries textiles (colorants et tensioactifs réglementés), industries chimiques et phosphatières, et unités de galvanisation et traitement de surface. UEM réalise des bilans de conformité pour identifier les écarts et proposer des solutions de traitement adaptées."},
+      {type:"h2",texte:"Obligations de surveillance environnementale"},
+      {type:"p",texte:"Les entreprises classées sont tenues d'effectuer des auto-contrôles périodiques de leurs rejets et de transmettre les résultats aux autorités compétentes (Agences de Bassins Hydrauliques, Départements de l'Environnement). La fréquence des analyses varie selon la taille de l'installation et le type de polluants. Des contrôles inopinés peuvent être effectués par les services de l'État."},
+      {type:"h2",texte:"Gestion des déchets industriels au Maroc"},
+      {type:"p",texte:"La loi 28-00 classe les déchets en plusieurs catégories : déchets ménagers et assimilés, déchets inertes, déchets dangereux et déchets médicaux. Les producteurs de déchets industriels ont l'obligation de les trier, stocker, traiter ou confier à des opérateurs agréés. Les boues de STEP sont considérées comme des déchets industriels et doivent faire l'objet d'un traitement approprié (compostage, incinération, mise en décharge contrôlée)."},
+      {type:"h2",texte:"Sanctions en cas de non-conformité"},
+      {type:"p",texte:"Les infractions à la réglementation environnementale sont passibles d'amendes allant de 10 000 à 1 000 000 MAD, de peines d'emprisonnement pour les cas les plus graves, de la suspension ou du retrait de l'autorisation d'exploitation, et de la mise en demeure de réaliser des travaux de mise en conformité dans un délai fixé. La responsabilité civile du chef d'entreprise peut également être engagée en cas de dommages environnementaux."},
+      {type:"cta",texte:"Bilan de conformité environnementale — Contacter UEM"}
+    ]
+  }
+];
+
+const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"osmoseurs",l:"Osmoseurs"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"blog",l:"Blog"},{k:"formulation",l:"Formulation"}];
 const grpBy=(arr,k)=>arr.reduce((a,i)=>{ (a[i[k]]=a[i[k]]||[]).push(i); return a; },{});
 const rtx=t=>t.split(/(\*\*[^*]+\*\*)/g).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>);
 
@@ -645,6 +753,94 @@ function PageSvc({onBack,onDevis}){
       <SeoP>Notre laboratoire à El Jadida réalise plus de 50 paramètres d'analyse : <strong>pH, conductivité, turbidité, DCO, DBO5, MES, nitrates, phosphates, métaux lourds (plomb, cadmium, chrome, mercure), coliformes fécaux et totaux, entérocoques</strong> pour les eaux, et granulométrie, matière organique, NPK, pH KCl, capacité d'échange cationique pour les sols agricoles. <span style={SL} onClick={()=>onDevis("Analyse eau laboratoire")}>Demandez un devis pour vos analyses.</span></SeoP>
     </SeoSection>
   </>);
+/* PAGE BLOG */
+function PageBlog({onBack,onArticle}){
+  const cats=["Tous","STEP","Analyses","Réglementation","Produits","Osmoseurs"];
+  const [filtre,setFiltre]=useState("Tous");
+  const customArticles=(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}})();
+  const allArticles=[...customArticles,...ARTICLES];
+  const articles=filtre==="Tous"?allArticles:allArticles.filter(a=>a.cat===filtre);
+  return(<>
+    <PageHdr cat="Blog & Actualités" h1="Ressources techniques" em="Expertise UEM" sub="Guides pratiques, réglementation environnementale marocaine et conseils techniques par les ingénieurs d'Univers Environnement Maroc." onBack={onBack}/>
+    <div className="pbody">
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:32}}>
+        {cats.map(c=><button key={c} onClick={()=>setFiltre(c)} style={{border:`1.5px solid ${filtre===c?"var(--v)":"var(--b)"}`,background:filtre===c?"var(--v)":"var(--w)",color:filtre===c?"#fff":"var(--g1)",padding:"7px 18px",borderRadius:20,fontFamily:"Inter,sans-serif",fontSize:".82rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}>{c}</button>)}
+      </div>
+      <div className="g3" style={{marginBottom:48}}>
+        {articles.map(a=>(
+          <div key={a.id} onClick={()=>onArticle(a.id)} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,overflow:"hidden",cursor:"pointer",transition:"transform .2s,box-shadow .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 8px 28px rgba(0,0,0,.1)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
+            <div style={{height:140,background:`linear-gradient(135deg,var(--v2),var(--v))`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"3rem",position:"relative"}}>
+              {a.emoji}
+              <span style={{position:"absolute",top:10,left:10,background:"rgba(255,255,255,.2)",color:"#fff",fontSize:".62rem",fontWeight:700,padding:"3px 10px",borderRadius:4,letterSpacing:".08em",textTransform:"uppercase"}}>{a.cat}</span>
+              <span style={{position:"absolute",bottom:10,right:10,color:"rgba(255,255,255,.75)",fontSize:".7rem"}}>⏱ {a.temps}</span>
+            </div>
+            <div style={{padding:"16px 18px 20px"}}>
+              <div style={{fontSize:".68rem",color:"var(--g2)",marginBottom:7}}>📅 {a.date}</div>
+              <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:".95rem",fontWeight:700,color:"var(--k)",marginBottom:9,lineHeight:1.4}}>{a.titre}</h2>
+              <p style={{fontSize:".78rem",color:"var(--g1)",lineHeight:1.7,marginBottom:12}}>{a.resume}</p>
+              <span style={{color:"var(--v)",fontSize:".78rem",fontWeight:600}}>Lire l'article →</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"28px",textAlign:"center",color:"#fff"}}>
+        <div style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.2rem",fontWeight:700,marginBottom:8}}>📩 Restez informé</div>
+        <p style={{fontSize:".88rem",color:"rgba(255,255,255,.82)",marginBottom:4}}>Nos ingénieurs publient 2 à 4 articles par mois sur la réglementation environnementale et les techniques de traitement des eaux.</p>
+        <p style={{fontSize:".8rem",color:"rgba(255,255,255,.65)"}}>univers.envi@gmail.com | +212 523 37 74 17</p>
+      </div>
+    </div>
+  </>);
+}
+
+/* PAGE ARTICLE */
+function PageArticle({articleId,onBack,onGo}){
+  const customArticles=(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}})();
+  const a=[...customArticles,...ARTICLES].find(x=>x.id===articleId);
+  if(!a)return null;
+  return(<>
+    <PageHdr cat={`Blog — ${a.cat}`} h1={a.titre} sub={`Publié le ${a.date} · ${a.temps} de lecture · Par les ingénieurs UEM`} onBack={onBack}/>
+    <div className="pbody" style={{maxWidth:860,margin:"0 auto"}}>
+      <div style={{display:"flex",gap:10,flexWrap:"wrap",marginBottom:24,paddingBottom:18,borderBottom:"1px solid var(--b)"}}>
+        <span style={{background:`rgba(21,101,192,.09)`,color:"var(--v)",fontSize:".7rem",fontWeight:700,padding:"3px 11px",borderRadius:4}}>📂 {a.cat}</span>
+        <span style={{color:"var(--g2)",fontSize:".76rem"}}>📅 {a.date}</span>
+        <span style={{color:"var(--g2)",fontSize:".76rem"}}>⏱ {a.temps} de lecture</span>
+      </div>
+      {a.contenu.map((bloc,i)=>{
+        if(bloc.type==="intro") return <p key={i} style={{fontSize:"1.02rem",color:"var(--k)",lineHeight:1.85,fontWeight:500,marginBottom:22,borderLeft:"3px solid var(--v)",paddingLeft:16}}>{bloc.texte}</p>;
+        if(bloc.type==="h2")   return <h2 key={i} style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.3rem",fontWeight:700,color:"var(--k)",margin:"28px 0 10px",letterSpacing:"-.01em"}}>{bloc.texte}</h2>;
+        if(bloc.type==="h3")   return <h3 key={i} style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1rem",fontWeight:600,color:"var(--v)",margin:"18px 0 7px"}}>{bloc.texte}</h3>;
+        if(bloc.type==="p")    return <p key={i} style={{fontSize:"1rem",color:"var(--g1)",lineHeight:1.85,marginBottom:12}}>{bloc.texte}</p>;
+        if(bloc.type==="cta")  return(
+          <div key={i} style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:10,padding:"22px",textAlign:"center",margin:"28px 0",color:"#fff"}}>
+            <div style={{fontSize:".95rem",fontWeight:700,marginBottom:12}}>{bloc.texte}</div>
+            <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
+              <button className="btn-p" style={{background:"#fff",color:"var(--v)"}} onClick={()=>onGo("contact")}>📩 Demander un devis</button>
+              <a href="https://wa.me/212700090365" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"11px 20px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".86rem",fontWeight:600,textDecoration:"none"}}>💬 WhatsApp</a>
+            </div>
+          </div>
+        );
+        return null;
+      })}
+      <div style={{marginTop:36,paddingTop:24,borderTop:"1px solid var(--b)"}}>
+        <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1rem",fontWeight:700,color:"var(--k)",marginBottom:14}}>Articles liés</h2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
+          {ARTICLES.filter(x=>x.id!==articleId).slice(0,2).map(x=>(
+            <div key={x.id} onClick={()=>onGo("article_"+x.id)} style={{background:"var(--fond)",border:"1px solid var(--b)",borderRadius:8,padding:"14px",cursor:"pointer",transition:"border-color .2s"}}
+              onMouseEnter={e=>e.currentTarget.style.borderColor="var(--v)"}
+              onMouseLeave={e=>e.currentTarget.style.borderColor="var(--b)"}>
+              <div style={{fontSize:"1.3rem",marginBottom:7}}>{x.emoji}</div>
+              <div style={{fontSize:".8rem",fontWeight:700,color:"var(--k)",lineHeight:1.35}}>{x.titre}</div>
+              <div style={{fontSize:".7rem",color:"var(--v)",marginTop:6,fontWeight:600}}>Lire →</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </>);
+}
+
 function PageForm({onBack,onCart,ftab,setFtab,edits}){
   return(<>
     <PageHdr cat="Produits Numériques" h1="Formulations Techniques" em="PDF + Excel" sub="Accès permanent après achat. Formules validées en laboratoire pour engrais, traitement des eaux et nettoyage industriel." onBack={onBack}/>
@@ -1052,6 +1248,39 @@ function AdminPanel(){
   const [edits,setEdits]=useState(()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}});
   const [editing,setEditing]=useState(null); const [editData,setEditData]=useState({});
   const [saved,setSaved]=useState(false); const [etab,setEtab]=useState("chimiques");
+
+  /* ── BLOG STATE ── */
+  const [blogArticles,setBlogArticles]=useState(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}});
+  const [blogMode,setBlogMode]=useState("list"); // list | new | edit
+  const [blogForm,setBlogForm]=useState({titre:"",cat:"STEP",date:"",resume:"",contenu:""});
+  const [blogEditing,setBlogEditing]=useState(null);
+
+  const saveBlog=(articles)=>{setBlogArticles(articles);localStorage.setItem("uem_blog",JSON.stringify(articles));setSaved(true);setTimeout(()=>setSaved(false),2000);};
+  const publishArticle=()=>{
+    if(!blogForm.titre.trim()||!blogForm.contenu.trim()){alert("Titre et contenu obligatoires.");return;}
+    const id="custom-"+Date.now();
+    const paragraphs=blogForm.contenu.split("\n\n").filter(p=>p.trim()).map(p=>{
+      if(p.startsWith("## ")) return {type:"h2",texte:p.replace("## ","")};
+      if(p.startsWith("### ")) return {type:"h3",texte:p.replace("### ","")};
+      return {type:"p",texte:p.trim()};
+    });
+    const article={id:blogEditing||id,titre:blogForm.titre,resume:blogForm.resume,date:blogForm.date||new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}),cat:blogForm.cat,emoji:"📝",temps:"5 min",contenu:[{type:"intro",texte:paragraphs[0]?.texte||""},...paragraphs.slice(1),{type:"cta",texte:"Besoin d'un expert ? Contactez UEM El Jadida"}]};
+    let updated;
+    if(blogEditing){updated=blogArticles.map(a=>a.id===blogEditing?article:a);}
+    else{updated=[article,...blogArticles];}
+    saveBlog(updated);setBlogMode("list");setBlogForm({titre:"",cat:"STEP",date:"",resume:"",contenu:""});setBlogEditing(null);
+  };
+  const deleteArticle=(id)=>{if(!window.confirm("Supprimer cet article ?"))return;saveBlog(blogArticles.filter(a=>a.id!==id));};
+  const startEditArticle=(a)=>{
+    setBlogEditing(a.id);
+    const contenu=a.contenu.filter(b=>b.type!=="cta").map(b=>{
+      if(b.type==="h2") return "## "+b.texte;
+      if(b.type==="h3") return "### "+b.texte;
+      return b.texte;
+    }).join("\n\n");
+    setBlogForm({titre:a.titre,cat:a.cat,date:a.date,resume:a.resume,contenu});
+    setBlogMode("new");
+  };
   const login=e=>{e.preventDefault();if(pw===ADMIN_PASS){sessionStorage.setItem("uem_admin","ok");setLogged(true);}else setPwErr("Mot de passe incorrect.");};
   const savePromo=p=>{const n={...promos,...p};setPromos(n);localStorage.setItem("uem_promo",JSON.stringify(n));setSaved(true);setTimeout(()=>setSaved(false),2000);};
   const startEdit=p=>{setEditing(p.id);setEditData({nom:p.nom,desc:p.desc,prix:p.prix||"Sur devis"});};
@@ -1062,7 +1291,84 @@ function AdminPanel(){
   const mc=Object.keys(edits).length;
   const tabProds={chimiques:CHIM,materiels:MAT,engrais:FNUM.engrais,eaux:FNUM.eaux,nettoyage:FNUM.nettoyage};
   if(!logged)return(<div className="adm-body"><style>{CSS}</style><div className="adm-login"><div className="adm-box"><div className="adm-logo"><div className="sq">UE</div><h1>Univers Environnement Maroc</h1><p>Espace Administrateur</p></div>{pwErr&&<div className="adm-err">{pwErr}</div>}<form onSubmit={login}><label htmlFor="adm-pw">Mot de passe</label><input id="adm-pw" type="password" placeholder="••••••••••••" value={pw} onChange={e=>setPw(e.target.value)} autoFocus/><button className="adm-login-btn" type="submit">Se connecter</button></form><div style={{textAlign:"center",marginTop:14,fontSize:".7rem",color:"#6b7c70"}}><a href="/" style={{color:"#1a5c32"}}>← Retour au site</a></div></div></div></div>);
-  return(<div className="adm-body"><style>{CSS}</style><div className="adm-top"><div className="adm-tl"><div className="sq">UE</div><span>Panel Admin — UEM</span></div><div className="adm-tr"><a href="/" target="_blank" rel="noreferrer">🌐 Voir le site</a>{saved&&<span className="adm-sv">✓ Sauvegardé</span>}<button className="adm-out" onClick={logout}>Déconnexion</button></div></div><div className="adm-lay"><div className="adm-side">{[{k:"dashboard",i:"📊",l:"Tableau de bord"},{k:"catalogue",i:"⚗️",l:`Catalogue${mc>0?" ("+mc+")":""}`},{k:"promotions",i:"🎯",l:"Promotions"},{k:"contact",i:"📞",l:"Contact"}].map(n=><div key={n.k} className={`adm-ni${sec===n.k?" on":""}`} onClick={()=>setSec(n.k)}><span className="ni">{n.i}</span>{n.l}{n.k==="catalogue"&&mc>0&&<span className="adm-bmod"/>}</div>)}<div style={{margin:"18px 14px 6px",fontSize:".62rem",color:"#b8c8be",fontWeight:600,letterSpacing:".1em",textTransform:"uppercase"}}>Actions</div><div className="adm-ni" onClick={resetAll} style={{color:"#b03020"}}><span className="ni">🔄</span>Réinitialiser tout</div></div><div className="adm-cnt">{sec==="dashboard"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Tableau de bord</h2><div className="adm-stats">{[{n:CHIM.length,l:"Réactifs"},{n:MAT.length,l:"Matériels"},{n:FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length,l:"Formulations"},{n:6,l:"Services"}].map((s,i)=><div key={i} className="adm-stat"><div className="adm-stat-n">{s.n}</div><div className="adm-stat-l">{s.l}</div></div>)}</div><div className="adm-card"><div className="adm-card-t">État du site</div>{[{l:"Site en ligne",v:"✅ www.uem.ma",c:"#1a5c32"},{l:"Hébergement",v:"✅ Vercel (gratuit)"},{l:"Formulaire devis",v:"✅ EmailJS actif"},{l:"Assistant IA",v:"✅ Claude intégré"},{l:"Modifications",v:mc>0?`⚠️ ${mc} produit(s) modifié(s)`:"✅ Aucune",c:mc>0?"#e65100":"#1a5c32"},{l:"Promotion active",v:promos.active?"✅ "+promos.texte:"— Aucune"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #e0e8e2",fontSize:".82rem"}}><span style={{color:"#4a5c52",fontWeight:500}}>{r.l}</span><span style={{fontWeight:600,color:r.c||"#12201a"}}>{r.v}</span></div>)}</div></>}{sec==="catalogue"&&<><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}><h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>Catalogue Produits</h2><span style={{fontSize:".75rem",color:"#6b7c70"}}>{mc} modification(s)</span></div><div className="adm-tabs">{[{k:"chimiques",l:"Réactifs (19)"},{k:"materiels",l:"Matériels (5)"},{k:"engrais",l:"Engrais"},{k:"eaux",l:"Formules Eaux"},{k:"nettoyage",l:"Nettoyage"}].map(t=><button key={t.k} className={`adm-tab${etab===t.k?" on":""}`} onClick={()=>setEtab(t.k)}>{t.l}</button>)}</div><div className="adm-pl">{(tabProds[etab]||[]).map(p=>{const mod=edits[p.id];const d=mod?{...p,...mod}:p;return(<div key={p.id}><div className={`adm-pi${editing===p.id?" ed":""}`} onClick={()=>editing===p.id?setEditing(null):startEdit(p)}><div style={{flex:1}}><div className="adm-pn">{d.nom||p.nom}{mod&&<span style={{fontSize:".62rem",background:"#fdf3e7",color:"#e65100",padding:"1px 5px",borderRadius:3,marginLeft:5}}>modifié</span>}</div><div className="adm-pg">{p.grp||"Formulation"}</div></div><div className="adm-pp">{d.prix||"Sur devis"}</div><span style={{fontSize:".75rem",color:"#b8c8be",marginLeft:7}}>{editing===p.id?"▲":"▼"}</span></div>{editing===p.id&&<div className="adm-ep"><div className="adm-f"><label>Nom</label><input value={editData.nom||""} onChange={e=>setEditData(d=>({...d,nom:e.target.value}))}/></div><div className="adm-f"><label>Description</label><textarea value={editData.desc||""} onChange={e=>setEditData(d=>({...d,desc:e.target.value}))} rows={3}/></div><div className="adm-f"><label>Prix affiché</label><input value={editData.prix||""} onChange={e=>setEditData(d=>({...d,prix:e.target.value}))} placeholder="Ex: 390 MAD ou Sur devis"/></div><div style={{display:"flex",gap:7,marginTop:4}}><button className="adm-btn adm-bg" onClick={()=>saveProd(p.id)}>✓ Enregistrer</button><button className="adm-btn adm-bw" onClick={()=>setEditing(null)}>Annuler</button>{mod&&<button className="adm-btn adm-br" onClick={()=>resetProd(p.id)}>Réinitialiser</button>}</div></div>}</div>);})}</div></>}{sec==="promotions"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Gestion des Promotions</h2><div className="adm-promo-box"><div className="adm-card-t">Bannière promotionnelle</div><div className="adm-tog"><input type="checkbox" id="p-on" checked={!!promos.active} onChange={e=>savePromo({active:e.target.checked})}/><label htmlFor="p-on">{promos.active?"Bannière ACTIVE sur le site":"Bannière désactivée"}</label></div><div className="adm-f"><label>Texte de la bannière</label><input value={promos.texte||""} onChange={e=>savePromo({texte:e.target.value})} placeholder="Ex: 🎉 Promotion -20% sur les coagulants"/></div><div className="adm-f"><label>Couleur</label><select value={promos.couleur||"vert"} onChange={e=>savePromo({couleur:e.target.value})}><option value="vert">Vert</option><option value="rouge">Rouge (urgence)</option><option value="bleu">Bleu (info)</option><option value="orange">Orange (solde)</option></select></div>{promos.texte&&<div className="adm-prev" style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promos.couleur||"vert"]}}>Aperçu : {promos.texte}</div>}</div><div className="adm-card"><div className="adm-card-t">Idées prêtes à utiliser</div>{["🎉 Promotion -20% sur les coagulants jusqu'au 31/07","⚡ Livraison offerte sur toute commande > 2000 MAD","🔬 Formulation offerte pour tout contrat STEP signé en juillet","📄 -15% sur les formulations numériques ce mois"].map((s,i)=><div key={i} style={{padding:"7px 0",borderBottom:"1px solid #f0f2f5",fontSize:".8rem",color:"#4a5c52",display:"flex",justifyContent:"space-between",alignItems:"center"}}><span>{s}</span><button className="adm-btn adm-bw" style={{fontSize:".68rem",padding:"3px 9px"}} onClick={()=>savePromo({texte:s})}>Utiliser</button></div>)}</div></>}{sec==="contact"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Informations de Contact</h2><div className="adm-card"><div className="adm-card-t">Coordonnées actuelles</div>{[["Téléphone","+212 523 37 74 17"],["WhatsApp","+212 700 090 365"],["Email","univers.envi@gmail.com"],["Adresse","N°1, Bd Jabrane Khalil Jabrane, El Jadida"],["Domaine","www.uem.ma"]].map((r,i)=><div key={i} style={{display:"flex",gap:14,padding:"9px 0",borderBottom:"1px solid #f0f2f5",fontSize:".82rem"}}><span style={{width:130,color:"#6b7c70",fontWeight:600,flexShrink:0}}>{r[0]}</span><span style={{color:"#12201a",fontWeight:500}}>{r[1]}</span></div>)}</div><div className="adm-card" style={{background:"#fdf3e7",borderColor:"#f5d6a0"}}><div className="adm-card-t" style={{color:"#e65100"}}>⚠️ Modifier ces informations</div><p style={{fontSize:".82rem",color:"#4a5c52",lineHeight:1.7}}>Pour modifier les coordonnées, envoyez un message à Claude avec les nouvelles informations et il mettra à jour le code source.</p></div></>}</div></div>{mc>0&&<div className="adm-sb"><span>⚠️ {mc} modification(s) sauvegardées dans ce navigateur.</span><button className="adm-btn adm-bg" onClick={()=>setSaved(true)}>✓ OK</button></div>}</div>);
+  return(<div className="adm-body"><style>{CSS}</style><div className="adm-top"><div className="adm-tl"><div className="sq">UE</div><span>Panel Admin — UEM</span></div><div className="adm-tr"><a href="/" target="_blank" rel="noreferrer">🌐 Voir le site</a>{saved&&<span className="adm-sv">✓ Sauvegardé</span>}<button className="adm-out" onClick={logout}>Déconnexion</button></div></div><div className="adm-lay"><div className="adm-side">{[{k:"dashboard",i:"📊",l:"Tableau de bord"},{k:"blog",i:"✍️",l:`Blog (${ARTICLES.length+blogArticles.length} articles)`},{k:"catalogue",i:"⚗️",l:`Catalogue${mc>0?" ("+mc+")":""}`},{k:"promotions",i:"🎯",l:"Promotions"},{k:"contact",i:"📞",l:"Contact"}].map(n=><div key={n.k} className={`adm-ni${sec===n.k?" on":""}`} onClick={()=>{setSec(n.k);setBlogMode("list");}}><span className="ni">{n.i}</span>{n.l}{n.k==="catalogue"&&mc>0&&<span className="adm-bmod"/>}</div>)}<div style={{margin:"18px 14px 6px",fontSize:".62rem",color:"#b8c8be",fontWeight:600,letterSpacing:".1em",textTransform:"uppercase"}}>Actions</div><div className="adm-ni" onClick={resetAll} style={{color:"#b03020"}}><span className="ni">🔄</span>Réinitialiser tout</div></div><div className="adm-cnt">{sec==="blog"&&<>
+  {blogMode==="list"&&<>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
+      <h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>✍️ Gestion du Blog ({ARTICLES.length+blogArticles.length} articles)</h2>
+      <button className="adm-btn adm-bg" onClick={()=>{setBlogMode("new");setBlogEditing(null);setBlogForm({titre:"",cat:"STEP",date:"",resume:"",contenu:""});}}>+ Nouvel article</button>
+    </div>
+    {/* Articles personnalisés */}
+    {blogArticles.length>0&&<>
+      <div style={{fontSize:".78rem",fontWeight:700,color:"#1565c0",marginBottom:10,textTransform:"uppercase",letterSpacing:".08em"}}>Vos articles publiés ({blogArticles.length})</div>
+      <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:24}}>
+        {blogArticles.map(a=>(
+          <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",border:"1.5px solid #b8d8c4",borderRadius:8,background:"#f0faf4"}}>
+            <span style={{fontSize:"1.2rem"}}>{a.emoji}</span>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:700,fontSize:".86rem",color:"#12201a"}}>{a.titre}</div>
+              <div style={{fontSize:".7rem",color:"#6b7c70"}}>📅 {a.date} · 📂 {a.cat}</div>
+            </div>
+            <div style={{display:"flex",gap:6}}>
+              <button className="adm-btn adm-bw" onClick={()=>startEditArticle(a)}>✏️ Modifier</button>
+              <button className="adm-btn adm-br" onClick={()=>deleteArticle(a.id)}>🗑 Supprimer</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>}
+    {/* Articles intégrés */}
+    <div style={{fontSize:".78rem",fontWeight:700,color:"#6b7c70",marginBottom:10,textTransform:"uppercase",letterSpacing:".08em"}}>Articles intégrés ({ARTICLES.length}) — non modifiables ici</div>
+    <div style={{display:"flex",flexDirection:"column",gap:6}}>
+      {ARTICLES.map(a=>(
+        <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",border:"1px solid #e0e8e2",borderRadius:7,background:"#f9f9f9",opacity:.8}}>
+          <span>{a.emoji}</span>
+          <div style={{flex:1}}>
+            <div style={{fontWeight:600,fontSize:".82rem",color:"#4a5c52"}}>{a.titre}</div>
+            <div style={{fontSize:".68rem",color:"#6b7c70"}}>📅 {a.date} · 📂 {a.cat}</div>
+          </div>
+          <span style={{fontSize:".68rem",color:"#b8c8be",fontStyle:"italic"}}>Intégré dans le code</span>
+        </div>
+      ))}
+    </div>
+  </>}
+
+  {blogMode==="new"&&<>
+    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
+      <button className="adm-btn adm-bw" onClick={()=>{setBlogMode("list");setBlogEditing(null);}}>← Retour</button>
+      <h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>{blogEditing?"Modifier l'article":"Nouvel article"}</h2>
+    </div>
+    <div className="adm-card">
+      <div className="adm-f"><label>Titre de l'article *</label><input value={blogForm.titre} onChange={e=>setBlogForm(f=>({...f,titre:e.target.value}))} placeholder="Ex: Comment choisir un coagulant pour ma STEP ?"/></div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+        <div className="adm-f"><label>Catégorie</label>
+          <select value={blogForm.cat} onChange={e=>setBlogForm(f=>({...f,cat:e.target.value}))}>
+            <option value="STEP">STEP</option>
+            <option value="Analyses">Analyses</option>
+            <option value="Réglementation">Réglementation</option>
+            <option value="Produits">Produits</option>
+            <option value="Osmoseurs">Osmoseurs</option>
+          </select>
+        </div>
+        <div className="adm-f"><label>Date (laisser vide = aujourd'hui)</label><input value={blogForm.date} onChange={e=>setBlogForm(f=>({...f,date:e.target.value}))} placeholder="Ex: 1 juillet 2026"/></div>
+      </div>
+      <div className="adm-f"><label>Résumé (1-2 phrases pour la liste)</label><input value={blogForm.resume} onChange={e=>setBlogForm(f=>({...f,resume:e.target.value}))} placeholder="Court résumé de l'article visible dans la liste"/></div>
+      <div className="adm-f">
+        <label>Contenu de l'article *</label>
+        <div style={{fontSize:".7rem",color:"#6b7c70",marginBottom:6}}>
+          💡 Astuce mise en forme : commencez une ligne par <strong>## </strong> pour un titre H2, <strong>### </strong> pour H3. Séparez les paragraphes par une ligne vide.
+        </div>
+        <textarea value={blogForm.contenu} onChange={e=>setBlogForm(f=>({...f,contenu:e.target.value}))} rows={16} placeholder={"Écrivez votre premier paragraphe d'introduction ici...\n\n## Premier titre H2\n\nContenu du premier sous-titre...\n\n## Deuxième titre H2\n\nContenu du deuxième sous-titre...\n\n### Sous-titre H3\n\nContenu..."}/>
+      </div>
+      <div style={{display:"flex",gap:10,marginTop:6}}>
+        <button className="adm-btn adm-bg" onClick={publishArticle} style={{padding:"10px 24px",fontSize:".88rem"}}>✅ {blogEditing?"Mettre à jour":"Publier l'article"}</button>
+        <button className="adm-btn adm-bw" onClick={()=>{setBlogMode("list");setBlogEditing(null);}}>Annuler</button>
+      </div>
+      <div style={{marginTop:16,padding:"12px 16px",background:"#f0f4ff",borderRadius:7,fontSize:".78rem",color:"#4a5c52",lineHeight:1.7}}>
+        <strong>📌 Conseil SEO :</strong> Rédigez au moins 500 mots. Utilisez des mots-clés comme "traitement des eaux Maroc", "osmoseur industriel", "STEP", "analyse eau". Chaque ## titre est important pour Google.
+      </div>
+    </div>
+  </>}
+</>}<h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Tableau de bord</h2><div className="adm-stats">{[{n:CHIM.length,l:"Réactifs"},{n:MAT.length,l:"Matériels"},{n:FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length,l:"Formulations"},{n:6,l:"Services"}].map((s,i)=><div key={i} className="adm-stat"><div className="adm-stat-n">{s.n}</div><div className="adm-stat-l">{s.l}</div></div>)}</div><div className="adm-card"><div className="adm-card-t">État du site</div>{[{l:"Site en ligne",v:"✅ www.uem.ma",c:"#1a5c32"},{l:"Hébergement",v:"✅ Vercel (gratuit)"},{l:"Formulaire devis",v:"✅ EmailJS actif"},{l:"Assistant IA",v:"✅ Claude intégré"},{l:"Modifications",v:mc>0?`⚠️ ${mc} produit(s) modifié(s)`:"✅ Aucune",c:mc>0?"#e65100":"#1a5c32"},{l:"Promotion active",v:promos.active?"✅ "+promos.texte:"— Aucune"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #e0e8e2",fontSize:".82rem"}}><span style={{color:"#4a5c52",fontWeight:500}}>{r.l}</span><span style={{fontWeight:600,color:r.c||"#12201a"}}>{r.v}</span></div>)}</div></>}{sec==="catalogue"&&<><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}><h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>Catalogue Produits</h2><span style={{fontSize:".75rem",color:"#6b7c70"}}>{mc} modification(s)</span></div><div className="adm-tabs">{[{k:"chimiques",l:"Réactifs (19)"},{k:"materiels",l:"Matériels (5)"},{k:"engrais",l:"Engrais"},{k:"eaux",l:"Formules Eaux"},{k:"nettoyage",l:"Nettoyage"}].map(t=><button key={t.k} className={`adm-tab${etab===t.k?" on":""}`} onClick={()=>setEtab(t.k)}>{t.l}</button>)}</div><div className="adm-pl">{(tabProds[etab]||[]).map(p=>{const mod=edits[p.id];const d=mod?{...p,...mod}:p;return(<div key={p.id}><div className={`adm-pi${editing===p.id?" ed":""}`} onClick={()=>editing===p.id?setEditing(null):startEdit(p)}><div style={{flex:1}}><div className="adm-pn">{d.nom||p.nom}{mod&&<span style={{fontSize:".62rem",background:"#fdf3e7",color:"#e65100",padding:"1px 5px",borderRadius:3,marginLeft:5}}>modifié</span>}</div><div className="adm-pg">{p.grp||"Formulation"}</div></div><div className="adm-pp">{d.prix||"Sur devis"}</div><span style={{fontSize:".75rem",color:"#b8c8be",marginLeft:7}}>{editing===p.id?"▲":"▼"}</span></div>{editing===p.id&&<div className="adm-ep"><div className="adm-f"><label>Nom</label><input value={editData.nom||""} onChange={e=>setEditData(d=>({...d,nom:e.target.value}))}/></div><div className="adm-f"><label>Description</label><textarea value={editData.desc||""} onChange={e=>setEditData(d=>({...d,desc:e.target.value}))} rows={3}/></div><div className="adm-f"><label>Prix affiché</label><input value={editData.prix||""} onChange={e=>setEditData(d=>({...d,prix:e.target.value}))} placeholder="Ex: 390 MAD ou Sur devis"/></div><div style={{display:"flex",gap:7,marginTop:4}}><button className="adm-btn adm-bg" onClick={()=>saveProd(p.id)}>✓ Enregistrer</button><button className="adm-btn adm-bw" onClick={()=>setEditing(null)}>Annuler</button>{mod&&<button className="adm-btn adm-br" onClick={()=>resetProd(p.id)}>Réinitialiser</button>}</div></div>}</div>);})}</div></>}{sec==="promotions"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Gestion des Promotions</h2><div className="adm-promo-box"><div className="adm-card-t">Bannière promotionnelle</div><div className="adm-tog"><input type="checkbox" id="p-on" checked={!!promos.active} onChange={e=>savePromo({active:e.target.checked})}/><label htmlFor="p-on">{promos.active?"Bannière ACTIVE sur le site":"Bannière désactivée"}</label></div><div className="adm-f"><label>Texte de la bannière</label><input value={promos.texte||""} onChange={e=>savePromo({texte:e.target.value})} placeholder="Ex: 🎉 Promotion -20% sur les coagulants"/></div><div className="adm-f"><label>Couleur</label><select value={promos.couleur||"vert"} onChange={e=>savePromo({couleur:e.target.value})}><option value="vert">Vert</option><option value="rouge">Rouge (urgence)</option><option value="bleu">Bleu (info)</option><option value="orange">Orange (solde)</option></select></div>{promos.texte&&<div className="adm-prev" style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promos.couleur||"vert"]}}>Aperçu : {promos.texte}</div>}</div><div className="adm-card"><div className="adm-card-t">Idées prêtes à utiliser</div>{["🎉 Promotion -20% sur les coagulants jusqu'au 31/07","⚡ Livraison offerte sur toute commande > 2000 MAD","🔬 Formulation offerte pour tout contrat STEP signé en juillet","📄 -15% sur les formulations numériques ce mois"].map((s,i)=><div key={i} style={{padding:"7px 0",borderBottom:"1px solid #f0f2f5",fontSize:".8rem",color:"#4a5c52",display:"flex",justifyContent:"space-between",alignItems:"center"}}><span>{s}</span><button className="adm-btn adm-bw" style={{fontSize:".68rem",padding:"3px 9px"}} onClick={()=>savePromo({texte:s})}>Utiliser</button></div>)}</div></>}{sec==="contact"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Informations de Contact</h2><div className="adm-card"><div className="adm-card-t">Coordonnées actuelles</div>{[["Téléphone","+212 523 37 74 17"],["WhatsApp","+212 700 090 365"],["Email","univers.envi@gmail.com"],["Adresse","N°1, Bd Jabrane Khalil Jabrane, El Jadida"],["Domaine","www.uem.ma"]].map((r,i)=><div key={i} style={{display:"flex",gap:14,padding:"9px 0",borderBottom:"1px solid #f0f2f5",fontSize:".82rem"}}><span style={{width:130,color:"#6b7c70",fontWeight:600,flexShrink:0}}>{r[0]}</span><span style={{color:"#12201a",fontWeight:500}}>{r[1]}</span></div>)}</div><div className="adm-card" style={{background:"#fdf3e7",borderColor:"#f5d6a0"}}><div className="adm-card-t" style={{color:"#e65100"}}>⚠️ Modifier ces informations</div><p style={{fontSize:".82rem",color:"#4a5c52",lineHeight:1.7}}>Pour modifier les coordonnées, envoyez un message à Claude avec les nouvelles informations et il mettra à jour le code source.</p></div></>}</div></div>{mc>0&&<div className="adm-sb"><span>⚠️ {mc} modification(s) sauvegardées dans ce navigateur.</span><button className="adm-btn adm-bg" onClick={()=>setSaved(true)}>✓ OK</button></div>}</div>);
 }
 
 /* ══════════════════════════════
@@ -1095,7 +1401,7 @@ export default function App(){
     chimiques:     { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
     materiels:     { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
     services:      { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
-    osmoseurs:     { title:"Osmoseurs Industriels 500L/h à 10m³/h — Prix Maroc | UEM El Jadida", desc:"Systèmes d'osmose inverse industriels clé en main au Maroc. De 500 L/h à 10 m³/h. Prix de 48 000 à 230 000 MAD TTC. Installation et SAV UEM El Jadida." },
+    blog:          { title:"Blog — Réglementation Environnementale & Traitement des Eaux au Maroc | UEM", desc:"Articles techniques sur le traitement des eaux, la réglementation environnementale marocaine, les STEP industrielles et les analyses certifiées NM/ISO." }, desc:"Systèmes d'osmose inverse industriels clé en main au Maroc. De 500 L/h à 10 m³/h. Prix de 48 000 à 230 000 MAD TTC. Installation et SAV UEM El Jadida." },
     realisations:  { title:"Nos Réalisations — 200+ Projets STEP & Analyses au Maroc | UEM", desc:"Découvrez les réalisations d'Univers Environnement Maroc : stations d'épuration, analyses terrain, installations industrielles à travers tout le Maroc." },
     apropos:       { title:"À Propos — Univers Environnement Maroc, 15 ans d'expertise | UEM", desc:"Société marocaine d'ingénierie environnementale fondée à El Jadida. Laboratoire certifié, équipe d'ingénieurs, 200+ projets réalisés au Maroc." },
     formulation:   { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
@@ -1165,11 +1471,14 @@ export default function App(){
       case"materiels":    return <PageMat {...props}/>;
       case"services":     return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
       case"osmoseurs":    return <PageOsmoseurs onBack={()=>go("garde")} onDevis={askDevis}/>;
+      case"blog":         return <PageBlog onBack={()=>go("garde")} onArticle={(id)=>go("article_"+id)}/>;
       case"realisations": return <PageRealisations onBack={()=>go("garde")} onDevis={askDevis}/>;
+      default:
+        if(page.startsWith("article_")) return <PageArticle articleId={page.replace("article_","")} onBack={()=>go("blog")} onGo={go}/>;
+        return <PageGarde onGo={go}/>;
       case"apropos":      return <PageAPropos onBack={()=>go("garde")} onGo={go}/>;
       case"formulation":  return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
       case"contact":      return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
-      default:            return <PageGarde onGo={go}/>;
     }
   };
 
