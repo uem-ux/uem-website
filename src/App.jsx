@@ -482,6 +482,19 @@ function PageHdr({cat,h1,em,sub,onBack}){
   );
 }
 
+/* ══ COMPOSANT SEO CONTENT RÉUTILISABLE ══ */
+const SL={color:"var(--v)",fontWeight:700,cursor:"pointer",textDecoration:"underline",textDecorationColor:"rgba(21,101,192,.3)"};
+function SeoSection({children}){
+  return(
+    <div style={{background:"var(--fond)",borderTop:"1px solid var(--b)",padding:"48px 28px"}}>
+      <div style={{maxWidth:1200,margin:"0 auto"}}>{children}</div>
+    </div>
+  );
+}
+function SeoH2({children}){return <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.4rem",fontWeight:700,color:"var(--k)",margin:"28px 0 10px",letterSpacing:"-.01em"}}>{children}</h2>;}
+function SeoH3({children}){return <h3 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.05rem",fontWeight:600,color:"var(--v)",margin:"18px 0 7px"}}>{children}</h3>;}
+function SeoP({children}){return <p style={{fontSize:"1rem",color:"var(--g1)",lineHeight:1.85,marginBottom:12,fontFamily:"'Inter',sans-serif"}}>{children}</p>;}
+
 /* PAGE GARDE */
 function PageGarde({onGo}){
   const [slide,setSlide]=useState(0);
@@ -554,6 +567,37 @@ function PageGarde({onGo}){
         </div>
       </div>
       <div className="av"><div className="av-in">{[{i:"🚚",t:"Livraison 24h",d:"Expédition rapide partout au Maroc."},{i:"⚡",t:"Accès immédiat",d:"Formulations numériques dès paiement."},{i:"🔒",t:"Analyses certifiées",d:"Conformes aux normes NM et ISO."},{i:"🇲🇦",t:"Expertise locale",d:"15 ans d'expérience terrain au Maroc."}].map((a,i)=><div key={i} className="av-it"><div className="av-i">{a.i}</div><div className="av-t">{a.t}</div><div className="av-d">{a.d}</div></div>)}</div></div>
+
+      {/* SECTION SEO RICHE */}
+      <SeoSection>
+        <SeoH2>Univers Environnement Maroc — Leader en Traitement des Eaux au Maroc</SeoH2>
+        <SeoP>Fondée à El Jadida, <strong>Univers Environnement Maroc (UEM)</strong> est une société marocaine d'ingénierie environnementale spécialisée dans le traitement des eaux usées industrielles et domestiques, la fourniture de réactifs chimiques certifiés, la conception de stations d'épuration (STEP) et la réalisation d'analyses environnementales conformes aux normes NM et ISO en vigueur au Maroc.</SeoP>
+
+        <SeoH2>Nos Produits Chimiques pour le Traitement des Eaux</SeoH2>
+        <SeoP>Notre gamme de <span style={SL} onClick={()=>onGo("chimiques")}>réactifs chimiques pour le traitement des eaux</span> comprend plus de 19 produits certifiés : coagulants (PAC — Poly Aluminium Chlorure, chlorure ferrique, sulfate d'aluminium), floculants anioniques et cationiques, produits de correction pH, hypochlorite de sodium pour la désinfection, produits anti-scalant pour l'osmose inverse et produits de traitement des eaux de chaudière. Livraison 24h sur tout le territoire marocain.</SeoP>
+
+        <SeoH3>Coagulants et Floculants pour STEP au Maroc</SeoH3>
+        <SeoP>Le PAC (Poly Aluminium Chlorure) et le chlorure ferrique sont les coagulants les plus utilisés dans les stations d'épuration au Maroc. UEM fournit ces produits en grande quantité avec fiches techniques et protocoles de dosage adaptés à vos effluents industriels, qu'il s'agisse d'eaux agroalimentaires, textiles, pharmaceutiques ou municipales.</SeoP>
+
+        <SeoH2>Osmoseurs Industriels — De 500 L/h à 10 m³/h</SeoH2>
+        <SeoP>Découvrez notre gamme complète d'<span style={SL} onClick={()=>onGo("osmoseurs")}>osmoseurs industriels</span> : systèmes d'osmose inverse clé en main de 500 L/h à 10 m³/h, conçus pour les industries agroalimentaires, pharmaceutiques, hôtelières et collectivités. Chaque système est livré avec membranes haute rejection (>97%), châssis inox, tableau de commande, et bénéficie d'une installation sur site et d'une garantie 2 ans assurées par nos ingénieurs UEM.</SeoP>
+
+        <SeoH2>Conception de STEP — Ingénierie Environnementale</SeoH2>
+        <SeoP>UEM assure la <span style={SL} onClick={()=>onGo("services")}>conception et le dimensionnement de stations d'épuration</span> (STEP) pour les industries et collectivités du Maroc. De l'avant-projet sommaire (APS) à la mise en service, nos ingénieurs environnementaux accompagnent chaque étape : études de faisabilité, dimensionnement hydraulique et biologique, sélection des filières de traitement, dossiers réglementaires et formation des équipes opérateurs.</SeoP>
+
+        <SeoH3>Optimisation de STEP Existantes</SeoH3>
+        <SeoP>Vous rencontrez des problèmes de performance sur votre station d'épuration ? UEM réalise des audits complets de vos installations et propose des solutions d'optimisation : révision des doses de réactifs, amélioration des filières biologiques, mise en place d'indicateurs de suivi et contrats de maintenance préventive.</SeoP>
+
+        <SeoH2>Analyses Environnementales Certifiées NM/ISO — El Jadida</SeoH2>
+        <SeoP>Notre <span style={SL} onClick={()=>onGo("services")}>laboratoire d'analyse environnementale</span> à El Jadida est équipé pour réaliser l'ensemble des analyses requises par la réglementation marocaine : analyses physicochimiques et bactériologiques des eaux (pH, DCO, DBO5, MES, métaux lourds, coliformes), analyses agronomiques et pédologiques des sols (NPK, pH, CEC, matière organique), et bilans environnementaux complets selon les normes NM et ISO. Nos rapports sont reconnus par les autorités environnementales marocaines.</SeoP>
+
+        <SeoH2>Nos Réalisations au Maroc</SeoH2>
+        <SeoP>Avec plus de <span style={SL} onClick={()=>onGo("realisations")}>200 projets réalisés à travers le Maroc</span>, UEM a accompagné des clients dans les secteurs de l'industrie agroalimentaire, du textile, de la chimie, de la pharmacie et des collectivités territoriales. Nos équipes interviennent dans tout le Royaume : Casablanca, Marrakech, Fès, Rabat, Agadir, Tanger, Meknès, Ouarzazate et bien sûr El Jadida et la région de Doukkala-Abda.</SeoP>
+
+        <div style={{marginTop:24,padding:"16px 20px",background:"rgba(21,101,192,.05)",border:"1px solid rgba(21,101,192,.15)",borderRadius:8}}>
+          <SeoP><strong>Contactez Univers Environnement Maroc :</strong> N°1, Boulevard Jabrane Khalil Jabrane, El Jadida 24000, Maroc — Tél : +212 523 37 74 17 — WhatsApp : +212 700 090 365 — Email : univers.envi@gmail.com</SeoP>
+        </div>
+      </SeoSection>
     </>
   );
 }
@@ -564,6 +608,16 @@ function PageChim({onBack,onDevis,onCart,edits}){
   return(<>
     <PageHdr cat="Catalogue" h1="Produits Chimiques" em="Réactifs certifiés" sub="Coagulants, floculants, désinfectants, osmose inverse et chaudière — qualité certifiée, livraison 24h au Maroc." onBack={onBack}/>
     <div className="pbody">{Object.entries(gs).map(([grp,items])=><div key={grp} className="grp"><div className="grp-hd"><h2>{grp}</h2><span className="gpill">{items.length} produits</span></div><div className="g3">{items.map(p=><PCard key={p.id} p={p} type="p" onDevis={onDevis} onCart={onCart} edits={edits}/>)}</div></div>)}</div>
+    <SeoSection>
+      <SeoH2>Réactifs Chimiques pour Traitement des Eaux — Fournisseur Maroc</SeoH2>
+      <SeoP>Univers Environnement Maroc est un fournisseur leader de <strong>réactifs chimiques pour le traitement des eaux</strong> au Maroc. Notre gamme couvre l'ensemble des besoins des stations d'épuration (STEP) industrielles et municipales, des systèmes d'osmose inverse, des circuits de refroidissement et des chaudières industrielles. Tous nos produits sont livrés avec fiches de données de sécurité (FDS) et certificats d'analyse.</SeoP>
+      <SeoH3>PAC — Poly Aluminium Chlorure au Maroc</SeoH3>
+      <SeoP>Le <strong>PAC (Poly Aluminium Chlorure)</strong> est le coagulant le plus utilisé au Maroc pour le traitement des eaux potables et industrielles. Il offre une efficacité supérieure sur une large plage de pH (5 à 9) et produit des flocs denses qui sédimentent rapidement. UEM fournit le PAC en solution liquide 10-12% Al₂O₃, conditionné en jerricans 25L, fûts 200L ou en vrac.</SeoP>
+      <SeoH3>Anti-Scalant pour Osmose Inverse</SeoH3>
+      <SeoP>L'<strong>anti-scalant pour osmose inverse</strong> est indispensable pour protéger vos membranes contre l'entartrage causé par les carbonates de calcium, les sulfates et la silice. UEM propose des formulations adaptées à chaque type d'eau d'alimentation (eau de mer, eau saumâtre, eau de puits). Nos ingénieurs calculent l'indice de Langelier (LSI) pour déterminer le dosage optimal.</SeoP>
+      <SeoH2>Produits de Traitement Eaux de Chaudière</SeoH2>
+      <SeoP>Le traitement des eaux de chaudière est essentiel pour prévenir la corrosion, l'entartrage et prolonger la durée de vie de vos équipements thermiques. Notre gamme comprend des <span style={SL} onClick={()=>onDevis("Produits traitement chaudière")}>éliminateurs d'oxygène, antitartres, produits de passivation et inhibiteurs de corrosion</span> adaptés aux chaudières basse, moyenne et haute pression. Contactez nos experts pour un programme de traitement personnalisé.</SeoP>
+    </SeoSection>
   </>);
 }
 
@@ -582,11 +636,15 @@ function PageSvc({onBack,onDevis}){
     <div className="pbody">
       <div className="grp"><div className="grp-hd"><h2>Services d'ingénierie</h2><span className="gpill">3 prestations</span></div><div className="gsvc">{SVCS.map(s=><SCard key={s.id} s={s} onDevis={onDevis}/>)}</div></div>
       <div className="grp"><div className="grp-hd"><h2>Analyses environnementales</h2><span className="gpill">3 analyses</span></div><div className="gsvc">{ANALYSES.map(a=><SCard key={a.id} s={a} onDevis={onDevis}/>)}</div></div>
-    </div>
+    <SeoSection>
+      <SeoH2>Ingénierie Environnementale au Maroc — UEM El Jadida</SeoH2>
+      <SeoP>Univers Environnement Maroc intervient sur l'ensemble du cycle de l'eau au Maroc : de la <strong>conception de stations d'épuration (STEP)</strong> à la réalisation d'analyses environnementales certifiées, en passant par l'optimisation des procédés de traitement existants. Nos ingénieurs cumulent plus de 15 ans d'expérience terrain dans les secteurs industriel, agricole et municipal.</SeoP>
+      <SeoH3>Normes et réglementation environnementale au Maroc</SeoH3>
+      <SeoP>Toutes nos prestations respectent la législation marocaine en matière d'environnement et de qualité de l'eau, notamment la <strong>Loi 36-15 sur l'eau</strong>, les normes de qualité des eaux superficielles (NM 03.7.200), les valeurs limites de rejet des effluents liquides industriels, et les normes d'analyses de l'eau selon les référentiels NM et ISO. Nos rapports sont acceptés par les autorités de bassin hydraulique et les bureaux de contrôle.</SeoP>
+      <SeoH2>Analyses Eau et Sol — Laboratoire certifié El Jadida</SeoH2>
+      <SeoP>Notre laboratoire à El Jadida réalise plus de 50 paramètres d'analyse : <strong>pH, conductivité, turbidité, DCO, DBO5, MES, nitrates, phosphates, métaux lourds (plomb, cadmium, chrome, mercure), coliformes fécaux et totaux, entérocoques</strong> pour les eaux, et granulométrie, matière organique, NPK, pH KCl, capacité d'échange cationique pour les sols agricoles. <span style={SL} onClick={()=>onDevis("Analyse eau laboratoire")}>Demandez un devis pour vos analyses.</span></SeoP>
+    </SeoSection>
   </>);
-}
-
-/* PAGE FORMULATION */
 function PageForm({onBack,onCart,ftab,setFtab,edits}){
   return(<>
     <PageHdr cat="Produits Numériques" h1="Formulations Techniques" em="PDF + Excel" sub="Accès permanent après achat. Formules validées en laboratoire pour engrais, traitement des eaux et nettoyage industriel." onBack={onBack}/>
@@ -694,6 +752,17 @@ function PageOsmoseurs({onBack,onDevis}){
         </div>
       </div>
     </div>
+    {/* SEO CONTENT */}
+    <SeoSection>
+      <SeoH2>Osmoseurs Industriels au Maroc — Guide d'achat</SeoH2>
+      <SeoP>Un <strong>système d'osmose inverse industriel</strong> est une technologie de filtration membranaire qui élimine jusqu'à 99% des sels dissous, métaux lourds, bactéries et contaminants organiques de l'eau. UEM propose des osmoseurs industriels de <strong>500 L/h à 10 m³/h</strong>, adaptés à tous les secteurs industriels et collectivités au Maroc.</SeoP>
+      <SeoH3>Choisir la bonne capacité d'osmoseur</SeoH3>
+      <SeoP>Le choix de la capacité dépend de votre consommation journalière d'eau purifiée. Pour un hôtel ou une clinique, un osmoseur <strong>500 L/h à 1 m³/h</strong> suffit. Pour une industrie agroalimentaire ou pharmaceutique, optez pour un modèle <strong>2 à 4 m³/h</strong>. Les grandes industries et collectivités opteront pour nos modèles <strong>6 à 10 m³/h</strong> avec récupérateur d'énergie.</SeoP>
+      <SeoH3>Applications des osmoseurs industriels</SeoH3>
+      <SeoP>Nos systèmes sont utilisés pour la production d'eau purifiée dans l'industrie agroalimentaire (boissons, laiteries, conserveries), l'industrie pharmaceutique (eau pour préparations injectables), les hôtels et resorts, les cliniques et hôpitaux, les industries textiles et chimiques, ainsi que pour le dessalement de l'eau de mer au Maroc.</SeoP>
+      <SeoH2>Anti-scalant et réactifs pour membranes OI</SeoH2>
+      <SeoP>L'entretien régulier des membranes est essentiel pour maintenir les performances de votre osmoseur. UEM fournit tous les <span style={SL} onClick={()=>onDevis("Anti-scalant et réactifs membranes OI")}>réactifs nécessaires</span> : anti-scalant pour prévenir l'entartrage, biocides non oxydants pour le contrôle microbiologique, solutions de lavage acide et basique pour le nettoyage CIP, et métabisulfite de sodium pour la neutralisation du chlore. Contactez-nous pour établir un programme de maintenance adapté à la qualité de votre eau d'alimentation.</SeoP>
+    </SeoSection>
   </>);
 }
 
