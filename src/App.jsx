@@ -1,1590 +1,2527 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import emailjs from "@emailjs/browser";
 
-/* ══ CONFIG ══ */
-const EJS = { svc:"service_3p09q76", tpl:"template_1qu65qm", key:"bhR3gf_SYQEaKSOky" };
-const TEL = "212523377417", WA = "212700090365";
-const ADMIN_PASS = "uem-admin-2026";
+/* ═══════════════════════════════════════════════
+   GLOBAL STYLES (injected once)
+═══════════════════════════════════════════════ */
+const GLOBAL_CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
 
-/* ══ CSS ══ */
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --v:#1565c0;--v2:#0d47a1;--v3:#42a5f5;
-  --gr:#5cb800;--gr2:#4a9200;--gr3:#8bc34a;
-  --r:#e53935;--fond:#f4f9ff;--w:#fff;--k:#0d1b2e;
-  --g1:#3a5068;--g2:#7090a8;--g3:#b0c8d8;
-  --b:#cce0f5;--s:#e8f4fd;
-  --sh:0 2px 12px rgba(13,27,46,.08);
-  --T:cubic-bezier(.4,0,.2,1);
-}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--fond);color:var(--k);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.65;font-weight:400;}
-/* TOPBAR */
-.tb{background:linear-gradient(135deg,#0d47a1,#1565c0);color:rgba(255,255,255,.82);font-size:.74rem;padding:7px 0;}
-.tb-in{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
-.tb a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .2s;}
-.tb a:hover{color:#fff;}
-.tb-sep{color:rgba(255,255,255,.25);margin:0 4px;}
-/* NAVBAR */
-.nav{position:sticky;top:0;z-index:100;background:var(--w);border-bottom:1px solid var(--b);box-shadow:var(--sh);}
-.nav-in{max-width:1200px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
-.logo-sq{width:38px;height:38px;background:linear-gradient(135deg,var(--v),var(--gr));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0;}
-.logo-t .n1{font-size:.9rem;font-weight:700;color:var(--k);display:block;line-height:1.2;font-family:'Montserrat',sans-serif;}
-.logo-t .n2{font-size:.58rem;font-weight:600;color:var(--gr2);letter-spacing:.1em;text-transform:uppercase;font-family:'Inter',sans-serif;}
-.nav-links{display:flex;align-items:center;gap:2px;}
-.nav-links button{background:none;border:none;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;color:var(--g1);padding:6px 11px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.nav-links button:hover{background:var(--fond);color:var(--v);}
-.nav-links button.on{color:var(--v);font-weight:700;background:rgba(26,92,50,.09);}
-.nav-r{display:flex;align-items:center;gap:8px;}
-.btn-dv{background:var(--v);color:#fff;border:none;padding:8px 18px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s;}
-.btn-dv:hover{background:var(--v2);}
-.cart-btn{background:none;border:1px solid var(--b);padding:8px 13px;border-radius:7px;cursor:pointer;font-size:.88rem;position:relative;transition:border-color .2s;}
-.cart-btn:hover{border-color:var(--v);}
-.cbadge{position:absolute;top:-6px;right:-6px;background:var(--r);color:#fff;border-radius:50%;width:16px;height:16px;font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:5px;}
-.burger span{display:block;width:22px;height:2px;background:var(--k);border-radius:2px;transition:transform .3s,opacity .3s;}
-.burger.on span:first-child{transform:translateY(7px) rotate(45deg);}
-.burger.on span:nth-child(2){opacity:0;}
-.burger.on span:last-child{transform:translateY(-7px) rotate(-45deg);}
-.mob{background:var(--w);border-top:1px solid var(--b);overflow:hidden;max-height:0;transition:max-height .35s var(--T);}
-.mob.on{max-height:480px;}
-.mob nav{display:flex;flex-direction:column;}
-.mob button{background:none;border:none;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:500;color:var(--k);text-align:left;padding:13px 24px;cursor:pointer;border-bottom:1px solid var(--b);transition:background .2s;}
-.mob button:hover,.mob button.on{background:rgba(26,92,50,.07);color:var(--v);}
-.mob .mob-cta{background:var(--v);color:#fff;text-align:center!important;font-weight:600;margin:10px 20px;border-radius:7px;border-bottom:none;}
-/* TICKER */
-.tkr{background:linear-gradient(135deg,var(--gr2),var(--gr));overflow:hidden;padding:8px 0;}
-.tkr-t{display:flex;gap:52px;animation:slid 30s linear infinite;width:max-content;}
-.tkr-i{font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75);white-space:nowrap;}
-@keyframes slid{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* HERO */
-.hero{background:var(--w);border-bottom:1px solid var(--b);}
-.hero-in{max-width:1200px;margin:0 auto;padding:60px 28px 68px;display:grid;grid-template-columns:1fr 400px;gap:64px;align-items:center;}
-.h-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(92,184,0,.3);background:rgba(92,184,0,.08);padding:6px 14px;border-radius:4px;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gr2);margin-bottom:20px;font-family:'Inter',sans-serif;}
-.h-tag span{width:6px;height:6px;background:var(--gr);border-radius:50%;animation:bl 2s infinite;}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(2.4rem,4vw,3.4rem);font-weight:800;line-height:1.1;color:var(--k);margin-bottom:14px;letter-spacing:-.02em;}
-.hero h1 em{color:var(--v);font-style:normal;font-weight:800;}
-.hero h1 .r{color:var(--gr);font-weight:800;}
-.h-desc{font-size:1rem;color:var(--g1);line-height:1.8;max-width:480px;margin-bottom:26px;font-weight:400;font-family:'Inter',sans-serif;}
-.h-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
-.btn-p{background:var(--v);color:#fff;border:none;padding:13px 28px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s,box-shadow .2s;letter-spacing:.01em;}
-.btn-p:hover{background:var(--v2);box-shadow:0 5px 18px rgba(21,101,192,.3);}
-.btn-o{background:transparent;color:var(--v);border:2px solid var(--v);padding:13px 28px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.01em;}
-.btn-o:hover{background:rgba(26,92,50,.07);}
-.h-stats{display:flex;gap:28px;padding-top:20px;border-top:1px solid var(--b);}
-.hs-n{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:800;color:var(--v);line-height:1;letter-spacing:-.02em;}
-.hs-l{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--g2);margin-top:4px;font-family:'Inter',sans-serif;}
-.h-right{display:flex;flex-direction:column;gap:10px;}
-.hcard{background:var(--fond);border:1px solid var(--b);border-radius:9px;padding:16px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;display:flex;align-items:center;gap:14px;}
-.hcard:hover{border-color:var(--v3);box-shadow:var(--sh);transform:translateX(4px);}
-.hct{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--g2);}
-.hcn{font-size:.9rem;font-weight:600;color:var(--k);}
-.harr{margin-left:auto;color:var(--g3);font-size:1rem;transition:transform .2s,color .2s;}
-.hcard:hover .harr{transform:translateX(4px);color:var(--v);}
-/* RUBRIQUES */
-.rubs{padding:56px 28px;}
-.rubs-in{max-width:1200px;margin:0 auto;}
-.slbl{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--v);margin-bottom:10px;font-family:'Inter',sans-serif;}
-.stitle{font-family:'Montserrat',sans-serif;font-size:clamp(1.7rem,2.5vw,2.3rem);font-weight:700;color:var(--k);margin-bottom:8px;letter-spacing:-.02em;line-height:1.15;}
-.stitle em{color:var(--v);font-style:normal;font-weight:800;}
-.ssub{font-size:1rem;color:var(--g1);line-height:1.75;max-width:520px;margin-bottom:36px;font-weight:400;}
-.rub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-.rcard{background:var(--w);border:1px solid var(--b);border-radius:10px;padding:24px 20px;cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .25s;position:relative;overflow:hidden;}
-.rcard::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;transform:scaleX(0);transition:transform .3s var(--T);transform-origin:left;}
-.rcard:hover{box-shadow:0 7px 24px rgba(26,92,50,.1);transform:translateY(-3px);}
-.rcard:hover::before{transform:scaleX(1);}
-.rcard h3{font-size:.95rem;font-weight:700;color:var(--k);margin-bottom:7px;margin-top:14px;}
-.rcard p{font-size:.75rem;color:var(--g1);line-height:1.6;margin-bottom:12px;}
-.rcnt{font-size:.65rem;font-weight:600;padding:2px 9px;border-radius:4px;display:inline-block;}
-/* BANDE CHIFFRES */
-.bch{background:linear-gradient(135deg,var(--v2),var(--v));padding:44px 28px;}
-.bch-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center;}
-.bcn{font-family:'Montserrat',sans-serif;font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:-.02em;}
-.bcl{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-top:6px;font-family:'Inter',sans-serif;}
-/* AVANTAGES */
-.av{background:var(--s);border-top:1px solid var(--b);border-bottom:1px solid var(--b);padding:48px 28px;}
-.av-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
-.av-it{text-align:center;}
-.av-i{font-size:1.7rem;margin-bottom:9px;}
-.av-t{font-size:.88rem;font-weight:700;color:var(--k);margin-bottom:4px;}
-.av-d{font-size:.75rem;color:var(--g1);line-height:1.6;}
-/* PAGE HEADER */
-.ph{background:linear-gradient(135deg,var(--v2),var(--v));padding:36px 28px 32px;}
-.ph-in{max-width:1200px;margin:0 auto;display:flex;align-items:flex-start;gap:14px;}
-.ph-bk{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:34px;height:34px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:background .2s;flex-shrink:0;margin-top:3px;}
-.ph-bk:hover{background:rgba(255,255,255,.2);}
-.ph-cat{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.48);margin-bottom:7px;}
-.ph-title{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;color:#fff;margin-bottom:8px;line-height:1.12;letter-spacing:-.02em;}
-.ph-title em{font-style:normal;color:rgba(255,255,255,.8);font-weight:600;}
-.ph-sub{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:580px;font-weight:400;}
-/* PAGE BODY */
-.pbody{max-width:1200px;margin:0 auto;padding:44px 28px 68px;}
-/* GROUPES */
-.grp{margin-bottom:48px;}
-.grp-hd{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:11px;border-bottom:1px solid var(--b);}
-.grp-hd h2{font-size:.95rem;font-weight:700;color:var(--k);}
-.gpill{background:rgba(26,92,50,.1);color:var(--v);font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 9px;border-radius:4px;}
-/* GRILLES */
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-.gsvc{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-/* CARTE PRODUIT */
-.pc{background:var(--w);border:1px solid var(--b);border-radius:9px;overflow:hidden;transition:border-color .22s,box-shadow .22s,transform .22s;}
-.pc:hover{border-color:var(--v3);box-shadow:0 7px 24px rgba(0,0,0,.09);transform:translateY(-3px);}
-.pc-img{height:150px;position:relative;overflow:hidden;background:var(--fond);}
-.pc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--T);}
-.pc:hover .pc-img img{transform:scale(1.06);}
-.pc-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08) 0%,rgba(0,0,0,.38) 100%);}
-.pc-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.6rem;}
-.pbadge{position:absolute;top:9px;left:9px;font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;z-index:1;}
-.bd-r{background:rgba(26,92,50,.88);color:#fff;}
-.bd-m{background:rgba(21,101,192,.88);color:#fff;}
-.bd-n{background:rgba(94,53,177,.88);color:#fff;}
-.pc-body{padding:14px 16px 18px;}
-.pc-grp{font-size:.6rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--v);margin-bottom:4px;}
-.pc-nom{font-size:.95rem;font-weight:700;color:var(--k);margin-bottom:6px;line-height:1.32;font-family:'Montserrat',sans-serif;}
-.pc-desc{font-size:.82rem;color:var(--g1);line-height:1.72;margin-bottom:14px;font-family:'Inter',sans-serif;}
-.pc-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:7px;}
-.pc-px{font-size:.9rem;font-weight:700;color:var(--v);line-height:1;}
-.pc-u{font-size:.6rem;color:var(--g2);margin-top:2px;}
-.btn-add{border:none;padding:7px 14px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;flex-shrink:0;}
-.ba-g{background:var(--v);color:#fff;}.ba-g:hover{background:var(--v2);}
-.ba-b{background:#1565c0;color:#fff;}.ba-b:hover{background:#0d47a1;}
-.ba-r{background:var(--r);color:#fff;}.ba-r:hover{background:#922818;}
-/* SERVICE */
-.sc{background:var(--w);border:1px solid var(--b);border-radius:9px;padding:24px 20px;display:flex;flex-direction:column;transition:border-color .22s,box-shadow .22s,transform .22s;}
-.sc:hover{border-color:var(--v3);box-shadow:0 7px 24px rgba(26,92,50,.09);transform:translateY(-3px);}
-.sc-ico{font-size:1.9rem;margin-bottom:12px;}
-.sc-tag{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:10px;}
-.st-i{background:#fdf3e7;color:#92400e;border:1px solid #f5d6a0;}
-.st-a{background:#e6f2ea;color:var(--v);border:1px solid #b8d8c4;}
-.sc-nom{font-size:.95rem;font-weight:700;color:var(--k);margin-bottom:7px;line-height:1.32;}
-.sc-desc{font-size:.76rem;color:var(--g1);line-height:1.72;margin-bottom:16px;flex:1;}
-.sc-feats{list-style:none;margin-bottom:18px;}
-.sc-feats li{font-size:.73rem;color:var(--g1);padding:3px 0 3px 18px;position:relative;border-bottom:1px solid var(--b);}
-.sc-feats li:last-child{border-bottom:none;}
-.sc-feats li::before{content:'✓';position:absolute;left:0;color:var(--v);font-weight:700;}
-.btn-dvc{width:100%;background:transparent;color:var(--v);border:1.5px solid var(--v);padding:10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s;}
-.btn-dvc:hover{background:var(--v);color:#fff;}
-/* FORMULATION TABS */
-.ftabs{display:flex;gap:4px;margin-bottom:28px;background:var(--s);padding:4px;border-radius:8px;width:fit-content;}
-.ftab{background:transparent;border:none;padding:8px 18px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;color:var(--g1);cursor:pointer;transition:all .2s;}
-.ftab:hover{color:var(--v);}
-.ftab.on{background:var(--w);color:var(--v);font-weight:700;box-shadow:var(--sh);}
-/* CONTACT FORM — CRITIQUE */
-.cw{max-width:620px;margin:0 auto;}
-.ci-intro{margin-bottom:28px;}
-.ci-intro h2{font-family:'Montserrat',sans-serif;font-size:1.8rem;font-weight:700;color:var(--k);margin-bottom:7px;letter-spacing:-.02em;}
-.ci-intro h2 em{color:var(--v);font-style:normal;font-weight:800;}
-.ci-intro p{font-size:.95rem;color:var(--g1);line-height:1.75;}
-.form-wrap{background:var(--w);border:1.5px solid var(--b);border-radius:12px;padding:32px;box-shadow:var(--sh);position:relative;z-index:1;}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.frow.full{grid-template-columns:1fr;}
-.fg{display:flex;flex-direction:column;gap:5px;}
-.fg label{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--g1);display:block;}
-/* INPUTS CRITIQUES - z-index et pointer-events explicites */
-.fg input,
-.fg textarea,
-.fg select{
-  display:block;
-  width:100%;
-  padding:11px 14px;
-  font-family:'Inter',sans-serif;
-  font-size:.88rem;
-  line-height:1.5;
-  color:var(--k);
-  background-color:#ffffff;
-  border:1.5px solid var(--b);
-  border-radius:8px;
-  outline:none;
-  box-shadow:none;
-  cursor:text;
-  transition:border-color .2s,box-shadow .2s;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-  position:static;
-  z-index:auto;
-  pointer-events:auto;
-  user-select:text;
-  -webkit-user-select:text;
-}
-.fg input:focus,
-.fg textarea:focus,
-.fg select:focus{
-  border-color:var(--v);
-  box-shadow:0 0 0 3px rgba(26,92,50,.1);
-  outline:none;
-}
-.fg input::placeholder,
-.fg textarea::placeholder{color:#aab8b2;font-size:.84rem;}
-.fg textarea{resize:vertical;min-height:100px;line-height:1.6;cursor:text;}
-.fg select{cursor:pointer;}
-.ferr{background:#fdf2f2;border:1px solid #f5c6c6;color:#922818;font-size:.78rem;padding:10px 14px;border-radius:7px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;}
-.ferr::before{content:'⚠️';flex-shrink:0;}
-.fsuccess{background:#f0f9f4;border:1px solid #b8d8c4;color:#1a5c32;font-size:.78rem;padding:10px 14px;border-radius:7px;margin-bottom:12px;}
-.btn-send{width:100%;background:var(--v);color:#fff;border:none;padding:14px;border-radius:8px;font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s,box-shadow .2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em;}
-.btn-send:hover:not(:disabled){background:var(--v2);box-shadow:0 5px 18px rgba(26,92,50,.28);}
-.btn-send:disabled{opacity:.55;cursor:not-allowed;}
-.fnote{text-align:center;font-size:.68rem;color:var(--g2);margin-top:9px;}
-.fok{text-align:center;padding:44px 16px;}
-.fok-i{font-size:2.8rem;margin-bottom:14px;}
-.fok-t{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--v);margin-bottom:7px;}
-.fok-s{font-size:.84rem;color:var(--g1);line-height:1.7;}
-.c-alt{margin-top:20px;padding:18px;background:var(--fond);border:1px solid var(--b);border-radius:9px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;}
-.ca{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--g1);}
-.ca a{color:var(--v);text-decoration:none;font-weight:600;}
-.ca a:hover{text-decoration:underline;}
-/* PANIER */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;}
-.ov.on{opacity:1;pointer-events:all;}
-.cart{position:fixed;top:0;right:-480px;width:440px;max-width:100vw;height:100dvh;background:var(--w);z-index:301;display:flex;flex-direction:column;transition:right .4s var(--T);box-shadow:-6px 0 36px rgba(0,0,0,.12);}
-.cart.on{right:0;}
-.c-hd{padding:18px 22px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;}
-.c-hd h2{font-size:1.05rem;font-weight:700;}
-.c-x{background:none;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--g2);display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.c-x:hover{background:rgba(176,48,32,.08);color:var(--r);}
-.c-body{flex:1;overflow-y:auto;padding:14px 22px;display:flex;flex-direction:column;gap:12px;}
-.c-empty{text-align:center;color:var(--g2);padding:56px 0;font-size:.84rem;}
-.ci{display:flex;gap:11px;padding-bottom:12px;border-bottom:1px solid var(--b);align-items:flex-start;}
-.ci-ico{width:42px;height:42px;background:var(--fond);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.ci-inf{flex:1;min-width:0;}
-.ci-nom{font-size:.85rem;font-weight:600;margin-bottom:2px;line-height:1.3;}
-.ci-px{font-size:.73rem;color:var(--v);font-weight:600;}
-.ci-rm{background:none;border:none;cursor:pointer;color:var(--g2);font-size:.85rem;padding:4px;flex-shrink:0;transition:color .2s;}
-.ci-rm:hover{color:var(--r);}
-.c-ft{padding:14px 22px;border-top:1px solid var(--b);background:var(--fond);}
-.c-tot{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.c-tot-l{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--g2);}
-.c-tot-p{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--v);}
-.btn-pay{width:100%;background:var(--v);color:#fff;border:none;padding:13px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.86rem;font-weight:700;cursor:pointer;transition:background .2s;}
-.btn-pay:hover{background:var(--v2);}
-.btn-pay:disabled{opacity:.5;cursor:not-allowed;}
-.pay-n{text-align:center;font-size:.63rem;color:var(--g2);margin-top:7px;}
-/* TOAST */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--k);color:#fff;padding:10px 18px;font-size:.78rem;font-weight:500;z-index:500;border-radius:7px;opacity:0;transition:transform .32s var(--T),opacity .32s;white-space:nowrap;box-shadow:0 5px 20px rgba(0,0,0,.28);max-width:92vw;border-left:3px solid var(--v);}
-.toast.on{transform:translateX(-50%) translateY(0);opacity:1;}
-/* WHATSAPP */
-.wa{position:fixed;bottom:92px;left:22px;z-index:200;width:50px;height:50px;border-radius:50%;background:#25d366;border:none;cursor:pointer;box-shadow:0 3px 14px rgba(37,211,102,.42);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform .2s;}
-.wa:hover{transform:scale(1.08);}
-.wa svg{width:24px;height:24px;fill:#fff;}
-/* AI */
-.ai-fab{position:fixed;bottom:26px;right:22px;z-index:200;width:50px;height:50px;border-radius:50%;background:var(--v);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 3px 16px rgba(26,92,50,.42);display:flex;align-items:center;justify-content:center;transition:transform .2s;}
-.ai-fab:hover{transform:scale(1.08);}
-.ai-dot{position:absolute;top:-2px;right:-2px;width:12px;height:12px;background:var(--r);border-radius:50%;border:2px solid var(--fond);}
-.ai-win{position:fixed;bottom:88px;right:22px;z-index:200;width:350px;max-width:calc(100vw - 28px);height:500px;max-height:calc(100dvh - 108px);background:var(--w);border-radius:13px;border:1px solid var(--b);box-shadow:0 18px 56px rgba(0,0,0,.14);display:flex;flex-direction:column;transform:scale(.9) translateY(16px);opacity:0;pointer-events:none;transition:transform .3s var(--T),opacity .28s;overflow:hidden;}
-.ai-win.on{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-.ai-hd{padding:13px 15px;background:linear-gradient(135deg,var(--v),var(--gr2));display:flex;align-items:center;gap:9px;flex-shrink:0;}
-.ai-av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.ai-nm{font-size:.88rem;font-weight:700;color:#fff;}
-.ai-st{font-size:.63rem;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:4px;}
-.ai-st::before{content:'';width:5px;height:5px;background:#5ddb8a;border-radius:50%;}
-.ai-cx{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.65);font-size:.95rem;margin-left:auto;padding:3px;transition:color .2s;}
-.ai-cx:hover{color:#fff;}
-.ai-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px;}
-.ai-msgs::-webkit-scrollbar{width:3px;}
-.ai-msgs::-webkit-scrollbar-thumb{background:var(--b);}
-.ai-m{display:flex;gap:6px;}
-.ai-m.u{flex-direction:row-reverse;}
-.ai-mav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:1px;}
-.ai-m.b .ai-mav{background:var(--v);color:#fff;}
-.ai-m.u .ai-mav{background:var(--s);}
-.ai-mb{max-width:82%;padding:8px 11px;border-radius:11px;font-size:.76rem;line-height:1.62;}
-.ai-m.b .ai-mb{background:var(--fond);color:var(--k);border-bottom-left-radius:3px;}
-.ai-m.u .ai-mb{background:var(--v);color:#fff;border-bottom-right-radius:3px;}
-.typ{display:flex;gap:3px;padding:9px 11px;background:var(--fond);border-radius:11px;width:fit-content;}
-.typ span{width:5px;height:5px;background:var(--g2);border-radius:50%;animation:bp 1.4s infinite;}
-.typ span:nth-child(2){animation-delay:.2s;}
-.typ span:nth-child(3){animation-delay:.4s;}
-@keyframes bp{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.ai-sugs{padding:0 9px 7px;display:flex;flex-wrap:wrap;gap:5px;}
-.sug{background:var(--fond);border:1px solid var(--b);color:var(--v);padding:4px 9px;border-radius:4px;font-family:'Inter',sans-serif;font-size:.66rem;font-weight:500;cursor:pointer;transition:all .18s;}
-.sug:hover{background:var(--v);color:#fff;border-color:var(--v);}
-.ai-ir{padding:9px;border-top:1px solid var(--b);display:flex;gap:6px;background:#fff;flex-shrink:0;}
-.ai-inp{flex:1;border:1px solid var(--b);border-radius:7px;padding:8px 11px;font-family:'Inter',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;resize:none;max-height:68px;background:#fff;color:var(--k);}
-.ai-inp:focus{border-color:var(--v);}
-.ai-snd{background:var(--v);color:#fff;border:none;width:32px;height:32px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;align-self:flex-end;transition:background .2s;}
-.ai-snd:hover{background:var(--v2);}
-.ai-snd:disabled{opacity:.5;cursor:not-allowed;}
-/* FOOTER */
-footer{background:linear-gradient(135deg,#0a1628,#0d2240);color:#fff;}
-.fi-in{max-width:1200px;margin:0 auto;padding:52px 28px 24px;}
-.fi-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;}
-.fb-n{font-size:1.1rem;font-weight:700;margin-bottom:12px;font-family:'Montserrat',sans-serif;letter-spacing:-.01em;}
-.fb-n span{color:var(--gr3);}
-.fb-desc{font-size:.75rem;color:rgba(255,255,255,.48);line-height:1.8;margin-bottom:13px;}
-.fb-ct{display:flex;flex-direction:column;gap:6px;}
-.fb-ct a{font-size:.75rem;color:rgba(255,255,255,.52);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:5px;}
-.fb-ct a:hover{color:#4caf78;}
-.fc h4{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:#4caf78;margin-bottom:12px;font-weight:600;}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-.fc li{font-size:.77rem;color:rgba(255,255,255,.46);cursor:pointer;transition:color .2s;}
-.fc li:hover{color:#4caf78;}
-.fi-bot{border-top:1px solid rgba(255,255,255,.09);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:9px;}
-.fi-bot span{font-size:.66rem;color:rgba(255,255,255,.32);}
-/* ADMIN */
-.adm-body{min-height:100vh;background:#f0f2f5;font-family:'Inter',sans-serif;}
-.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1628,#1565c0);}
-.adm-box{background:#fff;border-radius:14px;padding:36px;width:340px;max-width:90vw;box-shadow:0 18px 56px rgba(0,0,0,.28);}
-.adm-logo{text-align:center;margin-bottom:24px;}
-.adm-logo .sq{width:48px;height:48px;background:linear-gradient(135deg,#1565c0,#5cb800);border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;margin:0 auto 10px;}
-.adm-logo h1{font-size:1rem;font-weight:700;color:#12201a;}
-.adm-logo p{font-size:.74rem;color:#6b7c70;margin-top:3px;}
-.adm-box label{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6b7c70;display:block;margin-bottom:5px;}
-.adm-box input{width:100%;border:1.5px solid #d8e4dc;border-radius:7px;padding:10px 13px;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;margin-bottom:14px;transition:border-color .2s;color:#12201a;background:#fff;}
-.adm-box input:focus{border-color:#1a5c32;}
-.adm-login-btn{width:100%;background:#1a5c32;color:#fff;border:none;padding:12px;border-radius:7px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s;}
-.adm-login-btn:hover{background:#236b3b;}
-.adm-err{background:#fdf2f2;border:1px solid #f5c6c6;color:#922818;font-size:.76rem;padding:8px 11px;border-radius:6px;margin-bottom:11px;text-align:center;}
-.adm-top{background:#12201a;color:#fff;padding:0 22px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.adm-tl{display:flex;align-items:center;gap:9px;}
-.adm-tl .sq{width:30px;height:30px;background:#1a5c32;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.78rem;}
-.adm-tl span{font-size:.86rem;font-weight:600;}
-.adm-tr{display:flex;align-items:center;gap:11px;}
-.adm-tr a{font-size:.75rem;color:rgba(255,255,255,.58);text-decoration:none;transition:color .2s;}
-.adm-tr a:hover{color:#fff;}
-.adm-out{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.68);padding:5px 13px;border-radius:5px;font-family:'Inter',sans-serif;font-size:.75rem;cursor:pointer;transition:all .2s;}
-.adm-out:hover{background:rgba(255,255,255,.18);color:#fff;}
-.adm-lay{display:flex;min-height:calc(100vh - 54px);}
-.adm-side{width:210px;background:#fff;border-right:1px solid #e0e8e2;padding:18px 0;flex-shrink:0;}
-.adm-ni{display:flex;align-items:center;gap:9px;padding:10px 18px;font-size:.82rem;font-weight:500;color:#4a5c52;cursor:pointer;transition:all .2s;border-left:3px solid transparent;}
-.adm-ni:hover{background:#f0f2f5;color:#1a5c32;}
-.adm-ni.on{background:#e6f2ea;color:#1a5c32;font-weight:700;border-left-color:#1a5c32;}
-.adm-ni .ni{font-size:.95rem;width:18px;text-align:center;}
-.adm-cnt{flex:1;padding:24px;overflow-y:auto;}
-.adm-card{background:#fff;border:1px solid #e0e8e2;border-radius:9px;padding:22px;margin-bottom:18px;}
-.adm-card-t{font-size:.86rem;font-weight:700;color:#12201a;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid #e0e8e2;}
-.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-.adm-stat{background:#fff;border:1px solid #e0e8e2;border-radius:9px;padding:18px;text-align:center;}
-.adm-stat-n{font-size:1.7rem;font-weight:700;color:#1a5c32;line-height:1;}
-.adm-stat-l{font-size:.7rem;color:#6b7c70;margin-top:4px;font-weight:500;}
-.adm-promo-box{background:#fff;border:1px solid #e0e8e2;border-radius:9px;padding:22px;margin-bottom:18px;}
-.adm-tog{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
-.adm-tog input[type="checkbox"]{width:40px;height:22px;appearance:none;background:#d8e4dc;border-radius:11px;cursor:pointer;transition:background .2s;position:relative;flex-shrink:0;}
-.adm-tog input[type="checkbox"]::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
-.adm-tog input[type="checkbox"]:checked{background:#1a5c32;}
-.adm-tog input[type="checkbox"]:checked::after{left:21px;}
-.adm-tog label{font-size:.86rem;font-weight:600;color:#12201a;cursor:pointer;}
-.adm-f{margin-bottom:13px;}
-.adm-f label{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6b7c70;display:block;margin-bottom:4px;}
-.adm-f input,.adm-f textarea,.adm-f select{width:100%;border:1.5px solid #d8e4dc;border-radius:6px;padding:8px 11px;font-family:'Inter',sans-serif;font-size:.83rem;color:#12201a;background:#fff;outline:none;transition:border-color .2s;}
-.adm-f input:focus,.adm-f textarea:focus{border-color:#1a5c32;}
-.adm-f textarea{resize:vertical;min-height:72px;}
-.adm-btn{border:none;padding:8px 16px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .18s;}
-.adm-bg{background:#1a5c32;color:#fff;}.adm-bg:hover{background:#236b3b;}
-.adm-br{background:#b03020;color:#fff;}.adm-br:hover{background:#922818;}
-.adm-bw{background:#fff;color:#4a5c52;border:1px solid #d8e4dc;}.adm-bw:hover{border-color:#1a5c32;color:#1a5c32;}
-.adm-pl{display:flex;flex-direction:column;gap:7px;}
-.adm-pi{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid #e0e8e2;border-radius:7px;cursor:pointer;transition:all .18s;background:#fff;}
-.adm-pi:hover{border-color:#1a5c32;background:#f8fbf9;}
-.adm-pi.ed{border-color:#1a5c32;background:#e6f2ea;}
-.adm-pn{flex:1;font-size:.82rem;font-weight:600;color:#12201a;}
-.adm-pp{font-size:.76rem;color:#1a5c32;font-weight:600;white-space:nowrap;}
-.adm-pg{font-size:.62rem;color:#6b7c70;margin-top:2px;}
-.adm-ep{background:#f8fbf9;border:1px solid #b8d8c4;border-radius:7px;padding:14px;margin-top:7px;margin-bottom:7px;}
-.adm-tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
-.adm-tab{background:transparent;border:none;padding:7px 14px;border-radius:6px;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:500;color:#6b7c70;cursor:pointer;transition:all .18s;}
-.adm-tab.on{background:#e6f2ea;color:#1a5c32;font-weight:700;}
-.adm-bmod{display:inline-block;width:6px;height:6px;background:#e65100;border-radius:50%;margin-left:4px;vertical-align:middle;}
-.adm-prev{background:#1a5c32;color:#fff;padding:8px;text-align:center;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:6px;margin-top:10px;}
-.adm-sb{background:#fff;border-top:1px solid #e0e8e2;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;bottom:0;}
-.adm-sb span{font-size:.76rem;color:#6b7c70;}
-.adm-sv{color:#5ddb8a;font-size:.76rem;font-weight:700;}
-@media(max-width:1024px){.nav-links,.nav-r .btn-dv{display:none;}.burger{display:flex;}.hero-in{grid-template-columns:1fr;padding:44px 20px 52px;gap:36px;}.rub-grid{grid-template-columns:repeat(2,1fr);}.bch-in{grid-template-columns:repeat(2,1fr);padding:36px 20px;}.g3,.g4{grid-template-columns:repeat(2,1fr);}.gsvc{grid-template-columns:1fr;}.av-in{grid-template-columns:repeat(2,1fr);}.fi-grid{grid-template-columns:1fr 1fr;gap:28px;}.ph{padding:28px 20px 24px;}.pbody{padding:36px 20px 52px;}.rubs{padding:44px 20px;}.cart{width:100%;right:-100%;}.adm-stats{grid-template-columns:1fr 1fr;}.adm-side{display:none;}.adm-cnt{padding:14px;}}
-@media(max-width:600px){.nav-in{padding:0 14px;}.tb-in{padding:0 14px;}.hero h1{font-size:1.9rem;}.h-btns{flex-direction:column;}.btn-p,.btn-o{width:100%;text-align:center;}.h-right{display:grid;grid-template-columns:1fr 1fr;gap:8px;}.hcard{flex-direction:column;align-items:flex-start;gap:6px;padding:12px 14px;}.harr{display:none;}.rub-grid{grid-template-columns:1fr 1fr;}.g3,.g4{grid-template-columns:1fr;}.gsvc{grid-template-columns:1fr;}.bch-in{grid-template-columns:1fr 1fr;}.av-in{grid-template-columns:1fr 1fr;}.fi-grid{grid-template-columns:1fr;gap:24px;}.frow{grid-template-columns:1fr;}.form-wrap{padding:20px 14px;}.ftabs{flex-direction:column;width:100%;}.ai-win{right:10px;width:calc(100vw - 20px);height:calc(100dvh - 106px);}}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bleu: #0d2b6e;
+    --bleu2: #1565c0;
+    --bleu3: #1e3a8a;
+    --vert: #1b7a3e;
+    --vert3: #43a047;
+    --accent: #5cb800;
+    --navy: #0a1f4e;
+    --white: #ffffff;
+    --gray50: #f8fafc;
+    --gray100: #f1f5f9;
+    --gray200: #e2e8f0;
+    --gray600: #475569;
+    --gray700: #334155;
+    --gray900: #0f172a;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(13,43,110,.10);
+    --shadow-lg: 0 8px 40px rgba(13,43,110,.15);
+    --transition: all .22s cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--gray900);
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* Topbar */
+  .topbar {
+    background: var(--navy);
+    padding: 8px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,.85);
+  }
+  .topbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .topbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+  }
+  .topbar-item:hover { color: var(--accent); }
+  .topbar-item svg { flex-shrink: 0; }
+  .topbar-socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar-socials a {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .topbar-socials a:hover { background: var(--accent); }
+
+  /* Navbar */
+  .navbar {
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 16px rgba(13,43,110,.08);
+    transition: var(--transition);
+  }
+  .navbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 72px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .logo-badge {
+    width: 44px; height: 44px;
+    background: var(--bleu);
+    color: #fff;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .logo-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--bleu);
+  }
+  .logo-sub {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--vert3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    list-style: none;
+  }
+  .nav-item { position: relative; }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray700);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    background: none;
+    white-space: nowrap;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--bleu);
+    background: var(--gray100);
+  }
+  .nav-link.active { color: var(--bleu); font-weight: 600; }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Dropdown */
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    padding: 8px;
+    min-width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: var(--transition);
+    border: 1px solid var(--gray200);
+    z-index: 100;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--gray700);
+    transition: var(--transition);
+  }
+  .dropdown a:hover {
+    background: var(--gray100);
+    color: var(--bleu);
+  }
+  .dropdown a .dd-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--gray100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: var(--transition);
+  }
+  .dropdown a:hover .dd-icon { background: var(--bleu); }
+  .dropdown a:hover .dd-icon svg { color: white; }
+
+  .nav-cta {
+    background: var(--bleu);
+    color: #fff !important;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    margin-left: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-cta:hover { background: var(--bleu2); transform: translateY(-1px); }
+
+  /* Mobile hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--bleu);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+  .mobile-menu {
+    display: none;
+    background: #fff;
+    border-top: 1px solid var(--gray200);
+    padding: 16px 24px 24px;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu a, .mobile-menu button {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray100);
+    font-size: 15px;
+    color: var(--gray700);
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .mobile-menu a:last-child, .mobile-menu button:last-child { border-bottom: none; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f5e9 100%);
+    padding: 60px 0 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(13,43,110,.08);
+    color: var(--bleu);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(13,43,110,.15);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--gray900);
+    margin-bottom: 20px;
+  }
+  .hero-title .hl-blue { color: var(--bleu2); }
+  .hero-title .hl-green { color: var(--vert3); }
+  .hero-title .hl-accent { color: var(--accent); }
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray600);
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .btn-primary {
+    background: var(--bleu);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-primary:hover { background: var(--bleu2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,43,110,.3); }
+  .btn-outline {
+    background: transparent;
+    color: var(--bleu);
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid var(--bleu);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-outline:hover { background: var(--bleu); color: #fff; }
+  .btn-wa {
+    background: #25D366;
+    color: #fff;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-wa:hover { background: #128C7E; transform: translateY(-2px); }
+
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray600);
+  }
+  .trust-item svg { color: var(--vert3); }
+
+  /* Hero right / slider */
+  .hero-visual {
+    position: relative;
+    height: 500px;
+  }
+  .slider-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .7s ease;
+    background-size: cover;
+    background-position: center;
+  }
+  .slide.active { opacity: 1; }
+  .slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(13,43,110,.3), transparent);
+  }
+  .slider-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+  }
+  .slider-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.5);
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+  }
+  .slider-dot.active { background: #fff; width: 24px; border-radius: 4px; }
+
+  .badge-15 {
+    position: absolute;
+    bottom: 32px;
+    right: -16px;
+    background: var(--bleu);
+    color: #fff;
+    border-radius: 16px;
+    padding: 18px 22px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 5;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .badge-15 .big { font-size: 36px; font-weight: 800; font-family: 'Poppins', sans-serif; line-height: 1; }
+  .badge-15 .sup { font-size: 18px; vertical-align: super; }
+  .badge-15 .label { font-size: 10px; font-weight: 600; letter-spacing: 1px; opacity: .85; margin-top: 2px; }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--bleu);
+    padding: 36px 0;
+  }
+  .stats-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-item { color: #fff; }
+  .stat-num {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 6px;
+  }
+  .stat-num .stat-icon {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  .stat-label { font-size: 13px; opacity: .8; font-weight: 400; }
+
+  /* Clients strip */
+  .clients {
+    padding: 48px 0;
+    background: #fff;
+    border-bottom: 1px solid var(--gray200);
+  }
+  .clients-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray600);
+    margin-bottom: 28px;
+  }
+  .clients-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .client-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gray700);
+    opacity: .65;
+    transition: var(--transition);
+    cursor: pointer;
+    filter: grayscale(1);
+  }
+  .client-logo:hover { opacity: 1; filter: grayscale(0); color: var(--bleu); }
+  .client-logo .cl-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .clients-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bleu2);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .clients-cta:hover { color: var(--vert); }
+
+  /* Section heading */
+  .section-eyebrow {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--vert3);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 2.8vw, 34px);
+    font-weight: 700;
+    text-align: center;
+    color: var(--gray900);
+    margin-bottom: 48px;
+    line-height: 1.25;
+  }
+  .section-title em { color: var(--vert3); font-style: normal; }
+
+  /* Services grid */
+  .services {
+    padding: 80px 0;
+    background: var(--gray50);
+  }
+  .services-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .service-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    transition: var(--transition);
+    cursor: pointer;
+    border: 1px solid var(--gray200);
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+  }
+  .sc-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+  .sc-img-placeholder {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, var(--bleu) 0%, var(--bleu2) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+  }
+  .sc-body { padding: 18px; }
+  .sc-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .sc-icon-wrap {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .sc-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gray900);
+    line-height: 1.3;
+  }
+  .sc-list {
+    list-style: none;
+    margin-bottom: 14px;
+  }
+  .sc-list li {
+    font-size: 12.5px;
+    color: var(--gray600);
+    padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.4;
+  }
+  .sc-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .sc-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vert);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+    padding: 0;
+  }
+  .sc-cta:hover { color: var(--bleu); gap: 10px; }
+  .services-btn-wrap {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .btn-navy {
+    background: var(--bleu);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-navy:hover { background: var(--bleu2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,43,110,.3); }
+
+  /* Products carousel */
+  .products {
+    padding: 80px 0;
+    background: var(--navy);
+  }
+  .products-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .products .section-eyebrow { color: var(--accent); }
+  .products .section-title { color: #fff; }
+  .carousel-wrapper { position: relative; }
+  .carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    padding: 8px 0 24px;
+  }
+  .product-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: calc((100% - 5*20px) / 6);
+    min-width: 160px;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .product-card:hover {
+    background: rgba(255,255,255,.12);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+  .pc-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+  }
+  .pc-img-placeholder {
+    width: 100%;
+    height: 120px;
+    background: rgba(255,255,255,.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .pc-body { padding: 12px 14px 16px; }
+  .pc-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 5;
+    font-size: 18px;
+  }
+  .carousel-arrow:hover { background: var(--accent); border-color: var(--accent); }
+  .carousel-arrow.left { left: -22px; }
+  .carousel-arrow.right { right: -22px; }
+  .products-btn-wrap { text-align: center; margin-top: 16px; }
+  .btn-outline-white {
+    background: transparent;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid rgba(255,255,255,.4);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,.1); border-color: #fff; }
+
+  /* Advantages */
+  .advantages {
+    padding: 80px 0;
+    background: #fff;
+  }
+  .advantages-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .adv-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .adv-card {
+    text-align: center;
+    padding: 36px 24px;
+    border-radius: 16px;
+    background: var(--gray50);
+    border: 1px solid var(--gray200);
+    transition: var(--transition);
+  }
+  .adv-card:hover {
+    border-color: var(--bleu2);
+    background: #fff;
+    box-shadow: var(--shadow);
+    transform: translateY(-4px);
+  }
+  .adv-icon {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: var(--bleu);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+    transition: var(--transition);
+  }
+  .adv-card:hover .adv-icon { background: var(--accent); }
+  .adv-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--gray900);
+    margin-bottom: 10px;
+  }
+  .adv-desc {
+    font-size: 13.5px;
+    color: var(--gray600);
+    line-height: 1.6;
+  }
+
+  /* Ticker */
+  .ticker {
+    background: var(--vert);
+    padding: 14px 0;
+    overflow: hidden;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 64px;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.9);
+    letter-spacing: .5px;
+  }
+  .ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  /* Contact section */
+  .contact-section {
+    padding: 80px 0;
+    background: var(--gray50);
+  }
+  .contact-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .contact-info h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gray900);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .contact-info h2 em { color: var(--vert3); font-style: normal; }
+  .contact-info p {
+    font-size: 15px;
+    color: var(--gray600);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .contact-details { display: flex; flex-direction: column; gap: 16px; }
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .cd-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--bleu);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .cd-text { flex: 1; }
+  .cd-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray600); margin-bottom: 2px; }
+  .cd-value { font-size: 14px; font-weight: 500; color: var(--gray900); }
+
+  /* Form */
+  .contact-form {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray200);
+  }
+  .form-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gray900);
+    margin-bottom: 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray700);
+  }
+  .form-input, .form-textarea, .form-select {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray200);
+    font-size: 14px;
+    color: var(--gray900);
+    font-family: inherit;
+    transition: var(--transition);
+    background: #fff;
+    resize: none;
+    width: 100%;
+  }
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--bleu);
+    box-shadow: 0 0 0 3px rgba(13,43,110,.1);
+  }
+  .form-textarea { height: 120px; }
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .form-submit:hover { background: var(--bleu2); transform: translateY(-2px); }
+  .form-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+  .form-success {
+    background: #e8f5e9;
+    border: 1px solid var(--vert3);
+    color: var(--vert);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,.8);
+    padding: 64px 0 0;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .footer-brand .logo-name { color: #fff; font-size: 16px; }
+  .footer-brand .logo-sub { color: var(--accent); }
+  .footer-desc {
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin: 16px 0 24px;
+    opacity: .75;
+  }
+  .footer-socials { display: flex; gap: 10px; }
+  .footer-socials a {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.1);
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+    font-size: 15px;
+  }
+  .footer-socials a:hover { background: var(--accent); transform: translateY(-2px); }
+  .footer-col h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a {
+    font-size: 13.5px;
+    opacity: .7;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .footer-col ul li a:hover { opacity: 1; color: var(--accent); gap: 10px; }
+  .footer-col ul li a::before { content: '→'; font-size: 11px; }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    opacity: .6;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Floating WhatsApp */
+  .wa-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .wa-btn {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #25D366;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,.4);
+    cursor: pointer;
+    font-size: 26px;
+    border: none;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+  .wa-btn:hover { background: #128C7E; transform: scale(1.1); }
+  .wa-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #25D366;
+    animation: pulse 2s ease infinite;
+    z-index: -1;
+  }
+  @keyframes pulse {
+    0% { opacity: .7; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.8); }
+  }
+
+  /* Cart panel */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 1100;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+  .cart-overlay.open { opacity: 1; visibility: visible; }
+  .cart-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 380px;
+    max-width: 100vw;
+    background: #fff;
+    z-index: 1101;
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 32px rgba(0,0,0,.15);
+  }
+  .cart-overlay.open .cart-panel { transform: translateX(0); }
+  .cart-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--gray200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cart-header h3 { font-weight: 700; font-size: 18px; color: var(--gray900); }
+  .cart-close {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gray100);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+    color: var(--gray700);
+  }
+  .cart-close:hover { background: var(--gray200); }
+  .cart-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .cart-empty { text-align: center; color: var(--gray600); padding: 48px 0; }
+  .cart-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray100);
+    align-items: center;
+  }
+  .ci-icon {
+    width: 48px; height: 48px;
+    background: var(--gray100);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .ci-info { flex: 1; }
+  .ci-name { font-size: 14px; font-weight: 600; color: var(--gray900); margin-bottom: 4px; }
+  .ci-qty { font-size: 12px; color: var(--gray600); }
+  .ci-remove {
+    background: none; border: none; cursor: pointer;
+    color: var(--gray600); font-size: 16px; transition: var(--transition);
+    padding: 4px;
+  }
+  .ci-remove:hover { color: #ef4444; }
+  .cart-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--gray200);
+  }
+  .cart-footer-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .cart-footer-btn:hover { background: var(--bleu2); }
+
+  /* Toast */
+  .toast-wrap {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .toast {
+    background: var(--gray900);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    animation: slideIn .3s ease;
+    max-width: 320px;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* AI Assistant */
+  .ai-float {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    z-index: 900;
+  }
+  .ai-toggle {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(13,43,110,.35);
+    transition: var(--transition);
+  }
+  .ai-toggle:hover { background: var(--bleu2); transform: scale(1.08); }
+  .ai-chat {
+    position: absolute;
+    bottom: 64px;
+    right: 0;
+    width: 340px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    border: 1px solid var(--gray200);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(.95);
+    transition: var(--transition);
+  }
+  .ai-chat.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  .ai-chat-header {
+    background: var(--bleu);
+    color: #fff;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ai-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .ai-hinfo { flex: 1; }
+  .ai-hname { font-weight: 700; font-size: 14px; }
+  .ai-hstatus { font-size: 11px; opacity: .8; }
+  .ai-close-btn {
+    background: none; border: none; color: rgba(255,255,255,.7);
+    cursor: pointer; font-size: 18px; transition: var(--transition);
+  }
+  .ai-close-btn:hover { color: #fff; }
+  .ai-messages {
+    height: 260px;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--gray50);
+  }
+  .ai-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .ai-msg.bot {
+    background: #fff;
+    color: var(--gray900);
+    border: 1px solid var(--gray200);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .ai-msg.user {
+    background: var(--bleu);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .ai-typing {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--gray200);
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    width: fit-content;
+  }
+  .ai-typing span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gray600);
+    animation: bounce 1.2s ease infinite;
+  }
+  .ai-typing span:nth-child(2) { animation-delay: .2s; }
+  .ai-typing span:nth-child(3) { animation-delay: .4s; }
+  @keyframes bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+  .ai-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid var(--gray200);
+    background: #fff;
+  }
+  .ai-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray200);
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--gray900);
+    transition: var(--transition);
+  }
+  .ai-input:focus { outline: none; border-color: var(--bleu); }
+  .ai-send {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+  .ai-send:hover { background: var(--bleu2); }
+  .ai-send:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* Admin */
+  .admin-wrap {
+    min-height: 100vh;
+    background: var(--gray50);
+    padding: 40px 24px;
+    font-family: inherit;
+  }
+  .admin-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .admin-header {
+    background: var(--bleu);
+    color: #fff;
+    padding: 28px 36px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .admin-header h1 { font-size: 22px; font-weight: 700; }
+  .admin-body { padding: 36px; }
+  .admin-section { margin-bottom: 40px; }
+  .admin-section h2 {
+    font-size: 17px; font-weight: 700; color: var(--gray900);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gray200);
+  }
+  .blog-post-item {
+    border: 1px solid var(--gray200);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .bpi-meta { font-size: 12px; color: var(--gray600); margin-top: 4px; }
+  .btn-danger {
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-danger:hover { background: #fecaca; }
+  .btn-green {
+    background: var(--vert);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+  }
+  .btn-green:hover { background: var(--vert3); }
+
+  /* Blog */
+  .blog-section {
+    padding: 80px 0;
+    background: var(--gray50);
+  }
+  .blog-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .blog-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    border: 1px solid var(--gray200);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .blog-img {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--bleu) 0%, var(--vert) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+  }
+  .blog-body { padding: 20px; }
+  .blog-tag {
+    display: inline-block;
+    background: var(--gray100);
+    color: var(--bleu);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+  .blog-title { font-weight: 700; font-size: 15px; color: var(--gray900); margin-bottom: 8px; line-height: 1.4; }
+  .blog-excerpt { font-size: 13px; color: var(--gray600); line-height: 1.6; margin-bottom: 14px; }
+  .blog-meta { font-size: 12px; color: var(--gray600); display: flex; align-items: center; gap: 8px; }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .adv-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .blog-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-card { width: calc((100% - 3*20px) / 4); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links, .nav-cta { display: none !important; }
+    .hamburger { display: flex; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { height: 280px; order: -1; }
+    .badge-15 { right: 16px; bottom: 16px; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .adv-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .product-card { width: calc((100% - 2*20px) / 3); }
+    .topbar { display: none; }
+    .clients-logos { gap: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .adv-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .product-card { width: calc((100% - 20px) / 2); }
+  }
 `;
 
-/* ══ DATA ══ */
-const CHIM=[{id:1,grp:"Coagulants",nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH. Réduction turbidité et MES.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},{id:2,grp:"Coagulants",nom:"Chlorure Ferrique",desc:"Coagulant minéral puissant pour eaux industrielles et boues.",img:"https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=600&h=300&q=75"},{id:3,grp:"Coagulants",nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Soluble, facile à doser.",img:"https://images.unsplash.com/photo-1581093196867-ca4e0b8c4f63?auto=format&fit=crop&w=600&h=300&q=75"},{id:4,grp:"Floculants",nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées.",img:"https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=600&h=300&q=75"},{id:5,grp:"Floculants",nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues et flottation.",img:"https://images.unsplash.com/photo-1616163235154-b8efb32c9b7e?auto=format&fit=crop&w=600&h=300&q=75"},{id:6,grp:"Correction pH",nom:"Stabilisant de pH",desc:"Maintient le pH dans la plage optimale de traitement.",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=300&q=75"},{id:7,grp:"Correction pH",nom:"Correcteur de pH",desc:"Correction acide ou basique du pH des effluents. Prêt à l'emploi.",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=300&q=75"},{id:8,grp:"Désinfection & Traitement",nom:"Hypochlorite de Sodium",desc:"Désinfectant oxydant puissant. Élimine bactéries et virus.",img:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&h=300&q=75"},{id:9,grp:"Désinfection & Traitement",nom:"Antimousse",desc:"Élimine et prévient les mousses dans les bassins et STEP.",img:"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=300&q=75"},{id:10,grp:"Désinfection & Traitement",nom:"Décolorant",desc:"Élimination des colorants et pigments dans les effluents textiles.",img:"https://images.unsplash.com/photo-1562977352-f8fc96e5a6ff?auto=format&fit=crop&w=600&h=300&q=75"},{id:11,grp:"Désinfection & Traitement",nom:"Peroxyde d'Hydrogène",desc:"Oxydant puissant. Élimine DCO, H₂S et composés organiques.",img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=300&q=75"},{id:12,grp:"Osmose Inverse",nom:"Anti-Scalant",desc:"Prévient l'entartrage des membranes OI. Protège contre carbonates et silice.",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=300&q=75"},{id:13,grp:"Osmose Inverse",nom:"Lavage Membranes — Acide",desc:"Nettoyage acide des membranes OI. Dissout tartre et oxydes.",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=300&q=75"},{id:14,grp:"Osmose Inverse",nom:"Lavage Membranes — Basique",desc:"Nettoyage alcalin des membranes OI. Élimine biofilm et matière organique.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},{id:15,grp:"Osmose Inverse",nom:"Biocide Non Oxydant",desc:"Contrôle microbiologique pour circuits OI.",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=300&q=75"},{id:16,grp:"Osmose Inverse",nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI.",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=300&q=75"},{id:17,grp:"Eaux de Chaudière",nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion.",img:"https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&h=300&q=75"},{id:18,grp:"Eaux de Chaudière",nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires. Améliore le rendement thermique.",img:"https://images.unsplash.com/photo-1611735341450-74d61e660ad2?auto=format&fit=crop&w=600&h=300&q=75"},{id:19,grp:"Eaux de Chaudière",nom:"Éliminateur d'Oxygène",desc:"Désoxygénant chimique. Élimine l'oxygène dissous.",img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&h=300&q=75"}];
-const MAT=[{id:20,nom:"Kit Mesure de Chlore",desc:"Mesure rapide chlore libre et total. Colorimétrie DPD.",img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=600&h=300&q=75"},{id:21,nom:"Kit Mesure de Dureté",desc:"Titrimétrie EDTA pour dureté totale, calcique et magnésienne.",img:"https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&h=300&q=75"},{id:22,nom:"pH-mètre Portable",desc:"Mesure précise du pH sur terrain. Calibration automatique, IP67.",img:"https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&h=300&q=75"},{id:23,nom:"Oxymètre",desc:"Mesure de l'oxygène dissous. Compensation température automatique.",img:"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&h=300&q=75"},{id:24,nom:"Conductimètre",desc:"Mesure conductivité, TDS et salinité. Gamme 0–200 mS/cm.",img:"https://images.unsplash.com/photo-1518152006978-fef17ef50b68?auto=format&fit=crop&w=600&h=300&q=75"}];
-const SVCS=[{id:"s1",nom:"Conception & Dimensionnement STEP",desc:"De l'avant-projet à la mise en service. Dimensionnement hydraulique et biologique complet.",ico:"🏗️",tag:"st-i",tlbl:"Service Ingénierie",feats:["APS / APD / DCE complets","Dimensionnement hydraulique et biologique","Comparaison et sélection des filières","Dossiers autorisation loi sur l'eau","Assistance maîtrise d'ouvrage (AMO)"]},{id:"s2",nom:"Optimisation des STEP Existantes",desc:"Audit technique, diagnostic et optimisation des réactifs et des performances.",ico:"⚙️",tag:"st-i",tlbl:"Service Ingénierie",feats:["Audit complet de l'installation","Bilan de fonctionnement","Optimisation des doses de réactifs","Mise en place d'indicateurs de suivi","Rapport de recommandations"]},{id:"s3",nom:"Solutions Traitement des Eaux",desc:"Choix des procédés, sourcing des réactifs, mise en route et suivi des installations.",ico:"💧",tag:"st-i",tlbl:"Service Ingénierie",feats:["Étude de faisabilité technique","Choix et dimensionnement des équipements","Formation des équipes opérateurs","Contrat de suivi mensuel disponible","Assistance technique sur site"]}];
-const ANALYSES=[{id:30,nom:"Analyse Physicochimique & Bactériologique des Eaux",desc:"pH, DCO, DBO5, MES, métaux lourds, germes totaux, coliformes.",ico:"🔬",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Prélèvement sur site par nos ingénieurs","Analyses physico-chimiques & biologiques","Rapport de conformité NM/ISO","Recommandations correctives","Suivi post-analyse inclus"]},{id:31,nom:"Analyse Agronomique & Pédologique des Sols",desc:"Texture, pH, matière organique, macro et microéléments.",ico:"🌍",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Prélèvement et préparation échantillons","Analyse granulométrique complète","Dosage NPK & oligo-éléments","pH, CEC, matière organique","Rapport avec recommandations"]},{id:32,nom:"Bilan Environnemental & Conformité NM/ISO",desc:"Évaluation des rejets, mesure des paramètres réglementaires.",ico:"🔭",tag:"st-a",tlbl:"Analyse Certifiée",feats:["Audit terrain complet","Mesure des paramètres réglementaires","Analyse des rejets liquides et solides","Rapport de conformité NM/ISO","Plan d'action correctif"]}];
-const FNUM={engrais:[{id:40,nom:"Formule Engrais Foliaires",desc:"Macro et microéléments, agents chélatants, adjuvants. Calculs de concentration inclus.",prix:"790 MAD",prixVal:790,emoji:"🌿",bg:"#e8f5e9"},{id:41,nom:"Formule Engrais de Fertigation",desc:"Formulations N-P-K pour fertigation et hydroponie. Calculateur tankmix inclus.",prix:"890 MAD",prixVal:890,emoji:"💧",bg:"#e3f2fd"},{id:42,nom:"Formule Engrais Hydrosolubles",desc:"Complexes NPK + oligo-éléments. Fiches techniques et protocoles de dissolution.",prix:"690 MAD",prixVal:690,emoji:"🧪",bg:"#f1f8e9"}],eaux:[{id:43,nom:"Formule Coagulant-Floculant Optimisé",desc:"Protocoles de dosage selon effluents. Jar-test intégré, ratios validés.",prix:"890 MAD",prixVal:890,emoji:"📄",bg:"#e8eaf6"},{id:44,nom:"Formule STEP Industrielles",desc:"Protocoles complets : physico-chimique, biologique, tertiaire.",prix:"990 MAD",prixVal:990,emoji:"🏭",bg:"#e0f7fa"},{id:45,nom:"Formule Osmose Inverse",desc:"Dosage anti-scalant, biocide et lavage membranes. Indice LSI inclus.",prix:"790 MAD",prixVal:790,emoji:"🛡️",bg:"#e8f5e9"}],nettoyage:[{id:46,nom:"Détergents Lave-Vaisselle & Vaisselle Manuelle",desc:"Industriels et domestiques : liquides, poudres, tablettes, antibactériens.",prix:"590 MAD",prixVal:590,emoji:"🍽️",bg:"#e3f2fd"},{id:47,nom:"Lessives Liquides & Poudres",desc:"Blanc/couleur, enzymatiques, sans phosphore. Détachants inclus.",prix:"590 MAD",prixVal:590,emoji:"👕",bg:"#f3e5f5"},{id:48,nom:"Agents Blanchissants & Machines",desc:"Blanchissants chlorés/oxygénés. Anticalcaires, adoucissants textiles.",prix:"490 MAD",prixVal:490,emoji:"🧺",bg:"#fff8e1"},{id:49,nom:"Nettoyants Cuisine & Multi-Usages",desc:"Désinfectants surfaces, fours, multi-usages alcalins et chlorés.",prix:"490 MAD",prixVal:490,emoji:"🍳",bg:"#fce4ec"},{id:50,nom:"Produits Sanitaires (WC, Canalisations, Douches)",desc:"Nettoyants WC acides, déboucheurs, carrelages et douches.",prix:"590 MAD",prixVal:590,emoji:"🚿",bg:"#e8f5e9"},{id:51,nom:"Hygiène des Mains & Désinfectants",desc:"Savons liquides, gels hydroalcooliques, désinfectants germicides.",prix:"490 MAD",prixVal:490,emoji:"🧴",bg:"#e8eaf6"},{id:52,nom:"Dégraissants, Antirouille & Détartrants",desc:"Dégraissants concentrés, antirouille acides/alcalins, nettoyants vitres.",prix:"590 MAD",prixVal:590,emoji:"⚙️",bg:"#fef3e2"},{id:53,nom:"Produits Sols, Tapis & Climatisation",desc:"Nettoyants sols, shampooings tapis, désinfectants climatiseurs.",prix:"490 MAD",prixVal:490,emoji:"🏠",bg:"#e0f7fa"}]};
-const OSMOSEURS=[
-  {id:60,debit:"500 L/h",nom:"Système d'Osmose Inverse Industriel 500 L/h",desc:"Unité compacte idéale pour petites industries, hôtels et cliniques. Membranes haute rejection, châssis inox, tableau de commande intégré.",prix:"48 000 MAD",prixVal:48000,specs:["Débit : 500 L/h","Pression : 10–15 bar","Taux de rejection : >97%","Alimentation : eau de réseau ou de puits","Châssis acier inoxydable 304"],img:"/osmoseur-petit.webp"},
-  {id:61,debit:"1 m³/h",nom:"Système d'Osmose Inverse Industriel 1 m³/h",desc:"Solution performante pour industries agroalimentaires, pharmaceutiques et laboratoires. Pompe haute pression, membranes spiralées 4040.",prix:"82 500 MAD",prixVal:82500,specs:["Débit : 1 000 L/h","Pression : 10–15 bar","Taux de rejection : >97%","Préfiltre sédiment + charbon actif","Compteur d'eau intégré"],img:"/osmoseur-petit.webp"},
-  {id:62,debit:"2 m³/h",nom:"Système d'Osmose Inverse Industriel 2 m³/h",desc:"Capacité moyenne pour industries manufacturières et stations de conditionnement. Système de nettoyage CIP intégré.",prix:"109 500 MAD",prixVal:109500,specs:["Débit : 2 000 L/h","Pression : 12–16 bar","Taux de rejection : >98%","Contrôleur de conductivité","Vanne bypass automatique"],img:"/osmoseur-moyen.webp"},
-  {id:63,debit:"3 m³/h",nom:"Système d'Osmose Inverse Industriel 3 m³/h",desc:"Unité robuste pour industries lourdes, agro-industrie et collectivités. Double passage disponible pour eau ultra-pure.",prix:"120 000 MAD",prixVal:120000,specs:["Débit : 3 000 L/h","Pression : 12–16 bar","Taux de rejection : >98%","Membranes 8040 haute performance","Système CIP intégré"],img:"/osmoseur-moyen.webp"},
-  {id:64,debit:"4 m³/h",nom:"Système d'Osmose Inverse Industriel 4 m³/h",desc:"Idéal pour grandes industries alimentaires, textiles et traitement des eaux usées. Supervision à distance disponible.",prix:"128 000 MAD",prixVal:128000,specs:["Débit : 4 000 L/h","Pression : 14–18 bar","Taux de rejection : >98%","Châssis inox 316L","Écran tactile de supervision"],img:"/osmoseur-grand.webp"},
-  {id:65,debit:"6 m³/h",nom:"Système d'Osmose Inverse Industriel 6 m³/h",desc:"Système semi-industriel pour grandes unités de production. Pompe multistage, économiseur d'énergie intégré.",prix:"183 500 MAD",prixVal:183500,specs:["Débit : 6 000 L/h","Pression : 14–18 bar","Taux de rejection : >98%","Récupérateur d'énergie","Alarme et protection automatique"],img:"/osmoseur-grand.webp"},
-  {id:66,debit:"8 m³/h",nom:"Système d'Osmose Inverse Industriel 8 m³/h",desc:"Haute capacité pour stations de dessalement, industries lourdes et grandes collectivités. Système duplex disponible.",prix:"194 300 MAD",prixVal:194300,specs:["Débit : 8 000 L/h","Pression : 15–20 bar","Taux de rejection : >99%","Double train de membranes","SCADA compatible"],img:"/osmoseur-industriel.webp"},
-  {id:67,debit:"10 m³/h",nom:"Système d'Osmose Inverse Industriel 10 m³/h",desc:"Unité industrielle haute performance pour dessalement, industries pharmaceutiques et grandes STEP. Installation clé en main.",prix:"230 000 MAD",prixVal:230000,specs:["Débit : 10 000 L/h","Pression : 15–20 bar","Taux de rejection : >99%","Installation et mise en service inclus","Garantie 2 ans + SAV UEM"],img:"/osmoseur-industriel.webp"},
-];
-const TICKERS=["💧 Coagulants & Floculants certifiés","⚗️ Osmoseurs industriels 500L/h à 10m³/h","🔬 Analyses eau, sol, environnement NM/ISO","📄 Formulations numériques — accès immédiat","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise 100% marocaine","♨️ Traitement eaux de chaudière","✓ Satisfait ou remboursé 30 jours"];
-const SUGS=["Quel coagulant pour mes eaux ?","Osmoseur industriel 1m³/h ?","Analyse eau de puits ?","Concevoir une STEP ?","Prix osmose inverse Maroc ?"];
-const SYS=`Tu es l'assistant IA expert d'Univers Environnement Maroc (UEM), El Jadida. Gammes : Réactifs chimiques (coagulants PAC/chlorure ferrique/sulfate aluminium, floculants, correction pH, hypochlorite, anti-scalant, biocide, passivation chaudière), Matériels (pH-mètre, conductimètre, oxymètre, kits chlore/dureté), Osmoseurs industriels (500L/h à 10m³/h, prix 48 000 à 230 000 MAD), Analyses (eaux NM/ISO, sols agronomiques, bilan environnemental), Services (STEP conception/optimisation/solutions), Formulations numériques (engrais foliaires/fertigation, traitement eaux, détergents/lessives/sanitaires). Tel: +212523377417. Réponds en français, concis, professionnel.`;
-const RUBRIQUES=[
-  {k:"chimiques",num:"01",color:"#1565c0",title:"Produits Chimiques",desc:"Coagulants, floculants, désinfectants, osmose inverse, chaudière.",count:`${CHIM.length} produits`},
-  {k:"materiels",num:"02",color:"#0277bd",title:"Matériels de Mesure",desc:"Instruments de mesure pH, conductivité, oxygène dissous, chlore.",count:`${MAT.length} équipements`},
-  {k:"osmoseurs",num:"03",color:"#006064",title:"Osmoseurs Industriels",desc:"Systèmes d'osmose inverse 500 L/h à 10 m³/h — clé en main.",count:`${OSMOSEURS.length} modèles`},
-  {k:"services",num:"04",color:"#e65100",title:"Services Ingénierie",desc:"Ingénierie environnementale, analyses certifiées et STEP.",count:"6 prestations"},
-  {k:"formulation",num:"05",color:"#4527a0",title:"Formulation",desc:"Formules numériques : engrais, eaux, nettoyage & détergents.",count:`${FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length} formules`},
-];
-const ARTICLES=[
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+const SERVICES = [
   {
-    id:"etude-impact-maroc",
-    titre:"Comment réaliser une étude d'impact environnemental au Maroc ?",
-    resume:"Guide complet pour réaliser une étude d'impact environnemental (EIE) conforme à la loi 12-03 au Maroc. Étapes, documents requis et délais.",
-    date:"15 juin 2026",
-    cat:"Réglementation",
-    emoji:"📋",
-    temps:"8 min",
-    contenu:[
-      {type:"intro",texte:"L'étude d'impact environnemental (EIE) est une obligation légale au Maroc pour tout projet susceptible de porter atteinte à l'environnement. Encadrée par la loi 12-03 relative aux études d'impact sur l'environnement, cette démarche est désormais incontournable pour les industriels, promoteurs immobiliers et collectivités. Voici un guide pratique pour comprendre et réaliser votre EIE."},
-      {type:"h2",texte:"Qu'est-ce qu'une étude d'impact environnemental au Maroc ?"},
-      {type:"p",texte:"Une EIE est un document technique qui évalue les effets positifs et négatifs d'un projet sur l'environnement avant sa réalisation. Au Maroc, la loi 12-03 promulguée en 2003 rend cette étude obligatoire pour une liste de projets définis par décret. L'objectif est d'identifier les risques environnementaux en amont et de proposer des mesures d'atténuation adaptées."},
-      {type:"h2",texte:"Quels projets sont soumis à l'EIE au Maroc ?"},
-      {type:"p",texte:"La liste des projets soumis à l'EIE comprend notamment : les industries extractives et minières, les unités de production chimique et pétrochimique, les stations d'épuration (STEP) de plus de 5 000 équivalents habitants, les barrages et ouvrages hydrauliques, les zones industrielles et zones franches, les projets touristiques de grande envergure, les routes et autoroutes, et les unités d'incinération ou de traitement de déchets. Pour les projets industriels dotés de systèmes de traitement des eaux usées, UEM peut vous accompagner dans la description des procédés de traitement."},
-      {type:"h2",texte:"Les étapes d'une étude d'impact environnemental"},
-      {type:"h3",texte:"1. État initial de l'environnement"},
-      {type:"p",texte:"La première étape consiste à établir un état de référence (baseline) de l'environnement dans la zone d'influence du projet. Cette phase comprend des analyses de la qualité des eaux superficielles et souterraines, une caractérisation des sols, un inventaire de la faune et de la flore, une évaluation de la qualité de l'air et une étude du milieu humain (population, activités économiques, patrimoine culturel)."},
-      {type:"h3",texte:"2. Description du projet et de ses impacts"},
-      {type:"p",texte:"Cette section décrit en détail le projet, ses phases de construction et d'exploitation, les ressources consommées (eau, énergie, matières premières) et les rejets générés (eaux usées, déchets solides, émissions atmosphériques, bruit). Pour chaque impact identifié, on évalue sa nature (positif/négatif), son intensité, son étendue spatiale et sa durée."},
-      {type:"h3",texte:"3. Mesures d'atténuation et programme de surveillance"},
-      {type:"p",texte:"Pour chaque impact négatif significatif, l'EIE doit proposer des mesures concrètes : traitement des eaux usées industrielles (STEP, osmoseurs, décanteurs), gestion des déchets, réduction des émissions atmosphériques, mesures de compensation écologique. Un programme de surveillance environnementale avec des analyses périodiques (eau, sol, air) doit être défini."},
-      {type:"h2",texte:"Procédure d'instruction de l'EIE au Maroc"},
-      {type:"p",texte:"Une fois l'EIE réalisée, le dossier est soumis au Département de l'Environnement (Ministère de la Transition Énergétique et du Développement Durable). Un comité national ou régional examine le dossier lors d'une audience publique. L'acceptabilité environnementale est ensuite accordée sous conditions (ou refusée) dans un délai légal de 3 mois. Sans cette décision d'acceptabilité, aucune autorisation de construction ne peut être délivrée."},
-      {type:"h2",texte:"Coûts et délais d'une EIE au Maroc"},
-      {type:"p",texte:"Le coût d'une étude d'impact varie selon la complexité du projet : de 50 000 MAD pour un projet de taille modeste à plusieurs centaines de milliers de dirhams pour un grand projet industriel. Les délais de réalisation sont généralement de 3 à 6 mois, auxquels s'ajoutent 2 à 4 mois pour l'instruction administrative. Univers Environnement Maroc peut vous accompagner dans la réalisation des bilans environnementaux et analyses terrain nécessaires à votre EIE."},
-      {type:"cta",texte:"Besoin d'analyses environnementales pour votre EIE ? Contactez UEM El Jadida"}
-    ]
+    id: 1, emoji: "💧",
+    color: "#0d2b6e", bg: "#e8f0fe",
+    title: "Traitement des eaux",
+    items: ["STEP & Stations d'épuration", "Eau potable & industrielle", "Eaux usées"],
+    slug: "traitement-eaux"
   },
   {
-    id:"analyse-eau-potable-maroc",
-    titre:"Analyse de l'eau potable au Maroc : méthodes, normes et laboratoires",
-    resume:"Tout savoir sur l'analyse de l'eau potable au Maroc : paramètres obligatoires, normes NM, fréquences d'analyses et procédure pour faire analyser votre eau.",
-    date:"1 juin 2026",
-    cat:"Analyses",
-    emoji:"🔬",
-    temps:"7 min",
-    contenu:[
-      {type:"intro",texte:"La qualité de l'eau potable est une préoccupation majeure au Maroc, tant pour les réseaux publics que pour les puits privés et forages industriels. Des analyses régulières sont indispensables pour garantir la conformité aux normes marocaines et protéger la santé des consommateurs. Voici tout ce que vous devez savoir sur l'analyse de l'eau potable au Maroc."},
-      {type:"h2",texte:"Les normes marocaines de qualité de l'eau potable"},
-      {type:"p",texte:"La qualité de l'eau potable au Maroc est régie par la norme NM 03.7.001 qui définit les valeurs limites pour plus de 60 paramètres physicochimiques et microbiologiques. Cette norme est alignée sur les directives de l'Organisation Mondiale de la Santé (OMS) et reprend les exigences de la réglementation européenne en matière de qualité des eaux destinées à la consommation humaine."},
-      {type:"h2",texte:"Paramètres obligatoires d'analyse de l'eau potable"},
-      {type:"h3",texte:"Paramètres organoleptiques et physico-chimiques"},
-      {type:"p",texte:"Les paramètres de base comprennent : pH (6,5 à 9,5), conductivité électrique (< 2700 µS/cm), turbidité (< 2 NTU), couleur, goût et odeur, température. Les paramètres chimiques incluent les nitrates (< 50 mg/L), nitrites (< 0,5 mg/L), fluorures (< 1,5 mg/L), chlorures (< 750 mg/L), sulfates (< 400 mg/L), et la dureté totale (TH)."},
-      {type:"h3",texte:"Paramètres microbiologiques"},
-      {type:"p",texte:"Les analyses microbiologiques recherchent : les coliformes totaux (absence dans 100 mL), les coliformes fécaux ou Escherichia coli (absence dans 100 mL), les entérocoques (absence dans 100 mL), les bactéries aérobies à 22°C et 37°C (pour le suivi des réseaux), et le Clostridium perfringens (indicateur de contamination fécale ancienne)."},
-      {type:"h2",texte:"Fréquence des analyses selon l'usage"},
-      {type:"p",texte:"La fréquence des analyses dépend de l'usage et du volume d'eau distribué. Pour un réseau d'eau potable, la fréquence est définie par l'ONEE et les régies de distribution selon la taille de la population desservie. Pour une entreprise industrielle utilisant un forage privé, il est recommandé de réaliser au minimum une analyse complète par an et une analyse microbiologique trimestrielle. Pour les établissements de restauration, hôtels et cliniques, des analyses semestrielles sont conseillées."},
-      {type:"h2",texte:"Comment faire analyser son eau au Maroc ?"},
-      {type:"p",texte:"Pour faire analyser votre eau, vous devez contacter un laboratoire accrédité comme celui d'Univers Environnement Maroc à El Jadida. Nos techniciens se déplacent sur site pour effectuer le prélèvement dans des conditions strictes (flacons stériles, conservation sous glace, délais respectés). Le rapport d'analyse certifié NM/ISO vous est remis sous 5 à 7 jours ouvrables avec une interprétation des résultats et des recommandations correctives si nécessaire."},
-      {type:"h2",texte:"Que faire en cas de non-conformité ?"},
-      {type:"p",texte:"Si votre eau ne respecte pas les normes, plusieurs solutions existent selon le paramètre concerné : traitement par osmose inverse pour les nitrates, sels dissous et métaux lourds (nos osmoseurs industriels traitent efficacement ces contaminants), désinfection au chlore ou UV pour les contaminations microbiologiques, adoucissement pour les problèmes de dureté excessive, et filtration par charbon actif pour les problèmes organoleptiques."},
-      {type:"cta",texte:"Faire analyser mon eau — Contacter le laboratoire UEM El Jadida"}
-    ]
+    id: 2, emoji: "🧪",
+    color: "#1b7a3e", bg: "#e8f5e9",
+    title: "Analyses environnementales",
+    items: ["Eau, Sol, Air, Boues, Déchets", "Analyses physico-chimiques", "Normes NM / ISO"],
+    slug: "analyses-environnementales"
   },
   {
-    id:"step-industrielle-maroc",
-    titre:"Station d'épuration industrielle (STEP) : guide complet pour les entreprises au Maroc",
-    resume:"Comment concevoir, dimensionner et exploiter une station d'épuration industrielle (STEP) au Maroc. Normes de rejet, filières de traitement et coûts.",
-    date:"15 mai 2026",
-    cat:"STEP",
-    emoji:"🏗️",
-    temps:"10 min",
-    contenu:[
-      {type:"intro",texte:"La mise en conformité environnementale des industries marocaines est désormais une obligation légale et une nécessité économique. La station d'épuration industrielle (STEP) est au cœur de cette démarche. Que vous soyez une industrie agroalimentaire, textile, chimique ou pharmaceutique, ce guide vous explique tout sur la conception, le dimensionnement et l'exploitation de votre STEP au Maroc."},
-      {type:"h2",texte:"Pourquoi une STEP industrielle au Maroc ?"},
-      {type:"p",texte:"La loi 36-15 sur l'eau et ses textes d'application fixent des valeurs limites de rejet des effluents liquides industriels dans les cours d'eau, lacs et mer. Les entreprises qui ne respectent pas ces normes s'exposent à des sanctions administratives, des arrêtés de fermeture et des poursuites judiciaires. Au-delà de l'obligation légale, une STEP bien conçue permet de réduire les coûts de redevance d'assainissement et d'améliorer l'image environnementale de l'entreprise."},
-      {type:"h2",texte:"Les principales filières de traitement des eaux industrielles"},
-      {type:"h3",texte:"Traitement physico-chimique"},
-      {type:"p",texte:"Le traitement physico-chimique est adapté aux effluents contenant des matières en suspension (MES), des graisses, des métaux lourds et des composés non biodégradables. Il repose sur la coagulation (ajout de PAC ou chlorure ferrique), la floculation (ajout de polyacrylamide), la décantation et la filtration. UEM fournit l'ensemble des réactifs nécessaires (coagulants, floculants, correcteurs de pH) et assure le suivi des doses par jar-test."},
-      {type:"h3",texte:"Traitement biologique"},
-      {type:"p",texte:"Le traitement biologique (boues activées, lit bactérien, lagunage) est indiqué pour les effluents contenant des polluants organiques biodégradables (DCO, DBO5). Il fait appel à des microorganismes qui dégradent la matière organique. Ce traitement est particulièrement adapté aux industries agroalimentaires (laiteries, conserveries, abattoirs), aux industries de fermentation et aux eaux usées domestiques."},
-      {type:"h3",texte:"Traitement tertiaire"},
-      {type:"p",texte:"Le traitement tertiaire permet d'affiner la qualité de l'eau traitée avant rejet ou réutilisation. Il comprend la filtration sur sable ou charbon actif, la désinfection au chlore ou UV, et l'osmose inverse pour la production d'eau recyclée de haute qualité."},
-      {type:"h2",texte:"Dimensionnement d'une STEP industrielle : les paramètres clés"},
-      {type:"p",texte:"Le dimensionnement d'une STEP repose sur la caractérisation préalable des effluents (débit, DCO, DBO5, MES, pH, température) par analyse en laboratoire. UEM réalise des campagnes de mesures et des bilans de pollution pour établir le dossier de conception. Les principaux paramètres de dimensionnement sont : le débit journalier moyen (m³/j), le débit de pointe horaire, la charge polluante journalière (kg DCO/j, kg DBO5/j), et le rendement épuratoire requis pour respecter les normes de rejet."},
-      {type:"h2",texte:"Coûts d'une STEP industrielle au Maroc"},
-      {type:"p",texte:"Le coût d'une STEP industrielle varie considérablement selon la capacité et la filière choisie. À titre indicatif : une STEP physico-chimique de 100 m³/j coûte entre 500 000 et 1 500 000 MAD en investissement, avec des coûts d'exploitation de 5 à 15 MAD/m³ traité (réactifs, énergie, personnel). UEM propose des solutions clé en main avec un accompagnement de la conception jusqu'à la mise en service et la formation des opérateurs."},
-      {type:"cta",texte:"Demander une étude de conception STEP — UEM El Jadida"}
-    ]
+    id: 3, emoji: "⚗️",
+    color: "#7b1fa2", bg: "#f3e5f5",
+    title: "Produits chimiques",
+    items: ["Réactifs de laboratoire", "Produits de traitement des eaux", "Coagulants, floculants, biocides"],
+    slug: "produits-chimiques"
   },
   {
-    id:"reglementation-environnementale-maroc-2026",
-    titre:"Réglementation environnementale marocaine 2026 : guide complet pour les entreprises",
-    resume:"Synthèse de la réglementation environnementale marocaine applicable aux entreprises en 2026 : lois, décrets, normes de rejet et obligations déclaratives.",
-    date:"1 mai 2026",
-    cat:"Réglementation",
-    emoji:"⚖️",
-    temps:"9 min",
-    contenu:[
-      {type:"intro",texte:"La réglementation environnementale marocaine s'est considérablement renforcée ces dernières années. Les entreprises industrielles doivent désormais maîtriser un cadre juridique complexe pour éviter sanctions et litiges. Ce guide synthétise les principales obligations légales en matière d'environnement pour les entreprises au Maroc en 2026."},
-      {type:"h2",texte:"Les textes fondamentaux de la législation environnementale marocaine"},
-      {type:"p",texte:"La loi-cadre 99-12 portant Charte Nationale de l'Environnement et du Développement Durable constitue le socle de la politique environnementale marocaine. Elle est complétée par la loi 11-03 relative à la protection et à la mise en valeur de l'environnement, la loi 36-15 sur l'eau (qui abroge la loi 10-95), la loi 12-03 sur les études d'impact environnemental, la loi 28-00 relative à la gestion des déchets et à leur élimination, et la loi 13-03 sur la lutte contre la pollution de l'air."},
-      {type:"h2",texte:"Normes de rejet des eaux usées industrielles"},
-      {type:"p",texte:"Le décret n°2-04-553 fixe les valeurs limites générales de rejets des eaux usées dans les eaux de surface, les eaux côtières et marines, et les réseaux d'assainissement. Les paramètres réglementés incluent : pH (6,5 à 8,5), température (< 30°C), MES (< 50 mg/L pour les eaux de surface), DCO (< 120 mg/L), DBO5 (< 40 mg/L), azote total Kjeldahl (< 40 mg/L), phosphore total (< 10 mg/L), et des valeurs spécifiques pour les métaux lourds."},
-      {type:"h3",texte:"Valeurs limites spécifiques par secteur"},
-      {type:"p",texte:"Des normes spécifiques s'appliquent à certains secteurs industriels : industries agroalimentaires, tanneries, industries textiles (colorants et tensioactifs réglementés), industries chimiques et phosphatières, et unités de galvanisation et traitement de surface. UEM réalise des bilans de conformité pour identifier les écarts et proposer des solutions de traitement adaptées."},
-      {type:"h2",texte:"Obligations de surveillance environnementale"},
-      {type:"p",texte:"Les entreprises classées sont tenues d'effectuer des auto-contrôles périodiques de leurs rejets et de transmettre les résultats aux autorités compétentes (Agences de Bassins Hydrauliques, Départements de l'Environnement). La fréquence des analyses varie selon la taille de l'installation et le type de polluants. Des contrôles inopinés peuvent être effectués par les services de l'État."},
-      {type:"h2",texte:"Gestion des déchets industriels au Maroc"},
-      {type:"p",texte:"La loi 28-00 classe les déchets en plusieurs catégories : déchets ménagers et assimilés, déchets inertes, déchets dangereux et déchets médicaux. Les producteurs de déchets industriels ont l'obligation de les trier, stocker, traiter ou confier à des opérateurs agréés. Les boues de STEP sont considérées comme des déchets industriels et doivent faire l'objet d'un traitement approprié (compostage, incinération, mise en décharge contrôlée)."},
-      {type:"h2",texte:"Sanctions en cas de non-conformité"},
-      {type:"p",texte:"Les infractions à la réglementation environnementale sont passibles d'amendes allant de 10 000 à 1 000 000 MAD, de peines d'emprisonnement pour les cas les plus graves, de la suspension ou du retrait de l'autorisation d'exploitation, et de la mise en demeure de réaliser des travaux de mise en conformité dans un délai fixé. La responsabilité civile du chef d'entreprise peut également être engagée en cas de dommages environnementaux."},
-      {type:"cta",texte:"Bilan de conformité environnementale — Contacter UEM"}
-    ]
+    id: 4, emoji: "⚙️",
+    color: "#e65100", bg: "#fff3e0",
+    title: "Équipements & Osmoseurs",
+    items: ["Osmoseurs industriels & domestiques", "Adoucisseurs, filtres, pompes", "Instrumentation & accessoires"],
+    slug: "equipements"
+  },
+  {
+    id: 5, emoji: "📐",
+    color: "#f57c00", bg: "#fff8e1",
+    title: "Ingénierie & Conception",
+    items: ["Études & Conception", "Installation & Mise en service", "Suivi & Optimisation"],
+    slug: "ingenierie"
+  },
+  {
+    id: 6, emoji: "🌿",
+    color: "#2e7d32", bg: "#e8f5e9",
+    title: "Environnement & HSE",
+    items: ["Études d'impact & Audits", "ISO 14001 – Management env.", "Conseil HSE & Conformité"],
+    slug: "environnement-hse"
+  },
+  {
+    id: 7, emoji: "🎓",
+    color: "#f9a825", bg: "#fffde7",
+    title: "Formation & Sensibilisation",
+    items: ["Formation HSE", "Traitement des eaux", "Laboratoire & Environnement"],
+    slug: "formation"
+  },
+  {
+    id: 8, emoji: "🔧",
+    color: "#0277bd", bg: "#e1f5fe",
+    title: "Maintenance & SAV",
+    items: ["Maintenance préventive & corrective", "Contrats annuels", "Assistance technique 7/7"],
+    slug: "maintenance"
   }
 ];
 
-const NAV=[{k:"garde",l:"Accueil"},{k:"chimiques",l:"Produits Chimiques"},{k:"materiels",l:"Matériels"},{k:"osmoseurs",l:"Osmoseurs"},{k:"services",l:"Services"},{k:"realisations",l:"Réalisations"},{k:"blog",l:"Blog"},{k:"formulation",l:"Formulation"}];
-const grpBy=(arr,k)=>arr.reduce((a,i)=>{ (a[i[k]]=a[i[k]]||[]).push(i); return a; },{});
-const rtx=t=>t.split(/(\*\*[^*]+\*\*)/g).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>);
-
-/* ══════════════════════════════════════════════════════════════════
-   COMPOSANTS DE PAGE DÉFINIS EN DEHORS DE APP()
-   CORRECTION CRITIQUE : évite le re-mount à chaque frappe clavier
-══════════════════════════════════════════════════════════════════ */
-
-/* CARTE PRODUIT */
-function PCard({p,type,onDevis,onCart,edits}){
-  const e=edits&&edits[p.id];
-  return(
-    <div className="pc">
-      {p.img?(<div className="pc-img"><img src={p.img} alt={p.nom} loading="lazy"/><div className="pc-ov"/><span className={`pbadge ${type==="n"?"bd-n":type==="m"?"bd-m":"bd-r"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span></div>):(<div className="pc-bg" style={{background:p.bg||"#e8f5e9"}}><span>{p.emoji}</span><span className={`pbadge ${type==="n"?"bd-n":type==="m"?"bd-m":"bd-r"}`}>{type==="n"?"Numérique":type==="m"?"Matériel":"Réactif"}</span></div>)}
-      <div className="pc-body">
-        {p.grp&&<div className="pc-grp">{p.grp}</div>}
-        <div className="pc-nom">{(e&&e.nom)||p.nom}</div>
-        <div className="pc-desc">{(e&&e.desc)||p.desc}</div>
-        <div className="pc-foot">
-          <div><div className="pc-px">{(e&&e.prix)||p.prix||"Sur devis"}</div><div className="pc-u">/{p.unite||"unité"}</div></div>
-          {type==="n"?<button className="btn-add ba-b" onClick={()=>onCart(p)}>⚡ Acheter</button>:<button className="btn-add ba-r" onClick={()=>onDevis(p.nom)}>Devis →</button>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* CARTE SERVICE */
-function SCard({s,onDevis}){
-  return(
-    <div className="sc">
-      <div className="sc-ico">{s.ico}</div>
-      <span className={`sc-tag ${s.tag}`}>{s.tlbl}</span>
-      <div className="sc-nom">{s.nom}</div>
-      <div className="sc-desc">{s.desc}</div>
-      {s.feats&&<ul className="sc-feats">{s.feats.map((f,i)=><li key={i}>{f}</li>)}</ul>}
-      <button className="btn-dvc" onClick={()=>onDevis(s.nom)}>Demander un devis →</button>
-    </div>
-  );
-}
-
-/* PAGE HEADER */
-function PageHdr({cat,h1,em,sub,onBack}){
-  return(
-    <div className="ph">
-      <div className="ph-in">
-        <button className="ph-bk" onClick={onBack}>←</button>
-        <div>
-          <div className="ph-cat">{cat}</div>
-          <h1 className="ph-title">{h1}{em&&<> — <em>{em}</em></>}</h1>
-          {sub&&<p className="ph-sub">{sub}</p>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ══ COMPOSANT SEO CONTENT RÉUTILISABLE ══ */
-const SL={color:"var(--v)",fontWeight:700,cursor:"pointer",textDecoration:"underline",textDecorationColor:"rgba(21,101,192,.3)"};
-function SeoSection({children}){
-  return(
-    <div style={{background:"var(--fond)",borderTop:"1px solid var(--b)",padding:"48px 28px"}}>
-      <div style={{maxWidth:1200,margin:"0 auto"}}>{children}</div>
-    </div>
-  );
-}
-function SeoH2({children}){return <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.4rem",fontWeight:700,color:"var(--k)",margin:"28px 0 10px",letterSpacing:"-.01em"}}>{children}</h2>;}
-function SeoH3({children}){return <h3 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.05rem",fontWeight:600,color:"var(--v)",margin:"18px 0 7px"}}>{children}</h3>;}
-function SeoP({children}){return <p style={{fontSize:"1rem",color:"var(--g1)",lineHeight:1.85,marginBottom:12,fontFamily:"'Inter',sans-serif"}}>{children}</p>;}
-
-/* PAGE GARDE */
-function PageGarde({onGo}){
-  const [slide,setSlide]=useState(0);
-  const slides=[
-    {img:"/Step-traitement.jpg.jpeg",label:"Station d'Épuration — Projet UEM au Maroc"},
-    {img:"/prélevement-eau de mer.jpg.jpeg",label:"Contrôle des rejets en milieu naturel"},
-    {img:"/Laboratoire-uem.jpg.jpeg",label:"Laboratoire d'Analyse UEM — El Jadida"},
-  ];
-  useEffect(()=>{const t=setInterval(()=>setSlide(s=>(s+1)%slides.length),4500);return()=>clearInterval(t);},[]);
-  return(
-    <>
-      <div className="hero">
-        <div className="hero-in">
-          <div>
-            <div className="h-tag"><span/>L'Expertise Verte au Service du Maroc</div>
-            <h1>Leader marocain du<br/><em>traitement des eaux</em><br/>et des <span className="r">analyses environnementales</span></h1>
-            <p className="h-desc">Plus de 15 ans d'expertise au service des industriels, collectivités et laboratoires au Maroc. Réactifs certifiés · Analyses NM/ISO · Conception STEP.</p>
-            <div className="h-btns">
-              <button className="btn-p" onClick={()=>onGo("contact")}>Demander un devis gratuit</button>
-              <button className="btn-o" onClick={()=>onGo("realisations")}>Voir nos réalisations</button>
-            </div>
-            <div className="h-stats">
-              {[{n:"15+",l:"Ans d'expérience"},{n:"200+",l:"Projets réalisés"},{n:"500+",l:"Clients satisfaits"},{n:"98%",l:"Satisfaction"}].map((s,i)=><div key={i}><div className="hs-n">{s.n}</div><div className="hs-l">{s.l}</div></div>)}
-            </div>
-          </div>
-          <div style={{position:"relative",borderRadius:12,overflow:"hidden",height:360,boxShadow:"0 10px 40px rgba(0,0,0,.2)",flex:"0 0 400px"}}>
-            {slides.map((s,i)=>(
-              <div key={i} style={{position:"absolute",inset:0,opacity:slide===i?1:0,transition:"opacity 1s ease",backgroundImage:`url(${s.img})`,backgroundSize:"cover",backgroundPosition:"center"}}>
-                <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(13,27,46,.7) 0%,rgba(0,0,0,.1) 60%)"}}/>
-                <div style={{position:"absolute",bottom:14,left:14,right:14,color:"#fff",fontSize:".72rem",fontWeight:600,letterSpacing:".05em",background:"rgba(21,101,192,.7)",padding:"5px 12px",borderRadius:5}}>{s.label}</div>
-              </div>
-            ))}
-            <div style={{position:"absolute",bottom:42,right:14,display:"flex",gap:6,zIndex:2}}>
-              {slides.map((_,i)=><button key={i} onClick={()=>setSlide(i)} style={{width:8,height:8,borderRadius:"50%",border:"2px solid rgba(255,255,255,.6)",background:slide===i?"#5cb800":"transparent",cursor:"pointer",padding:0,transition:"all .3s"}}/>)}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="bch"><div className="bch-in">{[{n:"15+ ans",l:"D'expérience terrain"},{n:"200+",l:"Projets STEP réalisés"},{n:"NM/ISO",l:"Analyses certifiées"},{n:"🇲🇦",l:"100% Marocain"}].map((c,i)=><div key={i}><div className="bcn">{c.n}</div><div className="bcl">{c.l}</div></div>)}</div></div>
-      <div className="rubs"><div className="rubs-in">
-        <div className="slbl">Nos domaines d'expertise</div>
-        <h2 className="stitle">Explorez notre <em>catalogue complet</em></h2>
-        <p className="ssub">Produits chimiques, matériels, services d'ingénierie et formulations numériques — tout pour le traitement de l'eau au Maroc.</p>
-        <div className="rub-grid">
-          {RUBRIQUES.map(r=>(
-            <div key={r.k} className="rcard" onClick={()=>onGo(r.k)} style={{borderTop:`3px solid ${r.color}`}}>
-              <div style={{fontSize:"1.3rem",fontWeight:700,color:r.color,fontFamily:"Inter,sans-serif",letterSpacing:"-.02em"}}>{r.num}</div>
-              <h3>{r.title}</h3>
-              <p>{r.desc}</p>
-              <span className="rcnt" style={{background:`${r.color}18`,color:r.color}}>{r.count}</span>
-            </div>
-          ))}
-        </div>
-      </div></div>
-      {/* SECTION LABORATOIRE */}
-      <div style={{background:"var(--s)",borderTop:"1px solid var(--b)",borderBottom:"1px solid var(--b)",padding:"52px 28px"}}>
-        <div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center"}}>
-          <div>
-            <div className="slbl">Notre laboratoire</div>
-            <h2 className="stitle">Laboratoire d'Analyse <em>certifié</em></h2>
-            <p style={{fontSize:".9rem",color:"var(--g1)",lineHeight:1.8,margin:"16px 0 20px"}}>Notre laboratoire d'analyse à El Jadida est équipé d'instruments de précision pour réaliser toutes vos analyses physicochimiques, bactériologiques et agronomiques selon les normes NM et ISO en vigueur au Maroc.</p>
-            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:24}}>
-              {["Analyses physicochimiques & bactériologiques des eaux","Analyses agronomiques et pédologiques des sols","Bilans environnementaux et conformité NM/ISO","Microscope, spectrophotomètre, étuve, agitateur"].map((f,i)=><div key={i} style={{display:"flex",gap:10,fontSize:".82rem",color:"var(--g1)"}}><span style={{color:"var(--gr)",fontWeight:700}}>✓</span>{f}</div>)}
-            </div>
-            <button className="btn-p" onClick={()=>onGo("services")}>Demander une analyse →</button>
-          </div>
-          <div style={{borderRadius:12,overflow:"hidden",height:320,position:"relative",boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
-            <img src="/Laboratoire-uem.jpg.jpeg" alt="Laboratoire Univers Environnement Maroc El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
-          </div>
-        </div>
-      </div>
-      <div className="av"><div className="av-in">{[{i:"🚚",t:"Livraison 24h",d:"Expédition rapide partout au Maroc."},{i:"⚡",t:"Accès immédiat",d:"Formulations numériques dès paiement."},{i:"🔒",t:"Analyses certifiées",d:"Conformes aux normes NM et ISO."},{i:"🇲🇦",t:"Expertise locale",d:"15 ans d'expérience terrain au Maroc."}].map((a,i)=><div key={i} className="av-it"><div className="av-i">{a.i}</div><div className="av-t">{a.t}</div><div className="av-d">{a.d}</div></div>)}</div></div>
-
-      {/* SECTION SEO RICHE */}
-      <SeoSection>
-        <SeoH2>Univers Environnement Maroc — Leader en Traitement des Eaux au Maroc</SeoH2>
-        <SeoP>Fondée à El Jadida, <strong>Univers Environnement Maroc (UEM)</strong> est une société marocaine d'ingénierie environnementale spécialisée dans le traitement des eaux usées industrielles et domestiques, la fourniture de réactifs chimiques certifiés, la conception de stations d'épuration (STEP) et la réalisation d'analyses environnementales conformes aux normes NM et ISO en vigueur au Maroc.</SeoP>
-
-        <SeoH2>Nos Produits Chimiques pour le Traitement des Eaux</SeoH2>
-        <SeoP>Notre gamme de <span style={SL} onClick={()=>onGo("chimiques")}>réactifs chimiques pour le traitement des eaux</span> comprend plus de 19 produits certifiés : coagulants (PAC — Poly Aluminium Chlorure, chlorure ferrique, sulfate d'aluminium), floculants anioniques et cationiques, produits de correction pH, hypochlorite de sodium pour la désinfection, produits anti-scalant pour l'osmose inverse et produits de traitement des eaux de chaudière. Livraison 24h sur tout le territoire marocain.</SeoP>
-
-        <SeoH3>Coagulants et Floculants pour STEP au Maroc</SeoH3>
-        <SeoP>Le PAC (Poly Aluminium Chlorure) et le chlorure ferrique sont les coagulants les plus utilisés dans les stations d'épuration au Maroc. UEM fournit ces produits en grande quantité avec fiches techniques et protocoles de dosage adaptés à vos effluents industriels, qu'il s'agisse d'eaux agroalimentaires, textiles, pharmaceutiques ou municipales.</SeoP>
-
-        <SeoH2>Osmoseurs Industriels — De 500 L/h à 10 m³/h</SeoH2>
-        <SeoP>Découvrez notre gamme complète d'<span style={SL} onClick={()=>onGo("osmoseurs")}>osmoseurs industriels</span> : systèmes d'osmose inverse clé en main de 500 L/h à 10 m³/h, conçus pour les industries agroalimentaires, pharmaceutiques, hôtelières et collectivités. Chaque système est livré avec membranes haute rejection (>97%), châssis inox, tableau de commande, et bénéficie d'une installation sur site et d'une garantie 2 ans assurées par nos ingénieurs UEM.</SeoP>
-
-        <SeoH2>Conception de STEP — Ingénierie Environnementale</SeoH2>
-        <SeoP>UEM assure la <span style={SL} onClick={()=>onGo("services")}>conception et le dimensionnement de stations d'épuration</span> (STEP) pour les industries et collectivités du Maroc. De l'avant-projet sommaire (APS) à la mise en service, nos ingénieurs environnementaux accompagnent chaque étape : études de faisabilité, dimensionnement hydraulique et biologique, sélection des filières de traitement, dossiers réglementaires et formation des équipes opérateurs.</SeoP>
-
-        <SeoH3>Optimisation de STEP Existantes</SeoH3>
-        <SeoP>Vous rencontrez des problèmes de performance sur votre station d'épuration ? UEM réalise des audits complets de vos installations et propose des solutions d'optimisation : révision des doses de réactifs, amélioration des filières biologiques, mise en place d'indicateurs de suivi et contrats de maintenance préventive.</SeoP>
-
-        <SeoH2>Analyses Environnementales Certifiées NM/ISO — El Jadida</SeoH2>
-        <SeoP>Notre <span style={SL} onClick={()=>onGo("services")}>laboratoire d'analyse environnementale</span> à El Jadida est équipé pour réaliser l'ensemble des analyses requises par la réglementation marocaine : analyses physicochimiques et bactériologiques des eaux (pH, DCO, DBO5, MES, métaux lourds, coliformes), analyses agronomiques et pédologiques des sols (NPK, pH, CEC, matière organique), et bilans environnementaux complets selon les normes NM et ISO. Nos rapports sont reconnus par les autorités environnementales marocaines.</SeoP>
-
-        <SeoH2>Nos Réalisations au Maroc</SeoH2>
-        <SeoP>Avec plus de <span style={SL} onClick={()=>onGo("realisations")}>200 projets réalisés à travers le Maroc</span>, UEM a accompagné des clients dans les secteurs de l'industrie agroalimentaire, du textile, de la chimie, de la pharmacie et des collectivités territoriales. Nos équipes interviennent dans tout le Royaume : Casablanca, Marrakech, Fès, Rabat, Agadir, Tanger, Meknès, Ouarzazate et bien sûr El Jadida et la région de Doukkala-Abda.</SeoP>
-
-        <div style={{marginTop:24,padding:"16px 20px",background:"rgba(21,101,192,.05)",border:"1px solid rgba(21,101,192,.15)",borderRadius:8}}>
-          <SeoP><strong>Contactez Univers Environnement Maroc :</strong> N°1, Boulevard Jabrane Khalil Jabrane, El Jadida 24000, Maroc — Tél : +212 523 37 74 17 — WhatsApp : +212 700 090 365 — Email : univers.envi@gmail.com</SeoP>
-        </div>
-      </SeoSection>
-    </>
-  );
-}
-
-/* PAGE CHIMIQUES */
-function PageChim({onBack,onDevis,onCart,edits}){
-  const gs=grpBy(CHIM,"grp");
-  return(<>
-    <PageHdr cat="Catalogue" h1="Produits Chimiques" em="Réactifs certifiés" sub="Coagulants, floculants, désinfectants, osmose inverse et chaudière — qualité certifiée, livraison 24h au Maroc." onBack={onBack}/>
-    <div className="pbody">{Object.entries(gs).map(([grp,items])=><div key={grp} className="grp"><div className="grp-hd"><h2>{grp}</h2><span className="gpill">{items.length} produits</span></div><div className="g3">{items.map(p=><PCard key={p.id} p={p} type="p" onDevis={onDevis} onCart={onCart} edits={edits}/>)}</div></div>)}</div>
-    <SeoSection>
-      <SeoH2>Réactifs Chimiques pour Traitement des Eaux — Fournisseur Maroc</SeoH2>
-      <SeoP>Univers Environnement Maroc est un fournisseur leader de <strong>réactifs chimiques pour le traitement des eaux</strong> au Maroc. Notre gamme couvre l'ensemble des besoins des stations d'épuration (STEP) industrielles et municipales, des systèmes d'osmose inverse, des circuits de refroidissement et des chaudières industrielles. Tous nos produits sont livrés avec fiches de données de sécurité (FDS) et certificats d'analyse.</SeoP>
-      <SeoH3>PAC — Poly Aluminium Chlorure au Maroc</SeoH3>
-      <SeoP>Le <strong>PAC (Poly Aluminium Chlorure)</strong> est le coagulant le plus utilisé au Maroc pour le traitement des eaux potables et industrielles. Il offre une efficacité supérieure sur une large plage de pH (5 à 9) et produit des flocs denses qui sédimentent rapidement. UEM fournit le PAC en solution liquide 10-12% Al₂O₃, conditionné en jerricans 25L, fûts 200L ou en vrac.</SeoP>
-      <SeoH3>Anti-Scalant pour Osmose Inverse</SeoH3>
-      <SeoP>L'<strong>anti-scalant pour osmose inverse</strong> est indispensable pour protéger vos membranes contre l'entartrage causé par les carbonates de calcium, les sulfates et la silice. UEM propose des formulations adaptées à chaque type d'eau d'alimentation (eau de mer, eau saumâtre, eau de puits). Nos ingénieurs calculent l'indice de Langelier (LSI) pour déterminer le dosage optimal.</SeoP>
-      <SeoH2>Produits de Traitement Eaux de Chaudière</SeoH2>
-      <SeoP>Le traitement des eaux de chaudière est essentiel pour prévenir la corrosion, l'entartrage et prolonger la durée de vie de vos équipements thermiques. Notre gamme comprend des <span style={SL} onClick={()=>onDevis("Produits traitement chaudière")}>éliminateurs d'oxygène, antitartres, produits de passivation et inhibiteurs de corrosion</span> adaptés aux chaudières basse, moyenne et haute pression. Contactez nos experts pour un programme de traitement personnalisé.</SeoP>
-    </SeoSection>
-  </>);
-}
-
-/* PAGE MATÉRIELS */
-function PageMat({onBack,onDevis,onCart,edits}){
-  return(<>
-    <PageHdr cat="Équipements" h1="Matériels de Mesure" em="Instruments professionnels" sub="pH-mètres, conductimètres, oxymètres, kits terrain — équipements fiables pour le contrôle qualité de vos eaux." onBack={onBack}/>
-    <div className="pbody"><div className="g4">{MAT.map(p=><PCard key={p.id} p={p} type="m" onDevis={onDevis} onCart={onCart} edits={edits}/>)}</div></div>
-  </>);
-}
-
-/* PAGE SERVICES */
-function PageSvc({onBack,onDevis}){
-  return(<>
-    <PageHdr cat="Ingénierie & Analyses" h1="Nos Services" em="Expertise terrain" sub="Conception STEP, analyses certifiées NM/ISO et optimisation de vos procédés — accompagnement A à Z." onBack={onBack}/>
-    <div className="pbody">
-      <div className="grp"><div className="grp-hd"><h2>Services d'ingénierie</h2><span className="gpill">3 prestations</span></div><div className="gsvc">{SVCS.map(s=><SCard key={s.id} s={s} onDevis={onDevis}/>)}</div></div>
-      <div className="grp"><div className="grp-hd"><h2>Analyses environnementales</h2><span className="gpill">3 analyses</span></div><div className="gsvc">{ANALYSES.map(a=><SCard key={a.id} s={a} onDevis={onDevis}/>)}</div></div>
-    <SeoSection>
-      <SeoH2>Ingénierie Environnementale au Maroc — UEM El Jadida</SeoH2>
-      <SeoP>Univers Environnement Maroc intervient sur l'ensemble du cycle de l'eau au Maroc : de la <strong>conception de stations d'épuration (STEP)</strong> à la réalisation d'analyses environnementales certifiées, en passant par l'optimisation des procédés de traitement existants. Nos ingénieurs cumulent plus de 15 ans d'expérience terrain dans les secteurs industriel, agricole et municipal.</SeoP>
-      <SeoH3>Normes et réglementation environnementale au Maroc</SeoH3>
-      <SeoP>Toutes nos prestations respectent la législation marocaine en matière d'environnement et de qualité de l'eau, notamment la <strong>Loi 36-15 sur l'eau</strong>, les normes de qualité des eaux superficielles (NM 03.7.200), les valeurs limites de rejet des effluents liquides industriels, et les normes d'analyses de l'eau selon les référentiels NM et ISO. Nos rapports sont acceptés par les autorités de bassin hydraulique et les bureaux de contrôle.</SeoP>
-      <SeoH2>Analyses Eau et Sol — Laboratoire certifié El Jadida</SeoH2>
-      <SeoP>Notre laboratoire à El Jadida réalise plus de 50 paramètres d'analyse : <strong>pH, conductivité, turbidité, DCO, DBO5, MES, nitrates, phosphates, métaux lourds (plomb, cadmium, chrome, mercure), coliformes fécaux et totaux, entérocoques</strong> pour les eaux, et granulométrie, matière organique, NPK, pH KCl, capacité d'échange cationique pour les sols agricoles. <span style={SL} onClick={()=>onDevis("Analyse eau laboratoire")}>Demandez un devis pour vos analyses.</span></SeoP>
-    </SeoSection>
-  </>);
-/* PAGE BLOG */
-function PageBlog({onBack,onArticle}){
-  const cats=["Tous","STEP","Analyses","Réglementation","Produits","Osmoseurs"];
-  const [filtre,setFiltre]=useState("Tous");
-  const customArticles=(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}})();
-  const allArticles=[...customArticles,...ARTICLES];
-  const articles=filtre==="Tous"?allArticles:allArticles.filter(a=>a.cat===filtre);
-  return(<>
-    <PageHdr cat="Blog & Actualités" h1="Ressources techniques" em="Expertise UEM" sub="Guides pratiques, réglementation environnementale marocaine et conseils techniques par les ingénieurs d'Univers Environnement Maroc." onBack={onBack}/>
-    <div className="pbody">
-      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:32}}>
-        {cats.map(c=><button key={c} onClick={()=>setFiltre(c)} style={{border:`1.5px solid ${filtre===c?"var(--v)":"var(--b)"}`,background:filtre===c?"var(--v)":"var(--w)",color:filtre===c?"#fff":"var(--g1)",padding:"7px 18px",borderRadius:20,fontFamily:"Inter,sans-serif",fontSize:".82rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}>{c}</button>)}
-      </div>
-      <div className="g3" style={{marginBottom:48}}>
-        {articles.map(a=>(
-          <div key={a.id} onClick={()=>onArticle(a.id)} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,overflow:"hidden",cursor:"pointer",transition:"transform .2s,box-shadow .2s"}}
-            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 8px 28px rgba(0,0,0,.1)";}}
-            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
-            <div style={{height:140,background:`linear-gradient(135deg,var(--v2),var(--v))`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"3rem",position:"relative"}}>
-              {a.emoji}
-              <span style={{position:"absolute",top:10,left:10,background:"rgba(255,255,255,.2)",color:"#fff",fontSize:".62rem",fontWeight:700,padding:"3px 10px",borderRadius:4,letterSpacing:".08em",textTransform:"uppercase"}}>{a.cat}</span>
-              <span style={{position:"absolute",bottom:10,right:10,color:"rgba(255,255,255,.75)",fontSize:".7rem"}}>⏱ {a.temps}</span>
-            </div>
-            <div style={{padding:"16px 18px 20px"}}>
-              <div style={{fontSize:".68rem",color:"var(--g2)",marginBottom:7}}>📅 {a.date}</div>
-              <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:".95rem",fontWeight:700,color:"var(--k)",marginBottom:9,lineHeight:1.4}}>{a.titre}</h2>
-              <p style={{fontSize:".78rem",color:"var(--g1)",lineHeight:1.7,marginBottom:12}}>{a.resume}</p>
-              <span style={{color:"var(--v)",fontSize:".78rem",fontWeight:600}}>Lire l'article →</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"28px",textAlign:"center",color:"#fff"}}>
-        <div style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.2rem",fontWeight:700,marginBottom:8}}>📩 Restez informé</div>
-        <p style={{fontSize:".88rem",color:"rgba(255,255,255,.82)",marginBottom:4}}>Nos ingénieurs publient 2 à 4 articles par mois sur la réglementation environnementale et les techniques de traitement des eaux.</p>
-        <p style={{fontSize:".8rem",color:"rgba(255,255,255,.65)"}}>univers.envi@gmail.com | +212 523 37 74 17</p>
-      </div>
-    </div>
-  </>);
-}
-
-/* PAGE ARTICLE */
-function PageArticle({articleId,onBack,onGo}){
-  const customArticles=(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}})();
-  const a=[...customArticles,...ARTICLES].find(x=>x.id===articleId);
-  if(!a)return null;
-  return(<>
-    <PageHdr cat={`Blog — ${a.cat}`} h1={a.titre} sub={`Publié le ${a.date} · ${a.temps} de lecture · Par les ingénieurs UEM`} onBack={onBack}/>
-    <div className="pbody" style={{maxWidth:860,margin:"0 auto"}}>
-      <div style={{display:"flex",gap:10,flexWrap:"wrap",marginBottom:24,paddingBottom:18,borderBottom:"1px solid var(--b)"}}>
-        <span style={{background:`rgba(21,101,192,.09)`,color:"var(--v)",fontSize:".7rem",fontWeight:700,padding:"3px 11px",borderRadius:4}}>📂 {a.cat}</span>
-        <span style={{color:"var(--g2)",fontSize:".76rem"}}>📅 {a.date}</span>
-        <span style={{color:"var(--g2)",fontSize:".76rem"}}>⏱ {a.temps} de lecture</span>
-      </div>
-      {a.contenu.map((bloc,i)=>{
-        if(bloc.type==="intro") return <p key={i} style={{fontSize:"1.02rem",color:"var(--k)",lineHeight:1.85,fontWeight:500,marginBottom:22,borderLeft:"3px solid var(--v)",paddingLeft:16}}>{bloc.texte}</p>;
-        if(bloc.type==="h2")   return <h2 key={i} style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1.3rem",fontWeight:700,color:"var(--k)",margin:"28px 0 10px",letterSpacing:"-.01em"}}>{bloc.texte}</h2>;
-        if(bloc.type==="h3")   return <h3 key={i} style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1rem",fontWeight:600,color:"var(--v)",margin:"18px 0 7px"}}>{bloc.texte}</h3>;
-        if(bloc.type==="p")    return <p key={i} style={{fontSize:"1rem",color:"var(--g1)",lineHeight:1.85,marginBottom:12}}>{bloc.texte}</p>;
-        if(bloc.type==="cta")  return(
-          <div key={i} style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:10,padding:"22px",textAlign:"center",margin:"28px 0",color:"#fff"}}>
-            <div style={{fontSize:".95rem",fontWeight:700,marginBottom:12}}>{bloc.texte}</div>
-            <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
-              <button className="btn-p" style={{background:"#fff",color:"var(--v)"}} onClick={()=>onGo("contact")}>📩 Demander un devis</button>
-              <a href="https://wa.me/212700090365" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"11px 20px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".86rem",fontWeight:600,textDecoration:"none"}}>💬 WhatsApp</a>
-            </div>
-          </div>
-        );
-        return null;
-      })}
-      <div style={{marginTop:36,paddingTop:24,borderTop:"1px solid var(--b)"}}>
-        <h2 style={{fontFamily:"'Montserrat',sans-serif",fontSize:"1rem",fontWeight:700,color:"var(--k)",marginBottom:14}}>Articles liés</h2>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
-          {ARTICLES.filter(x=>x.id!==articleId).slice(0,2).map(x=>(
-            <div key={x.id} onClick={()=>onGo("article_"+x.id)} style={{background:"var(--fond)",border:"1px solid var(--b)",borderRadius:8,padding:"14px",cursor:"pointer",transition:"border-color .2s"}}
-              onMouseEnter={e=>e.currentTarget.style.borderColor="var(--v)"}
-              onMouseLeave={e=>e.currentTarget.style.borderColor="var(--b)"}>
-              <div style={{fontSize:"1.3rem",marginBottom:7}}>{x.emoji}</div>
-              <div style={{fontSize:".8rem",fontWeight:700,color:"var(--k)",lineHeight:1.35}}>{x.titre}</div>
-              <div style={{fontSize:".7rem",color:"var(--v)",marginTop:6,fontWeight:600}}>Lire →</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </>);
-}
-
-function PageForm({onBack,onCart,ftab,setFtab,edits}){
-  return(<>
-    <PageHdr cat="Produits Numériques" h1="Formulations Techniques" em="PDF + Excel" sub="Accès permanent après achat. Formules validées en laboratoire pour engrais, traitement des eaux et nettoyage industriel." onBack={onBack}/>
-    <div className="pbody">
-      <div className="ftabs">{[{k:"engrais",l:"🌿 Engrais"},{k:"eaux",l:"💧 Traitement des Eaux"},{k:"nettoyage",l:"🧴 Nettoyage & Détergents"}].map(t=><button key={t.k} className={`ftab${ftab===t.k?" on":""}`} onClick={()=>setFtab(t.k)}>{t.l}</button>)}</div>
-      <div className="g3">{FNUM[ftab].map(p=><PCard key={p.id} p={{...p,unite:"accès permanent"}} type="n" onDevis={()=>{}} onCart={onCart} edits={edits}/>)}</div>
-    </div>
-  </>);
-}
-
-/* PAGE OSMOSEURS INDUSTRIELS */
-function PageOsmoseurs({onBack,onDevis}){
-  return(<>
-    <PageHdr cat="Équipements" h1="Osmoseurs Industriels" em="Clé en main" sub="Systèmes d'osmose inverse industriels de 500 L/h à 10 m³/h — installation, mise en service et SAV assurés par les ingénieurs UEM au Maroc." onBack={onBack}/>
-    <div className="pbody">
-      {/* Intro */}
-      <div style={{background:"linear-gradient(135deg,rgba(21,101,192,.06),rgba(0,96,100,.06))",border:"1px solid rgba(21,101,192,.15)",borderRadius:10,padding:"20px 24px",marginBottom:36,display:"flex",gap:24,alignItems:"center",flexWrap:"wrap"}}>
-        <div style={{fontSize:"2.5rem"}}>💧</div>
-        <div style={{flex:1}}>
-          <div style={{fontWeight:700,fontSize:"1rem",color:"var(--k)",marginBottom:6}}>Systèmes d'osmose inverse industriels — Livraison & installation partout au Maroc</div>
-          <div style={{fontSize:".82rem",color:"var(--g1)",lineHeight:1.7}}>Membranes haute performance · Châssis inox · Tableau de commande intégré · Anti-scalant fourni · Garantie 2 ans · SAV UEM El Jadida</div>
-        </div>
-        <a href="https://wa.me/212700090365?text=Bonjour%20UEM%2C%20je%20souhaite%20un%20devis%20pour%20un%20osmoseur%20industriel" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"11px 20px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".82rem",fontWeight:700,textDecoration:"none",whiteSpace:"nowrap"}}>💬 Devis WhatsApp</a>
-      </div>
-
-      {/* Grille osmoseurs */}
-      <div className="g4">
-        {OSMOSEURS.map(os=>(
-          <div key={os.id} style={{background:"var(--w)",border:"1.5px solid var(--b)",borderRadius:10,overflow:"hidden",transition:"transform .2s,box-shadow .2s,border-color .2s"}}
-            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 10px 32px rgba(0,0,0,.1)";e.currentTarget.style.borderColor="var(--v)";}}
-            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";e.currentTarget.style.borderColor="var(--b)";}}>
-            {/* Image */}
-            <div style={{height:200,position:"relative",overflow:"hidden",background:"#f0f4f8"}}>
-              <img src={os.img} alt={os.nom} style={{width:"100%",height:"100%",objectFit:"contain",padding:"12px",background:"#fff"}} loading="lazy"/>
-              <span style={{position:"absolute",top:8,right:8,background:"var(--v)",color:"#fff",fontSize:".6rem",fontWeight:700,padding:"3px 9px",borderRadius:4,border:"1px solid rgba(255,255,255,.3)"}}>OI Industriel</span>
-            </div>
-            {/* Contenu */}
-            <div style={{padding:"14px 16px 18px"}}>
-              <div style={{fontWeight:700,fontSize:".86rem",color:"var(--k)",marginBottom:6,lineHeight:1.3}}>{os.nom}</div>
-              <div style={{fontSize:".74rem",color:"var(--g1)",lineHeight:1.65,marginBottom:10}}>{os.desc}</div>
-              {/* Specs */}
-              <div style={{marginBottom:14}}>
-                {os.specs.map((s,i)=>(
-                  <div key={i} style={{display:"flex",gap:7,fontSize:".7rem",color:"var(--g1)",padding:"3px 0",borderBottom:i<os.specs.length-1?"1px solid var(--b)":"none"}}>
-                    <span style={{color:"var(--v)",fontWeight:700,flexShrink:0}}>✓</span>{s}
-                  </div>
-                ))}
-              </div>
-              {/* Prix */}
-              <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:8,marginTop:12}}>
-                <div>
-                  <div style={{fontSize:"1.05rem",fontWeight:800,color:"var(--v)",fontFamily:"Playfair Display,serif"}}>{os.prix}</div>
-                  <div style={{fontSize:".62rem",color:"var(--g2)",marginTop:2}}>TTC · Installation en sus</div>
-                </div>
-                <button style={{background:"var(--v)",color:"#fff",border:"none",padding:"8px 14px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".72rem",fontWeight:700,cursor:"pointer",transition:"background .2s",whiteSpace:"nowrap"}}
-                  onMouseEnter={e=>e.currentTarget.style.background="var(--v2)"}
-                  onMouseLeave={e=>e.currentTarget.style.background="var(--v)"}
-                  onClick={()=>onDevis(os.nom)}>
-                  Demander →
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Tableau comparatif */}
-      <div style={{marginTop:48,background:"var(--w)",border:"1px solid var(--b)",borderRadius:12,overflow:"hidden"}}>
-        <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",padding:"16px 24px"}}>
-          <div style={{fontWeight:700,fontSize:"1rem",color:"#fff"}}>📊 Tableau comparatif — Osmoseurs industriels UEM</div>
-        </div>
-        <div style={{overflowX:"auto"}}>
-          <table style={{width:"100%",borderCollapse:"collapse",fontSize:".78rem"}}>
-            <thead>
-              <tr style={{background:"var(--s)"}}>
-                {["Modèle","Débit","Pression","Rejection","Prix TTC"].map((h,i)=><th key={i} style={{padding:"10px 16px",textAlign:"left",fontWeight:700,color:"var(--k)",borderBottom:"1px solid var(--b)",whiteSpace:"nowrap"}}>{h}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {OSMOSEURS.map((os,i)=>(
-                <tr key={os.id} style={{background:i%2===0?"var(--w)":"var(--fond)"}}>
-                  <td style={{padding:"10px 16px",color:"var(--k)",fontWeight:600,borderBottom:"1px solid var(--b)"}}>{os.debit}</td>
-                  <td style={{padding:"10px 16px",color:"var(--g1)",borderBottom:"1px solid var(--b)"}}>{os.debit}</td>
-                  <td style={{padding:"10px 16px",color:"var(--g1)",borderBottom:"1px solid var(--b)"}}>{i<2?"10–15 bar":i<6?"12–18 bar":"15–20 bar"}</td>
-                  <td style={{padding:"10px 16px",borderBottom:"1px solid var(--b)"}}><span style={{background:i<2?"rgba(21,101,192,.1)":"rgba(0,96,100,.1)",color:i<2?"var(--v)":"#006064",fontWeight:700,padding:"2px 8px",borderRadius:4}}>{i<2?">97%":i<6?">98%":">99%"}</span></td>
-                  <td style={{padding:"10px 16px",color:"var(--v)",fontWeight:800,borderBottom:"1px solid var(--b)"}}>{os.prix}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div style={{marginTop:36,display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-        <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"20px 24px"}}>
-          <div style={{fontSize:"1.3rem",marginBottom:10}}>🔧</div>
-          <div style={{fontWeight:700,color:"var(--k)",marginBottom:6}}>Installation clé en main</div>
-          <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.7}}>Nos ingénieurs assurent la livraison, l'installation et la mise en service de votre osmoseur partout au Maroc. Formation des opérateurs incluse.</div>
-        </div>
-        <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"20px 24px"}}>
-          <div style={{fontSize:"1.3rem",marginBottom:10}}>🛡️</div>
-          <div style={{fontWeight:700,color:"var(--k)",marginBottom:6}}>SAV & Maintenance</div>
-          <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.7}}>Garantie 2 ans sur tous nos osmoseurs. Contrats de maintenance annuelle disponibles. Fourniture de membranes, anti-scalant et consommables UEM.</div>
-        </div>
-      </div>
-    </div>
-    {/* SEO CONTENT */}
-    <SeoSection>
-      <SeoH2>Osmoseurs Industriels au Maroc — Guide d'achat</SeoH2>
-      <SeoP>Un <strong>système d'osmose inverse industriel</strong> est une technologie de filtration membranaire qui élimine jusqu'à 99% des sels dissous, métaux lourds, bactéries et contaminants organiques de l'eau. UEM propose des osmoseurs industriels de <strong>500 L/h à 10 m³/h</strong>, adaptés à tous les secteurs industriels et collectivités au Maroc.</SeoP>
-      <SeoH3>Choisir la bonne capacité d'osmoseur</SeoH3>
-      <SeoP>Le choix de la capacité dépend de votre consommation journalière d'eau purifiée. Pour un hôtel ou une clinique, un osmoseur <strong>500 L/h à 1 m³/h</strong> suffit. Pour une industrie agroalimentaire ou pharmaceutique, optez pour un modèle <strong>2 à 4 m³/h</strong>. Les grandes industries et collectivités opteront pour nos modèles <strong>6 à 10 m³/h</strong> avec récupérateur d'énergie.</SeoP>
-      <SeoH3>Applications des osmoseurs industriels</SeoH3>
-      <SeoP>Nos systèmes sont utilisés pour la production d'eau purifiée dans l'industrie agroalimentaire (boissons, laiteries, conserveries), l'industrie pharmaceutique (eau pour préparations injectables), les hôtels et resorts, les cliniques et hôpitaux, les industries textiles et chimiques, ainsi que pour le dessalement de l'eau de mer au Maroc.</SeoP>
-      <SeoH2>Anti-scalant et réactifs pour membranes OI</SeoH2>
-      <SeoP>L'entretien régulier des membranes est essentiel pour maintenir les performances de votre osmoseur. UEM fournit tous les <span style={SL} onClick={()=>onDevis("Anti-scalant et réactifs membranes OI")}>réactifs nécessaires</span> : anti-scalant pour prévenir l'entartrage, biocides non oxydants pour le contrôle microbiologique, solutions de lavage acide et basique pour le nettoyage CIP, et métabisulfite de sodium pour la neutralisation du chlore. Contactez-nous pour établir un programme de maintenance adapté à la qualité de votre eau d'alimentation.</SeoP>
-    </SeoSection>
-  </>);
-}
-
-/* PAGE RÉALISATIONS — avec vraies photos UEM */
-const PROJETS=[
-  {id:1,img:"/Step-traitement.jpg.jpeg",titre:"Station d'Épuration — Industrie Agroalimentaire",lieu:"Région de Meknès",cat:"STEP",pb:"Traitement des eaux usées industrielles chargées en DCO et MES",sol:"Conception et installation d'une filière physico-chimique complète avec dosage de PAC et floculant",tags:["Conception STEP","Coagulation","Floculation"]},
-  {id:2,img:"/bassin-desinfection.jpg.jpeg",titre:"Optimisation Filière Biologique STEP",lieu:"El Jadida",cat:"Optimisation",pb:"Rendements d'épuration insuffisants, non-conformité aux normes de rejet",sol:"Audit complet, recalibration des doses de réactifs, mise en place d'un suivi analytique régulier",tags:["Audit","Optimisation","Suivi analytique"]},
-  {id:3,img:"/prélevement-eau de mer.jpg.jpeg",titre:"Bilan Environnemental — Rejet Industriel",lieu:"Côte Atlantique, Maroc",cat:"Analyse",pb:"Évaluation de l'impact environnemental des rejets en milieu naturel",sol:"Campagne de prélèvements et analyses physico-chimiques complètes selon normes NM/ISO",tags:["Bilan environnemental","Analyses NM/ISO","Rejet industriel"]},
-  {id:4,img:"/analyse -terrain.jpg.jpeg",titre:"Analyse Qualité Eau de Puits",lieu:"Zone Rurale — Province de Settat",cat:"Analyse",pb:"Vérification de la potabilité d'une eau de puits destinée à l'alimentation humaine",sol:"Prélèvement sur site, analyses bactériologiques et physicochimiques complètes en laboratoire UEM",tags:["Eau potable","Analyse bactériologique","Terrain"]},
-  {id:5,img:"/Step-traitement.jpg.jpeg",titre:"Installation Système de Dosage",lieu:"Usine Textile — Casablanca",cat:"Installation",pb:"Absence de système de dosage automatisé des coagulants",sol:"Conception et installation d'un système de dosage PAC/floculant avec régulation automatique",tags:["Dosage automatique","PAC","Installation"]},
-  {id:6,img:"/mesure-site.jpg.jpeg",titre:"Mesures Atmosphériques STEP",lieu:"Station d'Épuration — Ouarzazate",cat:"Analyse",pb:"Contrôle des émissions gazeuses (H₂S, NH₃) et évaluation des nuisances olfactives",sol:"Campagne de mesures avec analyseur Testo, rapport de conformité environnementale",tags:["Mesures atmosphériques","H₂S","Conformité"]},
-  {id:7,img:"/mesure-bruit.jpg.jpeg",titre:"Surveillance Qualité Eau de Surface",lieu:"Oued — Région Souss-Massa",cat:"Analyse",pb:"Suivi mensuel de la qualité physico-chimique d'un cours d'eau industriel",sol:"Programme de surveillance périodique avec prélèvements et analyses en laboratoire certifié",tags:["Surveillance","Eaux de surface","Suivi mensuel"]},
-  {id:8,img:"/bassin-desinfection.jpg.jpeg",titre:"Mise en Service Équipements STEP",lieu:"Agglomération Rurale — El Jadida",cat:"STEP",pb:"Mise en service d'une micro-STEP pour un groupement de communes",sol:"Installation complète du tableau de commande électrique, paramétrage et formation des opérateurs",tags:["Mise en service","Électrique","Formation"]},
-  {id:9,img:"/Step-traitement.jpg.jpeg",titre:"Installation Cuves de Réactifs",lieu:"Site Industriel — Kénitra",cat:"Installation",pb:"Stockage et dosage des réactifs chimiques liquides pour STEP industrielle",sol:"Fourniture et installation de cuves PE avec agitateurs, vannes et systèmes de sécurité",tags:["Réactifs chimiques","Stockage","Installation"]},
-  {id:10,img:"/Laboratoire-uem.jpg.jpeg",titre:"Accréditation Laboratoire d'Analyse",lieu:"UEM — El Jadida",cat:"Laboratoire",pb:"Développement des capacités analytiques et qualification des méthodes d'analyse",sol:"Équipement complet du laboratoire, validation des méthodes, qualification ISO des équipements",tags:["Laboratoire","Accréditation","Analyses"]},
+const PRODUCTS = [
+  { id: 1, emoji: "🧫", title: "Réactifs de laboratoire", slug: "reactifs" },
+  { id: 2, emoji: "🛢️", title: "Produits chimiques de traitement des eaux", slug: "chimiques" },
+  { id: 3, emoji: "💠", title: "Osmoseurs industriels", slug: "osmoseurs-ind" },
+  { id: 4, emoji: "🏠", title: "Osmoseurs domestiques", slug: "osmoseurs-dom" },
+  { id: 5, emoji: "🔵", title: "Adoucisseurs d'eau", slug: "adoucisseurs" },
+  { id: 6, emoji: "📦", title: "Consommables & accessoires", slug: "consommables" },
+  { id: 7, emoji: "⚗️", title: "Produits HSE & sécurité", slug: "hse-securite" },
+  { id: 8, emoji: "🔬", title: "Équipements de mesure", slug: "mesure" }
 ];
 
-function PageRealisations({onBack,onDevis}){
-  const [filtre,setFiltre]=useState("Tous");
-  const cats=["Tous","STEP","Analyse","Installation","Optimisation","Laboratoire"];
-  const proj=filtre==="Tous"?PROJETS:PROJETS.filter(p=>p.cat===filtre);
-  return(<>
-    <PageHdr cat="Nos Réalisations" h1="Projets réalisés" em="200+ références au Maroc" sub="Découvrez nos réalisations concrètes en ingénierie environnementale, traitement des eaux et analyses certifiées à travers tout le Maroc." onBack={onBack}/>
-    <div className="pbody">
-      {/* Filtres */}
-      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:28}}>
-        {cats.map(c=><button key={c} onClick={()=>setFiltre(c)} style={{border:`1.5px solid ${filtre===c?"var(--v)":"var(--b)"}`,background:filtre===c?"var(--v)":"var(--w)",color:filtre===c?"#fff":"var(--g1)",padding:"7px 16px",borderRadius:20,fontFamily:"Inter,sans-serif",fontSize:".78rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}>{c}</button>)}
-      </div>
-      {/* Grille projets */}
-      <div className="g3">
-        {proj.map(p=>(
-          <div key={p.id} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,overflow:"hidden",transition:"transform .2s,box-shadow .2s"}}
-            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 8px 28px rgba(0,0,0,.1)";}}
-            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
-            <div style={{height:190,overflow:"hidden",position:"relative"}}>
-              <img src={p.img} alt={p.titre} style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
-              <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(13,27,46,.6) 0%,rgba(0,0,0,.05) 60%)"}}/>
-              <span style={{position:"absolute",top:10,left:10,background:"var(--v)",color:"#fff",fontSize:".6rem",fontWeight:700,padding:"3px 9px",borderRadius:4,letterSpacing:".06em",textTransform:"uppercase"}}>{p.cat}</span>
-              <span style={{position:"absolute",bottom:10,left:10,color:"rgba(255,255,255,.8)",fontSize:".7rem",fontWeight:500}}>📍 {p.lieu}</span>
-            </div>
-            <div style={{padding:"16px 18px 20px"}}>
-              <div style={{fontWeight:700,fontSize:".92rem",color:"var(--k)",marginBottom:8,lineHeight:1.35}}>{p.titre}</div>
-              <div style={{fontSize:".74rem",color:"var(--g2)",marginBottom:6,fontWeight:600}}>Problématique :</div>
-              <div style={{fontSize:".76rem",color:"var(--g1)",lineHeight:1.65,marginBottom:8}}>{p.pb}</div>
-              <div style={{fontSize:".74rem",color:"var(--v)",fontWeight:600,marginBottom:6}}>✅ Solution apportée :</div>
-              <div style={{fontSize:".76rem",color:"var(--g1)",lineHeight:1.65,marginBottom:14}}>{p.sol}</div>
-              <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
-                {p.tags.map((t,i)=><span key={i} style={{background:"rgba(21,101,192,.08)",color:"var(--v)",fontSize:".62rem",fontWeight:600,padding:"2px 8px",borderRadius:4}}>{t}</span>)}
-              </div>
-              <button style={{width:"100%",background:"transparent",color:"var(--v)",border:"1.5px solid var(--v)",padding:"8px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".76rem",fontWeight:600,cursor:"pointer",transition:"all .2s"}}
-                onMouseEnter={e=>{e.currentTarget.style.background="var(--v)";e.currentTarget.style.color="#fff";}}
-                onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.color="var(--v)";}}
-                onClick={()=>onDevis("Projet similaire — "+p.titre)}>Demander un projet similaire →</button>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* CTA bas de page */}
-      <div style={{marginTop:48,background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"36px 32px",textAlign:"center",color:"#fff"}}>
-        <div style={{fontSize:"1.4rem",fontWeight:700,marginBottom:8,fontFamily:"Playfair Display,serif"}}>Votre projet nous intéresse</div>
-        <div style={{fontSize:".88rem",color:"rgba(255,255,255,.8)",marginBottom:20,lineHeight:1.7}}>Plus de 200 projets réalisés à travers le Maroc. Décrivez-nous votre besoin et obtenez une réponse sous 24h.</div>
-        <button className="btn-p" style={{background:"#fff",color:"var(--v)",fontSize:".9rem",padding:"13px 32px"}} onClick={()=>onDevis("Projet ingénierie environnementale")}>📩 Demander un devis gratuit</button>
-      </div>
-    </div>
-  </>);
-}
+const CLIENTS = [
+  { name: "OCP", color: "#00873E", dot: "#00873E" },
+  { name: "acciona", color: "#004B9B", dot: "#004B9B" },
+  { name: "ONCF", color: "#E30613", dot: "#E30613" },
+  { name: "ONEE", color: "#0055A5", dot: "#0055A5" },
+  { name: "SOMAGEC", color: "#F7941D", dot: "#F7941D" },
+  { name: "JESA", color: "#00A79D", dot: "#00A79D" }
+];
 
-/* PAGE À PROPOS */
-function PageAPropos({onBack,onGo}){
-  return(<>
-    <PageHdr cat="Qui sommes-nous" h1="Univers Environnement Maroc" em="15 ans d'expertise" sub="Société marocaine d'ingénierie environnementale fondée à El Jadida, spécialisée dans le traitement des eaux, les analyses certifiées et la fourniture de réactifs chimiques." onBack={onBack}/>
-    <div className="pbody">
-      {/* Histoire */}
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",marginBottom:56}}>
-        <div>
-          <div className="slbl">Notre histoire</div>
-          <h2 className="stitle">Fondée à <em>El Jadida</em>, rayonnant sur tout le Maroc</h2>
-          <p style={{fontSize:".88rem",color:"var(--g1)",lineHeight:1.85,margin:"14px 0 16px"}}>Univers Environnement Maroc (UEM) est une société marocaine d'ingénierie environnementale créée à El Jadida. Depuis plus de 15 ans, nous accompagnons industriels, collectivités et bureaux d'études dans leurs projets de traitement des eaux et de protection de l'environnement.</p>
-          <p style={{fontSize:".88rem",color:"var(--g1)",lineHeight:1.85,marginBottom:20}}>Notre équipe d'ingénieurs et techniciens certifiés intervient sur l'ensemble du territoire marocain, de la conception à la mise en service, en passant par l'exploitation et le suivi analytique.</p>
-          <div style={{display:"flex",gap:24,marginTop:8}}>
-            {[{n:"2009",l:"Année de création"},{n:"El Jadida",l:"Siège social"},{n:"Maroc",l:"Zone d'intervention"}].map((s,i)=><div key={i}><div style={{fontFamily:"Playfair Display,serif",fontSize:"1.3rem",fontWeight:700,color:"var(--v)"}}>{s.n}</div><div style={{fontSize:".65rem",color:"var(--g2)",fontWeight:600,letterSpacing:".07em",textTransform:"uppercase",marginTop:3}}>{s.l}</div></div>)}
-          </div>
-        </div>
-        <div style={{borderRadius:12,overflow:"hidden",height:340,boxShadow:"0 8px 32px rgba(0,0,0,.12)"}}>
-          <img src="/equipe-uem.jpg.jpeg" alt="Équipe Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
-        </div>
-      </div>
+const TICKER_ITEMS = [
+  "Traitement des eaux", "Analyses environnementales", "Produits chimiques",
+  "Osmoseurs & équipements", "Ingénierie & HSE", "Formation professionnelle",
+  "Maintenance 7/7", "Normes NM / ISO", "Plus de 500 clients satisfaits",
+  "15+ ans d'expertise au Maroc", "El Jadida – Maroc"
+];
 
-      {/* Vision & Mission */}
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:20,marginBottom:52}}>
-        {[{ico:"🎯",titre:"Notre Mission",txt:"Fournir des solutions environnementales intégrées et certifiées pour le traitement des eaux, les analyses et l'ingénierie STEP au Maroc, avec un engagement constant pour la qualité et la conformité NM/ISO."},{ico:"🔭",titre:"Notre Vision",txt:"Être la référence marocaine en ingénierie environnementale et devenir le partenaire de confiance de tous les acteurs industriels et institutionnels engagés dans la préservation des ressources en eau au Maroc."},{ico:"⭐",titre:"Nos Valeurs",txt:"Excellence technique · Intégrité scientifique · Engagement environnemental · Réactivité terrain · Accompagnement personnalisé · Innovation continue"}].map((v,i)=>(
-          <div key={i} style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:10,padding:"24px 20px"}}>
-            <div style={{fontSize:"1.8rem",marginBottom:12}}>{v.ico}</div>
-            <div style={{fontWeight:700,fontSize:"1rem",color:"var(--k)",marginBottom:10}}>{v.titre}</div>
-            <div style={{fontSize:".8rem",color:"var(--g1)",lineHeight:1.75}}>{v.txt}</div>
-          </div>
-        ))}
-      </div>
+const ADVANTAGES = [
+  { icon: "✅", title: "Qualité certifiée", desc: "Produits & services conformes aux normes NM, ISO et STEP" },
+  { icon: "🎯", title: "Solutions sur mesure", desc: "Études personnalisées adaptées à chaque contexte industriel" },
+  { icon: "💡", title: "Innovation continue", desc: "Technologies modernes et performantes pour vos défis environnementaux" },
+  { icon: "🤝", title: "Accompagnement global", desc: "De l'étude à la maintenance, on reste à vos côtés à chaque étape" }
+];
 
-      {/* Laboratoire */}
-      <div style={{background:"linear-gradient(135deg,var(--v2),var(--v))",borderRadius:12,padding:"36px",color:"#fff",marginBottom:52,display:"grid",gridTemplateColumns:"1fr 340px",gap:32,alignItems:"center"}}>
-        <div>
-          <div style={{fontSize:".68rem",fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:"rgba(255,255,255,.6)",marginBottom:8}}>Notre infrastructure</div>
-          <h3 style={{fontFamily:"Playfair Display,serif",fontSize:"1.5rem",fontWeight:700,marginBottom:12}}>Laboratoire d'Analyse Certifié à El Jadida</h3>
-          <p style={{fontSize:".86rem",color:"rgba(255,255,255,.82)",lineHeight:1.8,marginBottom:16}}>Notre laboratoire est équipé de matériel de précision pour réaliser l'ensemble de vos analyses physico-chimiques, bactériologiques et agronomiques selon les normes NM et ISO.</p>
-          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
-            {["Spectrophotomètre","Microscope binoculaire","Balance analytique","Étuve","Agitateur magnétique","pH-mètre de précision","Conductimètre","Turbidimètre"].map((e,i)=><span key={i} style={{background:"rgba(255,255,255,.15)",color:"rgba(255,255,255,.9)",fontSize:".68rem",padding:"3px 10px",borderRadius:4}}>{e}</span>)}
-          </div>
-        </div>
-        <div style={{borderRadius:8,overflow:"hidden",height:220}}>
-          <img src="/Laboratoire-uem.jpg.jpeg" alt="Laboratoire UEM El Jadida" style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
-        </div>
-      </div>
+const HERO_SLIDES = [
+  { bg: "linear-gradient(135deg, #0d2b6e 0%, #1565c0 50%, #1b7a3e 100%)", emoji: "💧" },
+  { bg: "linear-gradient(135deg, #1b7a3e 0%, #43a047 50%, #0d2b6e 100%)", emoji: "🏭" },
+  { bg: "linear-gradient(135deg, #0a1f4e 0%, #1565c0 100%)", emoji: "⚗️" }
+];
 
-      {/* Domaines d'expertise */}
-      <div style={{marginBottom:48}}>
-        <div className="slbl">Domaines d'expertise</div>
-        <h2 className="stitle">Ce que nous <em>faisons</em></h2>
-        <div className="g4" style={{marginTop:20}}>
-          {[{ico:"💧",t:"Traitement des Eaux",items:["Conception et dimensionnement STEP","Optimisation des filières","Coagulation / Floculation","Désinfection et osmose inverse"]},{ico:"🔬",t:"Analyses Environnementales",items:["Eaux : pH, DCO, DBO5, métaux","Sols : agronomie et pédologie","Bilan environnemental NM/ISO","Mesures atmosphériques"]},{ico:"⚗️",t:"Réactifs & Matériels",items:["Coagulants et floculants","Anti-scalant pour OI","pH-mètres et conductimètres","Kits d'analyse terrain"]},{ico:"📄",t:"Formulation Technique",items:["Formules engrais foliaires","Détergents industriels","Traitement eaux de chaudière","Protocoles de dosage"]}].map((d,i)=>(
-            <div key={i} style={{background:"var(--w)",border:"1px solid var(--b)",borderRadius:10,padding:"20px"}}>
-              <div style={{fontSize:"1.7rem",marginBottom:10}}>{d.ico}</div>
-              <div style={{fontWeight:700,fontSize:".9rem",color:"var(--k)",marginBottom:10}}>{d.t}</div>
-              <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:6}}>
-                {d.items.map((it,j)=><li key={j} style={{fontSize:".75rem",color:"var(--g1)",display:"flex",gap:8}}><span style={{color:"var(--gr)",fontWeight:700,flexShrink:0}}>✓</span>{it}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
+/* ═══════════════════════════════════════════════
+   MAIN APP
+═══════════════════════════════════════════════ */
+export default function App() {
+  const [page, setPage] = useState("home");
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [toasts, setToasts] = useState([]);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiMessages, setAiMessages] = useState([
+    { role: "bot", text: "Bonjour ! Je suis l'assistant UEM. Comment puis-je vous aider concernant nos services d'environnement, traitement des eaux ou produits chimiques ?" }
+  ]);
+  const [aiInput, setAiInput] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [slideIdx, setSlideIdx] = useState(0);
+  const [carouselOff, setCarouselOff] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [adminAuth, setAdminAuth] = useState(false);
+  const [adminPwd, setAdminPwd] = useState("");
+  const [blogs, setBlogs] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("uem_blogs") || "[]"); } catch { return []; }
+  });
+  const [blogForm, setBlogForm] = useState({ title: "", excerpt: "", category: "Actualités", emoji: "📰" });
 
-      {/* Photos terrain */}
-      <div style={{marginBottom:48}}>
-        <div className="slbl">Notre équipe sur le terrain</div>
-        <h2 className="stitle">Des ingénieurs <em>présents partout au Maroc</em></h2>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginTop:20}}>
-          {["/analyse -terrain.jpg.jpeg","/mesure-site.jpg.jpeg","/bassin-desinfection.jpg.jpeg","/Step-traitement.jpg.jpeg","/prélevement-eau de mer.jpg.jpeg","/mesure-bruit.jpg.jpeg"].map((img,i)=>(
-            <div key={i} style={{height:180,borderRadius:8,overflow:"hidden"}}>
-              <img src={img} alt={`UEM terrain ${i+1}`} style={{width:"100%",height:"100%",objectFit:"cover"}} loading="lazy"/>
-            </div>
-          ))}
-        </div>
-      </div>
+  const aiMessagesRef = useRef(null);
 
-      {/* CTA */}
-      <div style={{background:"var(--s)",border:"1px solid var(--b)",borderRadius:12,padding:"28px 32px",textAlign:"center"}}>
-        <div style={{fontFamily:"Playfair Display,serif",fontSize:"1.3rem",fontWeight:700,color:"var(--k)",marginBottom:8}}>Travaillons ensemble</div>
-        <div style={{fontSize:".88rem",color:"var(--g1)",marginBottom:18}}>Notre équipe est disponible pour étudier votre projet et vous proposer la solution la plus adaptée.</div>
-        <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
-          <button className="btn-p" onClick={()=>onGo("contact")}>📩 Demander un devis</button>
-          <a href="https://wa.me/212700090365?text=Bonjour%20UEM" target="_blank" rel="noreferrer" style={{background:"#25d366",color:"#fff",padding:"12px 24px",borderRadius:7,fontFamily:"Inter,sans-serif",fontSize:".86rem",fontWeight:600,textDecoration:"none"}}>💬 WhatsApp direct</a>
-        </div>
-      </div>
-    </div>
-  </>);
-}
-
-/* PAGE CONTACT — COMPOSANT STABLE HORS APP */
-function PageContact({onBack,initProduit}){
-  const [form,setForm]=useState({nom:"",email:"",tel:"",produit:initProduit||"",rubrique:"",msg:""});
-  const [sending,setSending]=useState(false);
-  const [ok,setOk]=useState(false);
-  const [err,setErr]=useState("");
-
-  /* sync si initProduit change (depuis "Devis →") */
-  useEffect(()=>{if(initProduit)setForm(f=>({...f,produit:initProduit}));},[initProduit]);
-
-  const handleChange=useCallback(e=>{
-    const {name,value}=e.target;
-    setForm(prev=>({...prev,[name]:value}));
-  },[]);
-
-  const submit=async e=>{
-    e.preventDefault();
-    if(!form.nom.trim()||!form.email.trim()||!form.produit.trim()){
-      setErr("Veuillez remplir les champs obligatoires : Nom, Email et Produit/Service.");
-      return;
+  // Inject CSS
+  useEffect(() => {
+    if (!document.getElementById("uem-css")) {
+      const s = document.createElement("style");
+      s.id = "uem-css";
+      s.textContent = GLOBAL_CSS;
+      document.head.appendChild(s);
     }
-    setSending(true); setErr("");
-    const params={
-      from_name: form.nom,
-      nom:       form.nom,
-      email:     form.email,
-      telephone: form.tel||"Non renseigné",
-      produit:   form.produit+(form.rubrique?" ("+form.rubrique+")":""),
-      message:   form.msg||"—",
-      to_email:  "univers.envi@gmail.com",
-      reply_to:  form.email,
-    };
-    try{
-      const result = await emailjs.send(EJS.svc, EJS.tpl, params, {publicKey: EJS.key});
-      if(result.status===200){
-        setOk(true);
-      } else {
-        setErr("Erreur EmailJS status "+result.status+". Contactez-nous : +212 700 090 365");
-      }
-    }catch(ex){
-      console.error("EmailJS error:", ex);
-      const msg = ex?.text || ex?.message || JSON.stringify(ex);
-      setErr("Erreur d'envoi : "+msg+". Contactez-nous directement sur WhatsApp : +212 700 090 365");
-    }finally{setSending(false);}
-  };
+  }, []);
 
-  if(ok)return(
-    <><PageHdr cat="Devis & Contact" h1="Demandez votre devis" em="gratuit" sub="Notre équipe vous répond sous 24h." onBack={onBack}/>
-    <div className="pbody"><div className="cw"><div className="form-wrap" style={{textAlign:"center",padding:"48px 24px"}}>
-      <div className="fok-i">✅</div>
-      <div className="fok-t">Demande envoyée avec succès !</div>
-      <div className="fok-s" style={{margin:"8px 0 20px"}}>Merci {form.nom}, nous avons bien reçu votre demande.<br/>Notre équipe vous contactera sous 24h à l'adresse <strong>{form.email}</strong>.</div>
-      <button className="btn-p" style={{width:"auto",padding:"11px 26px"}} onClick={()=>{setOk(false);setForm({nom:"",email:"",tel:"",produit:"",rubrique:"",msg:""});}}>Nouvelle demande</button>
-    </div></div></div></>
+  // Hero auto-slide
+  useEffect(() => {
+    const t = setInterval(() => setSlideIdx(i => (i + 1) % HERO_SLIDES.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Scroll AI messages
+  useEffect(() => {
+    if (aiMessagesRef.current) aiMessagesRef.current.scrollTop = aiMessagesRef.current.scrollHeight;
+  }, [aiMessages, aiLoading]);
+
+  // Persist blogs
+  useEffect(() => {
+    localStorage.setItem("uem_blogs", JSON.stringify(blogs));
+  }, [blogs]);
+
+  // Toast helper
+  const toast = useCallback((msg, icon = "✅") => {
+    const id = Date.now();
+    setToasts(t => [...t, { id, msg, icon }]);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500);
+  }, []);
+
+  // Cart helpers
+  const addToCart = useCallback((item) => {
+    setCart(c => {
+      const ex = c.find(x => x.id === item.id);
+      if (ex) return c.map(x => x.id === item.id ? { ...x, qty: x.qty + 1 } : x);
+      return [...c, { ...item, qty: 1 }];
+    });
+    toast(`${item.emoji} ${item.title} ajouté au panier`);
+  }, [toast]);
+
+  const removeFromCart = useCallback((id) => {
+    setCart(c => c.filter(x => x.id !== id));
+  }, []);
+
+  // AI send
+  const sendAI = useCallback(async () => {
+    if (!aiInput.trim() || aiLoading) return;
+    const userMsg = aiInput.trim();
+    setAiInput("");
+    setAiMessages(m => [...m, { role: "user", text: userMsg }]);
+    setAiLoading(true);
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system: "Tu es l'assistant expert d'UEM (Univers Environnement Maroc), basé à El Jadida au Maroc. Tu aides les clients avec leurs questions sur le traitement des eaux, analyses environnementales, produits chimiques, osmoseurs, équipements HSE et services d'ingénierie. Réponds en français de manière professionnelle et concise (max 3 phrases). Si la question dépasse ton expertise, oriente vers le contact : +212 523 37 74 17 ou univers.env@gmail.com.",
+          messages: [{ role: "user", content: userMsg }]
+        })
+      });
+      const data = await res.json();
+      const reply = data?.content?.[0]?.text || "Merci pour votre question. Contactez-nous au +212 523 37 74 17 pour une réponse personnalisée.";
+      setAiMessages(m => [...m, { role: "bot", text: reply }]);
+    } catch {
+      setAiMessages(m => [...m, { role: "bot", text: "Une erreur est survenue. Veuillez nous contacter directement au +212 523 37 74 17." }]);
+    }
+    setAiLoading(false);
+  }, [aiInput, aiLoading]);
+
+  // Carousel
+  const carouselMax = Math.max(0, PRODUCTS.length - 6);
+  const carouselPrev = () => setCarouselOff(o => Math.max(0, o - 1));
+  const carouselNext = () => setCarouselOff(o => Math.min(carouselMax, o + 1));
+
+  // Page router
+  if (page === "admin") return (
+    <AdminPanel
+      auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd}
+      setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs}
+      blogForm={blogForm} setBlogForm={setBlogForm}
+      setPage={setPage} toast={toast}
+    />
   );
 
-  return(<>
-    <PageHdr cat="Devis & Contact" h1="Demandez votre devis" em="gratuit" sub="Notre équipe vous répond sous 24h — El Jadida, Maroc." onBack={onBack}/>
-    <div className="pbody">
-      <div className="cw">
-        <div className="ci-intro">
-          <h2>Parlons de votre <em>projet</em></h2>
-          <p>Remplissez le formulaire. Les champs marqués * sont obligatoires.</p>
-        </div>
-        <div className="form-wrap">
-          <form onSubmit={submit} noValidate>
-            <div className="frow">
-              <div className="fg">
-                <label htmlFor="c-nom">Nom complet *</label>
-                <input id="c-nom" name="nom" type="text" placeholder="Votre nom et prénom" autoComplete="name" value={form.nom} onChange={handleChange} required/>
+  return (
+    <div>
+      {/* Topbar */}
+      <TopBar />
+
+      {/* Navbar */}
+      <Navbar setPage={setPage} cartCount={cart.length} setCartOpen={setCartOpen} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+
+      {/* Hero */}
+      <HeroSection slideIdx={slideIdx} setSlideIdx={setSlideIdx} />
+
+      {/* Stats */}
+      <StatsBar />
+
+      {/* Clients */}
+      <ClientsStrip />
+
+      {/* Services */}
+      <ServicesGrid />
+
+      {/* Products */}
+      <ProductsCarousel
+        carouselOff={carouselOff}
+        carouselPrev={carouselPrev}
+        carouselNext={carouselNext}
+        addToCart={addToCart}
+      />
+
+      {/* Advantages */}
+      <AdvantagesSection />
+
+      {/* Ticker */}
+      <TickerBanner />
+
+      {/* Blog */}
+      <BlogSection blogs={blogs} />
+
+      {/* Contact */}
+      <ContactSection toast={toast} />
+
+      {/* Footer */}
+      <FooterSection setPage={setPage} />
+
+      {/* Cart */}
+      <div className={`cart-overlay ${cartOpen ? "open" : ""}`} onClick={() => setCartOpen(false)}>
+        <div className="cart-panel" onClick={e => e.stopPropagation()}>
+          <div className="cart-header">
+            <h3>🛒 Panier ({cart.length})</h3>
+            <button className="cart-close" onClick={() => setCartOpen(false)}>✕</button>
+          </div>
+          <div className="cart-body">
+            {cart.length === 0 ? (
+              <div className="cart-empty"><div style={{ fontSize: 48, marginBottom: 12 }}>🛒</div><p>Votre panier est vide</p></div>
+            ) : cart.map(item => (
+              <div className="cart-item" key={item.id}>
+                <div className="ci-icon">{item.emoji}</div>
+                <div className="ci-info">
+                  <div className="ci-name">{item.title}</div>
+                  <div className="ci-qty">Qté: {item.qty}</div>
+                </div>
+                <button className="ci-remove" onClick={() => removeFromCart(item.id)}>🗑️</button>
               </div>
-              <div className="fg">
-                <label htmlFor="c-email">Email *</label>
-                <input id="c-email" name="email" type="email" placeholder="votre@email.com" autoComplete="email" value={form.email} onChange={handleChange} required/>
+            ))}
+          </div>
+          {cart.length > 0 && (
+            <div className="cart-footer">
+              <button className="cart-footer-btn" onClick={() => { toast("Demande de devis envoyée ! Nous vous contactons rapidement.", "📩"); setCartOpen(false); }}>
+                Demander un devis →
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* AI Assistant */}
+      <div className="ai-float">
+        <div className={`ai-chat ${aiOpen ? "open" : ""}`}>
+          <div className="ai-chat-header">
+            <div className="ai-avatar">🤖</div>
+            <div className="ai-hinfo">
+              <div className="ai-hname">Assistant UEM</div>
+              <div className="ai-hstatus">● En ligne</div>
+            </div>
+            <button className="ai-close-btn" onClick={() => setAiOpen(false)}>✕</button>
+          </div>
+          <div className="ai-messages" ref={aiMessagesRef}>
+            {aiMessages.map((m, i) => (
+              <div key={i} className={`ai-msg ${m.role}`}>{m.text}</div>
+            ))}
+            {aiLoading && (
+              <div className="ai-typing">
+                <span /><span /><span />
+              </div>
+            )}
+          </div>
+          <div className="ai-input-row">
+            <input
+              className="ai-input"
+              placeholder="Posez votre question..."
+              value={aiInput}
+              onChange={e => setAiInput(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && sendAI()}
+            />
+            <button className="ai-send" onClick={sendAI} disabled={aiLoading || !aiInput.trim()}>➤</button>
+          </div>
+        </div>
+        <button className="ai-toggle" onClick={() => setAiOpen(o => !o)} title="Assistant UEM">🤖</button>
+      </div>
+
+      {/* WhatsApp */}
+      <div className="wa-float">
+        <a className="wa-btn" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">
+          <div className="wa-pulse" />
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+
+      {/* Toasts */}
+      <div className="toast-wrap">
+        {toasts.map(t => (
+          <div key={t.id} className="toast">{t.icon} {t.msg}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════ */
+function TopBar() {
+  return (
+    <div className="topbar">
+      <div className="topbar-inner">
+        <div className="topbar-left">
+          <a className="topbar-item" href="tel:+212523377417">
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.55 2.18 2 2 0 012.55 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l.91-.91a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            +212 523 37 74 17
+          </a>
+          <a className="topbar-item" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            +212 700 090 365
+          </a>
+          <span className="topbar-item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            N°1, Bd Jabrane Khalil Jabrane, El Jadida
+          </span>
+          <a className="topbar-item" href="mailto:univers.env@gmail.com">
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            univers.env@gmail.com
+          </a>
+        </div>
+        <div className="topbar-socials">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+            <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook">
+            <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube">
+            <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon fill="#0a1f4e" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════ */
+function Navbar({ setPage, cartCount, setCartOpen, mobileOpen, setMobileOpen }) {
+  const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMobileOpen(false); };
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-inner">
+        <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          <div className="logo-badge">UE</div>
+          <div className="logo-text">
+            <span className="logo-name">Univers Environnement</span>
+            <span className="logo-sub">MAROC – EL JADIDA</span>
+          </div>
+        </div>
+
+        <ul className="nav-links">
+          <li className="nav-item">
+            <button className="nav-link active" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Accueil</button>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link">À propos</button>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link">
+              Nos services
+              <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div className="dropdown">
+              {SERVICES.map(s => (
+                <a key={s.id} href="#services" onClick={e => { e.preventDefault(); scrollTo("services"); }}>
+                  <span className="dd-icon" style={{ background: s.bg, color: s.color }}>
+                    <span style={{ fontSize: 16 }}>{s.emoji}</span>
+                  </span>
+                  {s.title}
+                </a>
+              ))}
+            </div>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link">
+              Nos produits
+              <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div className="dropdown">
+              {PRODUCTS.map(p => (
+                <a key={p.id} href="#products" onClick={e => { e.preventDefault(); scrollTo("products"); }}>
+                  <span className="dd-icon">{p.emoji}</span>
+                  {p.title}
+                </a>
+              ))}
+            </div>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link">Nos réalisations</button>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link" onClick={() => scrollTo("blog")}>Actualités</button>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link" onClick={() => scrollTo("contact")}>Contact</button>
+          </li>
+        </ul>
+
+        <button
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "8px", display: "flex", alignItems: "center", gap: 4, color: "var(--gray700)", fontSize: 13, fontFamily: "inherit", fontWeight: 500 }}
+          onClick={() => setCartOpen(true)}
+        >
+          🛒 {cartCount > 0 && <span style={{ background: "var(--accent)", color: "#fff", borderRadius: "50%", width: 18, height: 18, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700 }}>{cartCount}</span>}
+        </button>
+
+        <button className="nav-cta" onClick={() => scrollTo("contact")}>Demander un devis</button>
+
+        <button className="hamburger" onClick={() => setMobileOpen(o => !o)} aria-label="Menu">
+          <span /><span /><span />
+        </button>
+      </div>
+      <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
+        <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMobileOpen(false); }}>Accueil</button>
+        <button onClick={() => scrollTo("services")}>Nos services</button>
+        <button onClick={() => scrollTo("products")}>Nos produits</button>
+        <button onClick={() => scrollTo("blog")}>Actualités</button>
+        <button onClick={() => scrollTo("contact")}>Contact</button>
+        <button onClick={() => { setPage("admin"); setMobileOpen(false); }}>Admin</button>
+      </div>
+    </nav>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+function HeroSection({ slideIdx, setSlideIdx }) {
+  return (
+    <section className="hero" id="home">
+      <div className="hero-inner">
+        <div className="hero-content">
+          <div className="hero-eyebrow">L'expertise verte au service du Maroc</div>
+          <h1 className="hero-title">
+            Votre partenaire de référence en{" "}
+            <span className="hl-blue">environnement</span>,{" "}
+            <span className="hl-blue">traitement des eaux</span>,{" "}
+            <span className="hl-green">analyses</span>,{" "}
+            <span className="hl-green">produits chimiques</span>{" "}
+            et <span className="hl-accent">équipements</span> au Maroc.
+          </h1>
+          <p className="hero-desc">
+            Plus de 15 ans d'expertise au service des industriels, collectivités et laboratoires avec des solutions innovantes, conformes aux normes marocaines et internationales.
+          </p>
+          <div className="hero-actions">
+            <button className="btn-primary" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
+              Demander un devis gratuit →
+            </button>
+            <button className="btn-outline">
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+              Voir nos réalisations
+            </button>
+            <a className="btn-wa" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Parler à un expert
+            </a>
+          </div>
+          <div className="hero-trust">
+            {[
+              { icon: "⏱️", text: "Réponse rapide – Moins de 24h" },
+              { icon: "🏅", text: "Experts certifiés – Équipes qualifiées" },
+              { icon: "📋", text: "Normes NM / ISO / STEP" },
+              { icon: "🚀", text: "Intervention – Partout au Maroc" }
+            ].map((t, i) => (
+              <div key={i} className="trust-item">
+                <span>{t.icon}</span> {t.text}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="hero-visual">
+          <div className="slider-track">
+            {HERO_SLIDES.map((s, i) => (
+              <div
+                key={i}
+                className={`slide ${i === slideIdx ? "active" : ""}`}
+                style={{ background: s.bg }}
+              >
+                <div className="slide-overlay" />
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 120, opacity: .2 }}>{s.emoji}</div>
+              </div>
+            ))}
+            <div className="slider-dots">
+              {HERO_SLIDES.map((_, i) => (
+                <button key={i} className={`slider-dot ${i === slideIdx ? "active" : ""}`} onClick={() => setSlideIdx(i)} />
+              ))}
+            </div>
+          </div>
+          <div className="badge-15">
+            <div className="big">15<span className="sup">+</span></div>
+            <div className="label">ANS<br/>D'EXPÉRIENCE<br/>AU MAROC</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════ */
+function StatsBar() {
+  return (
+    <div className="stats-bar">
+      <div className="stats-inner">
+        {[
+          { icon: "🏆", num: "15+", label: "Ans d'expérience" },
+          { icon: "📁", num: "200+", label: "Projets réalisés" },
+          { icon: "👥", num: "500+", label: "Clients satisfaits" },
+          { icon: "⭐", num: "98%", label: "Taux de satisfaction" }
+        ].map((s, i) => (
+          <div key={i} className="stat-item">
+            <div className="stat-num">
+              <span className="stat-icon">{s.icon}</span>
+              {s.num}
+            </div>
+            <div className="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   CLIENTS STRIP
+═══════════════════════════════════════════════ */
+function ClientsStrip() {
+  return (
+    <div className="clients">
+      <div className="clients-inner">
+        <div className="section-label">Ils nous font confiance</div>
+        <div className="clients-logos">
+          {CLIENTS.map((c, i) => (
+            <div key={i} className="client-logo" style={{ color: c.color }}>
+              <span className="cl-dot" style={{ background: c.dot }} />
+              {c.name}
+            </div>
+          ))}
+          <button className="clients-cta">
+            Voir toutes nos références →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICES GRID
+═══════════════════════════════════════════════ */
+function ServicesGrid() {
+  return (
+    <section className="services" id="services">
+      <div className="services-inner">
+        <div className="section-eyebrow">NOS DOMAINES D'EXPERTISE</div>
+        <h2 className="section-title">Des solutions <em>complètes</em> pour l'eau, l'environnement et l'industrie</h2>
+        <div className="services-grid">
+          {SERVICES.map(s => (
+            <div className="service-card" key={s.id}>
+              <div className="sc-img-placeholder" style={{ background: `linear-gradient(135deg, ${s.color}22 0%, ${s.color}44 100%)` }}>
+                <span style={{ fontSize: 48 }}>{s.emoji}</span>
+              </div>
+              <div className="sc-body">
+                <div className="sc-header">
+                  <div className="sc-icon-wrap" style={{ background: s.bg, color: s.color }}>{s.emoji}</div>
+                  <div className="sc-title">{s.title}</div>
+                </div>
+                <ul className="sc-list">
+                  {s.items.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+                <button className="sc-cta">Découvrir →</button>
               </div>
             </div>
-            <div className="frow">
-              <div className="fg">
-                <label htmlFor="c-tel">Téléphone</label>
-                <input id="c-tel" name="tel" type="tel" placeholder="+212 6XX XXX XXX" autoComplete="tel" value={form.tel} onChange={handleChange}/>
+          ))}
+        </div>
+        <div className="services-btn-wrap">
+          <button className="btn-navy">Voir tous nos services →</button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   PRODUCTS CAROUSEL
+═══════════════════════════════════════════════ */
+function ProductsCarousel({ carouselOff, carouselPrev, carouselNext, addToCart }) {
+  return (
+    <section className="products" id="products">
+      <div className="products-inner">
+        <div className="section-eyebrow">NOS PRODUITS PHARES</div>
+        <h2 className="section-title">Des produits de qualité pour des performances durables</h2>
+        <div className="carousel-wrapper">
+          <button className="carousel-arrow left" onClick={carouselPrev}>‹</button>
+          <div className="carousel-track">
+            {PRODUCTS.slice(carouselOff).concat(PRODUCTS.slice(0, carouselOff)).map(p => (
+              <div className="product-card" key={p.id} onClick={() => addToCart(p)}>
+                <div className="pc-img-placeholder">{p.emoji}</div>
+                <div className="pc-body">
+                  <div className="pc-title">{p.title}</div>
+                </div>
               </div>
-              <div className="fg">
-                <label htmlFor="c-rub">Rubrique</label>
-                <select id="c-rub" name="rubrique" value={form.rubrique} onChange={handleChange}>
-                  <option value="">Sélectionnez...</option>
-                  <option value="Produits Chimiques">Produits Chimiques</option>
-                  <option value="Matériels">Matériels de Mesure</option>
-                  <option value="Services">Services d'Ingénierie</option>
-                  <option value="Analyses">Analyses Environnementales</option>
-                  <option value="Formulation">Formulations Numériques</option>
+            ))}
+          </div>
+          <button className="carousel-arrow right" onClick={carouselNext}>›</button>
+        </div>
+        <div className="products-btn-wrap">
+          <button className="btn-outline-white">Voir tous nos produits →</button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   ADVANTAGES
+═══════════════════════════════════════════════ */
+function AdvantagesSection() {
+  return (
+    <section className="advantages" id="advantages">
+      <div className="advantages-inner">
+        <h2 className="section-title">Pourquoi choisir <em>UEM</em> ?</h2>
+        <div className="adv-grid">
+          {ADVANTAGES.map((a, i) => (
+            <div className="adv-card" key={i}>
+              <div className="adv-icon">{a.icon}</div>
+              <div className="adv-title">{a.title}</div>
+              <div className="adv-desc">{a.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════════ */
+function TickerBanner() {
+  const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
+  return (
+    <div className="ticker">
+      <div className="ticker-inner">
+        {doubled.map((item, i) => (
+          <span key={i} className="ticker-item">
+            <span className="ticker-dot" />
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   BLOG SECTION
+═══════════════════════════════════════════════ */
+function BlogSection({ blogs }) {
+  const defaultPosts = [
+    { id: "d1", title: "Traitement des eaux usées industrielles : nouvelles normes NM 2024", excerpt: "Les dernières mises à jour des normes marocaines pour le traitement des eaux industrielles et leurs impacts sur les entreprises.", category: "Réglementation", emoji: "📋", date: "Juin 2024" },
+    { id: "d2", title: "Osmoseur industriel : comment choisir la bonne solution ?", excerpt: "Guide complet pour sélectionner un système d'osmose inverse adapté à vos besoins industriels ou domestiques.", category: "Guide", emoji: "💧", date: "Mai 2024" },
+    { id: "d3", title: "HSE au Maroc : obligations et bonnes pratiques pour les industriels", excerpt: "Tour d'horizon des obligations HSE en vigueur et des meilleures pratiques pour une conformité durable.", category: "HSE", emoji: "🦺", date: "Avril 2024" }
+  ];
+  const all = [...defaultPosts, ...blogs].slice(0, 6);
+
+  return (
+    <section className="blog-section" id="blog">
+      <div className="blog-inner">
+        <div className="section-eyebrow">ACTUALITÉS & BLOG</div>
+        <h2 className="section-title">Nos dernières <em>publications</em></h2>
+        <div className="blog-grid">
+          {all.map(post => (
+            <div className="blog-card" key={post.id}>
+              <div className="blog-img">{post.emoji}</div>
+              <div className="blog-body">
+                <span className="blog-tag">{post.category}</span>
+                <div className="blog-title">{post.title}</div>
+                <div className="blog-excerpt">{post.excerpt}</div>
+                <div className="blog-meta">📅 {post.date}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   CONTACT SECTION
+═══════════════════════════════════════════════ */
+function ContactSection({ toast }) {
+  const [form, setForm] = useState({ name: "", email: "", company: "", service: "", message: "" });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.message) { toast("Veuillez remplir tous les champs requis.", "⚠️"); return; }
+    setSending(true);
+    try {
+      await emailjs.send("service_3p09q76", "template_contact_uem", {
+        from_name: form.name,
+        from_email: form.email,
+        company: form.company,
+        service: form.service,
+        message: form.message
+      }, "bhR3gf_SYQEaKSOky");
+      setSent(true);
+      setForm({ name: "", email: "", company: "", service: "", message: "" });
+      toast("Votre message a bien été envoyé ! Nous vous répondons sous 24h.", "✅");
+    } catch {
+      toast("Erreur d'envoi. Contactez-nous directement au +212 523 37 74 17", "❌");
+    }
+    setSending(false);
+  };
+
+  return (
+    <section className="contact-section" id="contact">
+      <div className="contact-inner">
+        <div className="contact-info">
+          <h2>Demandez votre <em>devis gratuit</em> dès aujourd'hui</h2>
+          <p>Notre équipe d'experts vous répond en moins de 24 heures avec une solution adaptée à vos besoins et votre budget.</p>
+          <div className="contact-details">
+            {[
+              { icon: "📞", label: "Téléphone", value: "+212 523 37 74 17" },
+              { icon: "📱", label: "WhatsApp", value: "+212 700 090 365" },
+              { icon: "✉️", label: "Email", value: "univers.env@gmail.com" },
+              { icon: "📍", label: "Adresse", value: "N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc" }
+            ].map((d, i) => (
+              <div className="contact-detail" key={i}>
+                <div className="cd-icon">{d.icon}</div>
+                <div className="cd-text">
+                  <div className="cd-label">{d.label}</div>
+                  <div className="cd-value">{d.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="contact-form">
+          <div className="form-title">📋 Formulaire de contact</div>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Nom complet *</label>
+              <input className="form-input" placeholder="Votre nom" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Email *</label>
+              <input className="form-input" type="email" placeholder="votre@email.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Entreprise</label>
+              <input className="form-input" placeholder="Nom de votre société" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Service souhaité</label>
+              <select className="form-select" value={form.service} onChange={e => setForm(f => ({ ...f, service: e.target.value }))}>
+                <option value="">Sélectionner...</option>
+                {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Votre message *</label>
+            <textarea className="form-textarea" placeholder="Décrivez votre besoin..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+          </div>
+          <button className="form-submit" onClick={handleSubmit} disabled={sending}>
+            {sending ? "⏳ Envoi en cours..." : "Envoyer ma demande →"}
+          </button>
+          {sent && (
+            <div className="form-success">✅ Message envoyé ! Nous vous répondons sous 24h.</div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+function FooterSection({ setPage }) {
+  return (
+    <footer className="footer">
+      <div className="footer-inner">
+        <div className="footer-brand">
+          <div className="logo">
+            <div className="logo-badge">UE</div>
+            <div className="logo-text">
+              <span className="logo-name">Univers Environnement</span>
+              <span className="logo-sub">MAROC – EL JADIDA</span>
+            </div>
+          </div>
+          <p className="footer-desc">
+            Spécialiste marocain en traitement des eaux, analyses environnementales, produits chimiques et équipements depuis plus de 15 ans. Basé à El Jadida, au service de tout le Maroc.
+          </p>
+          <div className="footer-socials">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon fill="#0a1f4e" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+          </div>
+        </div>
+        <div className="footer-col">
+          <h4>Nos services</h4>
+          <ul>
+            {SERVICES.slice(0, 5).map(s => <li key={s.id}><a href="#services">{s.title}</a></li>)}
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h4>Nos produits</h4>
+          <ul>
+            {PRODUCTS.slice(0, 5).map(p => <li key={p.id}><a href="#products">{p.title}</a></li>)}
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h4>Informations</h4>
+          <ul>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#blog">Actualités</a></li>
+            <li><a href="#advantages">À propos</a></li>
+            <li><button onClick={() => setPage("admin")} style={{ background: "none", border: "none", color: "rgba(255,255,255,.7)", cursor: "pointer", fontSize: "inherit", fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6, padding: "0", transition: "var(--transition)" }}>→ Administration</button></li>
+          </ul>
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 12, opacity: .6, marginBottom: 8 }}>Horaires</div>
+            <div style={{ fontSize: 13, opacity: .8 }}>Lun – Ven : 8h30 – 18h00</div>
+            <div style={{ fontSize: 13, opacity: .8 }}>Sam : 9h00 – 13h00</div>
+          </div>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} Univers Environnement Maroc – Tous droits réservés</span>
+        <span>N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc</span>
+      </div>
+    </footer>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   ADMIN PANEL
+═══════════════════════════════════════════════ */
+function AdminPanel({ auth, pwd, setPwd, setAuth, blogs, setBlogs, blogForm, setBlogForm, setPage, toast }) {
+  if (!auth) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--gray50)", fontFamily: "Inter, sans-serif" }}>
+        <div style={{ background: "#fff", borderRadius: 20, padding: "48px 40px", boxShadow: "0 8px 40px rgba(0,0,0,.12)", width: 380, textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🔒</div>
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--bleu)", marginBottom: 8 }}>Administration UEM</h2>
+          <p style={{ color: "var(--gray600)", fontSize: 14, marginBottom: 28 }}>Accès réservé à l'équipe UEM</p>
+          <input
+            style={{ width: "100%", padding: "12px 16px", borderRadius: 10, border: "1.5px solid var(--gray200)", fontSize: 14, fontFamily: "inherit", marginBottom: 16, boxSizing: "border-box" }}
+            type="password"
+            placeholder="Mot de passe"
+            value={pwd}
+            onChange={e => setPwd(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && (pwd === "uem-admin-2026" ? setAuth(true) : toast("Mot de passe incorrect", "❌"))}
+          />
+          <button
+            style={{ width: "100%", padding: 13, background: "var(--bleu)", color: "#fff", border: "none", borderRadius: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "inherit" }}
+            onClick={() => pwd === "uem-admin-2026" ? setAuth(true) : toast("Mot de passe incorrect", "❌")}
+          >Se connecter</button>
+          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", color: "var(--gray600)", cursor: "pointer", marginTop: 16, fontSize: 13, fontFamily: "inherit" }}>← Retour au site</button>
+        </div>
+      </div>
+    );
+  }
+
+  const addBlog = () => {
+    if (!blogForm.title || !blogForm.excerpt) { toast("Titre et extrait requis", "⚠️"); return; }
+    const newPost = { ...blogForm, id: Date.now().toString(), date: new Date().toLocaleDateString("fr-FR", { month: "long", year: "numeric" }) };
+    setBlogs(b => [newPost, ...b]);
+    setBlogForm({ title: "", excerpt: "", category: "Actualités", emoji: "📰" });
+    toast("Article publié avec succès !", "✅");
+  };
+
+  return (
+    <div className="admin-wrap">
+      <div className="admin-card">
+        <div className="admin-header">
+          <span style={{ fontSize: 28 }}>⚙️</span>
+          <div>
+            <h1>Administration UEM</h1>
+            <div style={{ fontSize: 13, opacity: .8, marginTop: 2 }}>Panneau de gestion du site</div>
+          </div>
+          <div style={{ marginLeft: "auto", display: "flex", gap: 10 }}>
+            <button onClick={() => setPage("home")} style={{ background: "rgba(255,255,255,.2)", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>← Site</button>
+            <button onClick={() => setAuth(false)} style={{ background: "rgba(255,255,255,.15)", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>Déconnexion</button>
+          </div>
+        </div>
+        <div className="admin-body">
+          <div className="admin-section">
+            <h2>📝 Ajouter un article de blog</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+              <div className="form-group">
+                <label className="form-label">Titre *</label>
+                <input className="form-input" placeholder="Titre de l'article" value={blogForm.title} onChange={e => setBlogForm(f => ({ ...f, title: e.target.value }))} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Catégorie</label>
+                <select className="form-select" value={blogForm.category} onChange={e => setBlogForm(f => ({ ...f, category: e.target.value }))}>
+                  <option>Actualités</option>
+                  <option>Guide</option>
+                  <option>Réglementation</option>
+                  <option>HSE</option>
+                  <option>Innovation</option>
+                  <option>Formation</option>
                 </select>
               </div>
             </div>
-            <div className="frow full">
-              <div className="fg">
-                <label htmlFor="c-prod">Produit / Service concerné *</label>
-                <input id="c-prod" name="produit" type="text" placeholder="Ex : PAC Coagulant, Analyse eau, STEP 500m³/j..." value={form.produit} onChange={handleChange} required/>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, marginBottom: 16 }}>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Extrait *</label>
+                <textarea className="form-textarea" style={{ height: 80 }} placeholder="Résumé de l'article..." value={blogForm.excerpt} onChange={e => setBlogForm(f => ({ ...f, excerpt: e.target.value }))} />
+              </div>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Emoji</label>
+                <input className="form-input" style={{ width: 70, textAlign: "center", fontSize: 24 }} value={blogForm.emoji} onChange={e => setBlogForm(f => ({ ...f, emoji: e.target.value }))} />
               </div>
             </div>
-            <div className="frow full">
-              <div className="fg">
-                <label htmlFor="c-msg">Message & détails</label>
-                <textarea id="c-msg" name="msg" placeholder="Décrivez votre besoin : quantité souhaitée, débit STEP, type d'eau, délai..." value={form.msg} onChange={handleChange} rows={4}/>
+            <button className="btn-green" onClick={addBlog}>Publier l'article →</button>
+          </div>
+
+          <div className="admin-section">
+            <h2>📚 Articles publiés ({blogs.length})</h2>
+            {blogs.length === 0 ? (
+              <p style={{ color: "var(--gray600)", fontSize: 14 }}>Aucun article publié.</p>
+            ) : blogs.map(post => (
+              <div className="blog-post-item" key={post.id}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                    <span>{post.emoji}</span>
+                    <strong style={{ fontSize: 15 }}>{post.title}</strong>
+                  </div>
+                  <div className="bpi-meta">{post.category} — {post.date}</div>
+                  <div style={{ fontSize: 13, color: "var(--gray600)", marginTop: 4, maxWidth: 500 }}>{post.excerpt}</div>
+                </div>
+                <button className="btn-danger" onClick={() => { setBlogs(b => b.filter(x => x.id !== post.id)); toast("Article supprimé", "🗑️"); }}>Supprimer</button>
               </div>
-            </div>
-            {err&&<div className="ferr">{err}</div>}
-            <button className="btn-send" type="submit" disabled={sending}>
-              {sending?<><span>⏳</span>Envoi en cours...</>:<><span>📩</span>Envoyer la demande de devis</>}
-            </button>
-            <div className="fnote">🔒 Données confidentielles · Réponse sous 24h · univers.envi@gmail.com</div>
-          </form>
-        </div>
-        <div className="c-alt">
-          <div className="ca">📞 <a href={`tel:+${TEL}`}>+212 523 37 74 17</a></div>
-          <div className="ca">💬 <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">WhatsApp</a></div>
-          <div className="ca">✉️ <a href="mailto:univers.envi@gmail.com">univers.envi@gmail.com</a></div>
-          <div className="ca">📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</div>
-        </div>
-      </div>
-    </div>
-  </>);
-}
+            ))}
+          </div>
 
-/* ══ ADMIN PANEL ══ */
-function AdminPanel(){
-  const [logged,setLogged]=useState(()=>sessionStorage.getItem("uem_admin")==="ok");
-  const [pw,setPw]=useState(""); const [pwErr,setPwErr]=useState("");
-  const [sec,setSec]=useState("dashboard");
-  const [promos,setPromos]=useState(()=>{try{return JSON.parse(localStorage.getItem("uem_promo")||"{}");}catch{return {};}});
-  const [edits,setEdits]=useState(()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}});
-  const [editing,setEditing]=useState(null); const [editData,setEditData]=useState({});
-  const [saved,setSaved]=useState(false); const [etab,setEtab]=useState("chimiques");
-
-  /* ── BLOG STATE ── */
-  const [blogArticles,setBlogArticles]=useState(()=>{try{return JSON.parse(localStorage.getItem("uem_blog")||"[]");}catch{return [];}});
-  const [blogMode,setBlogMode]=useState("list"); // list | new | edit
-  const [blogForm,setBlogForm]=useState({titre:"",cat:"STEP",date:"",resume:"",contenu:""});
-  const [blogEditing,setBlogEditing]=useState(null);
-
-  const saveBlog=(articles)=>{setBlogArticles(articles);localStorage.setItem("uem_blog",JSON.stringify(articles));setSaved(true);setTimeout(()=>setSaved(false),2000);};
-  const publishArticle=()=>{
-    if(!blogForm.titre.trim()||!blogForm.contenu.trim()){alert("Titre et contenu obligatoires.");return;}
-    const id="custom-"+Date.now();
-    const paragraphs=blogForm.contenu.split("\n\n").filter(p=>p.trim()).map(p=>{
-      if(p.startsWith("## ")) return {type:"h2",texte:p.replace("## ","")};
-      if(p.startsWith("### ")) return {type:"h3",texte:p.replace("### ","")};
-      return {type:"p",texte:p.trim()};
-    });
-    const article={id:blogEditing||id,titre:blogForm.titre,resume:blogForm.resume,date:blogForm.date||new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}),cat:blogForm.cat,emoji:"📝",temps:"5 min",contenu:[{type:"intro",texte:paragraphs[0]?.texte||""},...paragraphs.slice(1),{type:"cta",texte:"Besoin d'un expert ? Contactez UEM El Jadida"}]};
-    let updated;
-    if(blogEditing){updated=blogArticles.map(a=>a.id===blogEditing?article:a);}
-    else{updated=[article,...blogArticles];}
-    saveBlog(updated);setBlogMode("list");setBlogForm({titre:"",cat:"STEP",date:"",resume:"",contenu:""});setBlogEditing(null);
-  };
-  const deleteArticle=(id)=>{if(!window.confirm("Supprimer cet article ?"))return;saveBlog(blogArticles.filter(a=>a.id!==id));};
-  const startEditArticle=(a)=>{
-    setBlogEditing(a.id);
-    const contenu=a.contenu.filter(b=>b.type!=="cta").map(b=>{
-      if(b.type==="h2") return "## "+b.texte;
-      if(b.type==="h3") return "### "+b.texte;
-      return b.texte;
-    }).join("\n\n");
-    setBlogForm({titre:a.titre,cat:a.cat,date:a.date,resume:a.resume,contenu});
-    setBlogMode("new");
-  };
-  const login=e=>{e.preventDefault();if(pw===ADMIN_PASS){sessionStorage.setItem("uem_admin","ok");setLogged(true);}else setPwErr("Mot de passe incorrect.");};
-  const savePromo=p=>{const n={...promos,...p};setPromos(n);localStorage.setItem("uem_promo",JSON.stringify(n));setSaved(true);setTimeout(()=>setSaved(false),2000);};
-  const startEdit=p=>{setEditing(p.id);setEditData({nom:p.nom,desc:p.desc,prix:p.prix||"Sur devis"});};
-  const saveProd=id=>{const n={...edits,[id]:editData};setEdits(n);localStorage.setItem("uem_prod_edits",JSON.stringify(n));setEditing(null);setSaved(true);setTimeout(()=>setSaved(false),2000);};
-  const resetProd=id=>{const n={...edits};delete n[id];setEdits(n);localStorage.setItem("uem_prod_edits",JSON.stringify(n));setEditing(null);};
-  const resetAll=()=>{if(!window.confirm("Réinitialiser toutes les modifications ?"))return;localStorage.removeItem("uem_prod_edits");localStorage.removeItem("uem_promo");setEdits({});setPromos({});};
-  const logout=()=>{sessionStorage.removeItem("uem_admin");setLogged(false);};
-  const mc=Object.keys(edits).length;
-  const tabProds={chimiques:CHIM,materiels:MAT,engrais:FNUM.engrais,eaux:FNUM.eaux,nettoyage:FNUM.nettoyage};
-  if(!logged)return(<div className="adm-body"><style>{CSS}</style><div className="adm-login"><div className="adm-box"><div className="adm-logo"><div className="sq">UE</div><h1>Univers Environnement Maroc</h1><p>Espace Administrateur</p></div>{pwErr&&<div className="adm-err">{pwErr}</div>}<form onSubmit={login}><label htmlFor="adm-pw">Mot de passe</label><input id="adm-pw" type="password" placeholder="••••••••••••" value={pw} onChange={e=>setPw(e.target.value)} autoFocus/><button className="adm-login-btn" type="submit">Se connecter</button></form><div style={{textAlign:"center",marginTop:14,fontSize:".7rem",color:"#6b7c70"}}><a href="/" style={{color:"#1a5c32"}}>← Retour au site</a></div></div></div></div>);
-  return(<div className="adm-body"><style>{CSS}</style><div className="adm-top"><div className="adm-tl"><div className="sq">UE</div><span>Panel Admin — UEM</span></div><div className="adm-tr"><a href="/" target="_blank" rel="noreferrer">🌐 Voir le site</a>{saved&&<span className="adm-sv">✓ Sauvegardé</span>}<button className="adm-out" onClick={logout}>Déconnexion</button></div></div><div className="adm-lay"><div className="adm-side">{[{k:"dashboard",i:"📊",l:"Tableau de bord"},{k:"blog",i:"✍️",l:`Blog (${ARTICLES.length+blogArticles.length} articles)`},{k:"catalogue",i:"⚗️",l:`Catalogue${mc>0?" ("+mc+")":""}`},{k:"promotions",i:"🎯",l:"Promotions"},{k:"contact",i:"📞",l:"Contact"}].map(n=><div key={n.k} className={`adm-ni${sec===n.k?" on":""}`} onClick={()=>{setSec(n.k);setBlogMode("list");}}><span className="ni">{n.i}</span>{n.l}{n.k==="catalogue"&&mc>0&&<span className="adm-bmod"/>}</div>)}<div style={{margin:"18px 14px 6px",fontSize:".62rem",color:"#b8c8be",fontWeight:600,letterSpacing:".1em",textTransform:"uppercase"}}>Actions</div><div className="adm-ni" onClick={resetAll} style={{color:"#b03020"}}><span className="ni">🔄</span>Réinitialiser tout</div></div><div className="adm-cnt">{sec==="blog"&&<>
-  {blogMode==="list"&&<>
-    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
-      <h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>✍️ Gestion du Blog ({ARTICLES.length+blogArticles.length} articles)</h2>
-      <button className="adm-btn adm-bg" onClick={()=>{setBlogMode("new");setBlogEditing(null);setBlogForm({titre:"",cat:"STEP",date:"",resume:"",contenu:""});}}>+ Nouvel article</button>
-    </div>
-    {/* Articles personnalisés */}
-    {blogArticles.length>0&&<>
-      <div style={{fontSize:".78rem",fontWeight:700,color:"#1565c0",marginBottom:10,textTransform:"uppercase",letterSpacing:".08em"}}>Vos articles publiés ({blogArticles.length})</div>
-      <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:24}}>
-        {blogArticles.map(a=>(
-          <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",border:"1.5px solid #b8d8c4",borderRadius:8,background:"#f0faf4"}}>
-            <span style={{fontSize:"1.2rem"}}>{a.emoji}</span>
-            <div style={{flex:1}}>
-              <div style={{fontWeight:700,fontSize:".86rem",color:"#12201a"}}>{a.titre}</div>
-              <div style={{fontSize:".7rem",color:"#6b7c70"}}>📅 {a.date} · 📂 {a.cat}</div>
-            </div>
-            <div style={{display:"flex",gap:6}}>
-              <button className="adm-btn adm-bw" onClick={()=>startEditArticle(a)}>✏️ Modifier</button>
-              <button className="adm-btn adm-br" onClick={()=>deleteArticle(a.id)}>🗑 Supprimer</button>
+          <div className="admin-section">
+            <h2>ℹ️ Informations système</h2>
+            <div style={{ background: "var(--gray50)", borderRadius: 12, padding: 20, fontSize: 14, color: "var(--gray700)", lineHeight: 1.8 }}>
+              <div><strong>Site :</strong> www.uem.ma</div>
+              <div><strong>Stack :</strong> React 18 + Vite + EmailJS</div>
+              <div><strong>EmailJS Service :</strong> service_3p09q76</div>
+              <div><strong>Blog :</strong> {blogs.length} article(s) en localStorage</div>
+              <div><strong>Version :</strong> 2.0 — Redesign 2025</div>
             </div>
           </div>
-        ))}
-      </div>
-    </>}
-    {/* Articles intégrés */}
-    <div style={{fontSize:".78rem",fontWeight:700,color:"#6b7c70",marginBottom:10,textTransform:"uppercase",letterSpacing:".08em"}}>Articles intégrés ({ARTICLES.length}) — non modifiables ici</div>
-    <div style={{display:"flex",flexDirection:"column",gap:6}}>
-      {ARTICLES.map(a=>(
-        <div key={a.id} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",border:"1px solid #e0e8e2",borderRadius:7,background:"#f9f9f9",opacity:.8}}>
-          <span>{a.emoji}</span>
-          <div style={{flex:1}}>
-            <div style={{fontWeight:600,fontSize:".82rem",color:"#4a5c52"}}>{a.titre}</div>
-            <div style={{fontSize:".68rem",color:"#6b7c70"}}>📅 {a.date} · 📂 {a.cat}</div>
-          </div>
-          <span style={{fontSize:".68rem",color:"#b8c8be",fontStyle:"italic"}}>Intégré dans le code</span>
         </div>
-      ))}
-    </div>
-  </>}
-
-  {blogMode==="new"&&<>
-    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
-      <button className="adm-btn adm-bw" onClick={()=>{setBlogMode("list");setBlogEditing(null);}}>← Retour</button>
-      <h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>{blogEditing?"Modifier l'article":"Nouvel article"}</h2>
-    </div>
-    <div className="adm-card">
-      <div className="adm-f"><label>Titre de l'article *</label><input value={blogForm.titre} onChange={e=>setBlogForm(f=>({...f,titre:e.target.value}))} placeholder="Ex: Comment choisir un coagulant pour ma STEP ?"/></div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-        <div className="adm-f"><label>Catégorie</label>
-          <select value={blogForm.cat} onChange={e=>setBlogForm(f=>({...f,cat:e.target.value}))}>
-            <option value="STEP">STEP</option>
-            <option value="Analyses">Analyses</option>
-            <option value="Réglementation">Réglementation</option>
-            <option value="Produits">Produits</option>
-            <option value="Osmoseurs">Osmoseurs</option>
-          </select>
-        </div>
-        <div className="adm-f"><label>Date (laisser vide = aujourd'hui)</label><input value={blogForm.date} onChange={e=>setBlogForm(f=>({...f,date:e.target.value}))} placeholder="Ex: 1 juillet 2026"/></div>
-      </div>
-      <div className="adm-f"><label>Résumé (1-2 phrases pour la liste)</label><input value={blogForm.resume} onChange={e=>setBlogForm(f=>({...f,resume:e.target.value}))} placeholder="Court résumé de l'article visible dans la liste"/></div>
-      <div className="adm-f">
-        <label>Contenu de l'article *</label>
-        <div style={{fontSize:".7rem",color:"#6b7c70",marginBottom:6}}>
-          💡 Astuce mise en forme : commencez une ligne par <strong>## </strong> pour un titre H2, <strong>### </strong> pour H3. Séparez les paragraphes par une ligne vide.
-        </div>
-        <textarea value={blogForm.contenu} onChange={e=>setBlogForm(f=>({...f,contenu:e.target.value}))} rows={16} placeholder={"Écrivez votre premier paragraphe d'introduction ici...\n\n## Premier titre H2\n\nContenu du premier sous-titre...\n\n## Deuxième titre H2\n\nContenu du deuxième sous-titre...\n\n### Sous-titre H3\n\nContenu..."}/>
-      </div>
-      <div style={{display:"flex",gap:10,marginTop:6}}>
-        <button className="adm-btn adm-bg" onClick={publishArticle} style={{padding:"10px 24px",fontSize:".88rem"}}>✅ {blogEditing?"Mettre à jour":"Publier l'article"}</button>
-        <button className="adm-btn adm-bw" onClick={()=>{setBlogMode("list");setBlogEditing(null);}}>Annuler</button>
-      </div>
-      <div style={{marginTop:16,padding:"12px 16px",background:"#f0f4ff",borderRadius:7,fontSize:".78rem",color:"#4a5c52",lineHeight:1.7}}>
-        <strong>📌 Conseil SEO :</strong> Rédigez au moins 500 mots. Utilisez des mots-clés comme "traitement des eaux Maroc", "osmoseur industriel", "STEP", "analyse eau". Chaque ## titre est important pour Google.
       </div>
     </div>
-  </>}
-</>}<h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Tableau de bord</h2><div className="adm-stats">{[{n:CHIM.length,l:"Réactifs"},{n:MAT.length,l:"Matériels"},{n:FNUM.engrais.length+FNUM.eaux.length+FNUM.nettoyage.length,l:"Formulations"},{n:6,l:"Services"}].map((s,i)=><div key={i} className="adm-stat"><div className="adm-stat-n">{s.n}</div><div className="adm-stat-l">{s.l}</div></div>)}</div><div className="adm-card"><div className="adm-card-t">État du site</div>{[{l:"Site en ligne",v:"✅ www.uem.ma",c:"#1a5c32"},{l:"Hébergement",v:"✅ Vercel (gratuit)"},{l:"Formulaire devis",v:"✅ EmailJS actif"},{l:"Assistant IA",v:"✅ Claude intégré"},{l:"Modifications",v:mc>0?`⚠️ ${mc} produit(s) modifié(s)`:"✅ Aucune",c:mc>0?"#e65100":"#1a5c32"},{l:"Promotion active",v:promos.active?"✅ "+promos.texte:"— Aucune"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #e0e8e2",fontSize:".82rem"}}><span style={{color:"#4a5c52",fontWeight:500}}>{r.l}</span><span style={{fontWeight:600,color:r.c||"#12201a"}}>{r.v}</span></div>)}</div></>}{sec==="catalogue"&&<><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}><h2 style={{fontSize:"1.1rem",fontWeight:700,color:"#12201a"}}>Catalogue Produits</h2><span style={{fontSize:".75rem",color:"#6b7c70"}}>{mc} modification(s)</span></div><div className="adm-tabs">{[{k:"chimiques",l:"Réactifs (19)"},{k:"materiels",l:"Matériels (5)"},{k:"engrais",l:"Engrais"},{k:"eaux",l:"Formules Eaux"},{k:"nettoyage",l:"Nettoyage"}].map(t=><button key={t.k} className={`adm-tab${etab===t.k?" on":""}`} onClick={()=>setEtab(t.k)}>{t.l}</button>)}</div><div className="adm-pl">{(tabProds[etab]||[]).map(p=>{const mod=edits[p.id];const d=mod?{...p,...mod}:p;return(<div key={p.id}><div className={`adm-pi${editing===p.id?" ed":""}`} onClick={()=>editing===p.id?setEditing(null):startEdit(p)}><div style={{flex:1}}><div className="adm-pn">{d.nom||p.nom}{mod&&<span style={{fontSize:".62rem",background:"#fdf3e7",color:"#e65100",padding:"1px 5px",borderRadius:3,marginLeft:5}}>modifié</span>}</div><div className="adm-pg">{p.grp||"Formulation"}</div></div><div className="adm-pp">{d.prix||"Sur devis"}</div><span style={{fontSize:".75rem",color:"#b8c8be",marginLeft:7}}>{editing===p.id?"▲":"▼"}</span></div>{editing===p.id&&<div className="adm-ep"><div className="adm-f"><label>Nom</label><input value={editData.nom||""} onChange={e=>setEditData(d=>({...d,nom:e.target.value}))}/></div><div className="adm-f"><label>Description</label><textarea value={editData.desc||""} onChange={e=>setEditData(d=>({...d,desc:e.target.value}))} rows={3}/></div><div className="adm-f"><label>Prix affiché</label><input value={editData.prix||""} onChange={e=>setEditData(d=>({...d,prix:e.target.value}))} placeholder="Ex: 390 MAD ou Sur devis"/></div><div style={{display:"flex",gap:7,marginTop:4}}><button className="adm-btn adm-bg" onClick={()=>saveProd(p.id)}>✓ Enregistrer</button><button className="adm-btn adm-bw" onClick={()=>setEditing(null)}>Annuler</button>{mod&&<button className="adm-btn adm-br" onClick={()=>resetProd(p.id)}>Réinitialiser</button>}</div></div>}</div>);})}</div></>}{sec==="promotions"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Gestion des Promotions</h2><div className="adm-promo-box"><div className="adm-card-t">Bannière promotionnelle</div><div className="adm-tog"><input type="checkbox" id="p-on" checked={!!promos.active} onChange={e=>savePromo({active:e.target.checked})}/><label htmlFor="p-on">{promos.active?"Bannière ACTIVE sur le site":"Bannière désactivée"}</label></div><div className="adm-f"><label>Texte de la bannière</label><input value={promos.texte||""} onChange={e=>savePromo({texte:e.target.value})} placeholder="Ex: 🎉 Promotion -20% sur les coagulants"/></div><div className="adm-f"><label>Couleur</label><select value={promos.couleur||"vert"} onChange={e=>savePromo({couleur:e.target.value})}><option value="vert">Vert</option><option value="rouge">Rouge (urgence)</option><option value="bleu">Bleu (info)</option><option value="orange">Orange (solde)</option></select></div>{promos.texte&&<div className="adm-prev" style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promos.couleur||"vert"]}}>Aperçu : {promos.texte}</div>}</div><div className="adm-card"><div className="adm-card-t">Idées prêtes à utiliser</div>{["🎉 Promotion -20% sur les coagulants jusqu'au 31/07","⚡ Livraison offerte sur toute commande > 2000 MAD","🔬 Formulation offerte pour tout contrat STEP signé en juillet","📄 -15% sur les formulations numériques ce mois"].map((s,i)=><div key={i} style={{padding:"7px 0",borderBottom:"1px solid #f0f2f5",fontSize:".8rem",color:"#4a5c52",display:"flex",justifyContent:"space-between",alignItems:"center"}}><span>{s}</span><button className="adm-btn adm-bw" style={{fontSize:".68rem",padding:"3px 9px"}} onClick={()=>savePromo({texte:s})}>Utiliser</button></div>)}</div></>}{sec==="contact"&&<><h2 style={{fontSize:"1.1rem",fontWeight:700,marginBottom:18,color:"#12201a"}}>Informations de Contact</h2><div className="adm-card"><div className="adm-card-t">Coordonnées actuelles</div>{[["Téléphone","+212 523 37 74 17"],["WhatsApp","+212 700 090 365"],["Email","univers.envi@gmail.com"],["Adresse","N°1, Bd Jabrane Khalil Jabrane, El Jadida"],["Domaine","www.uem.ma"]].map((r,i)=><div key={i} style={{display:"flex",gap:14,padding:"9px 0",borderBottom:"1px solid #f0f2f5",fontSize:".82rem"}}><span style={{width:130,color:"#6b7c70",fontWeight:600,flexShrink:0}}>{r[0]}</span><span style={{color:"#12201a",fontWeight:500}}>{r[1]}</span></div>)}</div><div className="adm-card" style={{background:"#fdf3e7",borderColor:"#f5d6a0"}}><div className="adm-card-t" style={{color:"#e65100"}}>⚠️ Modifier ces informations</div><p style={{fontSize:".82rem",color:"#4a5c52",lineHeight:1.7}}>Pour modifier les coordonnées, envoyez un message à Claude avec les nouvelles informations et il mettra à jour le code source.</p></div></>}</div></div>{mc>0&&<div className="adm-sb"><span>⚠️ {mc} modification(s) sauvegardées dans ce navigateur.</span><button className="adm-btn adm-bg" onClick={()=>setSaved(true)}>✓ OK</button></div>}</div>);
-}
-
-/* ══════════════════════════════
-   APP PRINCIPAL
-══════════════════════════════ */
-export default function App(){
-  /* ── TOUS LES HOOKS EN PREMIER — AVANT TOUT RETURN ── */
-  const [page,setPage]     = useState("garde");
-  const [panier,setPanier] = useState([]);
-  const [cart,setCart]     = useState(false);
-  const [mob,setMob]       = useState(false);
-  const [toast,setToast]   = useState("");
-  const [chat,setChat]     = useState(false);
-  const [msgs,setMsgs]     = useState([{r:"b",t:"Bonjour ! Je suis l'assistant expert d'**Univers Environnement Maroc**.\n\nJe peux vous conseiller sur nos produits chimiques, matériels, services ou formulations. Comment puis-je vous aider ?"}]);
-  const [inp,setInp]       = useState("");
-  const [load,setLoad]     = useState(false);
-  const [sugs,setSugs]     = useState(true);
-  const [ftab,setFtab]     = useState("engrais");
-  const [devisProd,setDevisProd] = useState("");
-
-  const tmr = useRef(null);
-  const end = useRef(null);
-  const iref = useRef(null);
-
-  const isAdmin = window.location.pathname === "/admin";
-
-  /* SEO dynamique */
-  const SEO_PAGES = {
-    garde:         { title:"Univers Environnement Maroc | Réactifs Chimiques, STEP & Analyses — El Jadida", desc:"UEM — Leader marocain en traitement des eaux, réactifs chimiques certifiés, analyses NM/ISO et conception STEP. El Jadida, Maroc." },
-    chimiques:     { title:"Produits Chimiques — Coagulants, Floculants, Osmose Inverse | UEM Maroc", desc:"PAC, chlorure ferrique, floculants, hypochlorite, anti-scalant, biocides. Livraison 24h au Maroc." },
-    materiels:     { title:"Matériels de Mesure — pH-mètre, Conductimètre, Oxymètre | UEM Maroc", desc:"Instruments de mesure professionnels : pH-mètres, conductimètres, oxymètres, kits chlore et dureté." },
-    services:      { title:"Services Ingénierie — Conception STEP, Analyses Environnementales | UEM Maroc", desc:"Conception STEP, optimisation stations d'épuration, analyses physicochimiques NM/ISO au Maroc." },
-    blog:          { title:"Blog — Réglementation Environnementale & Traitement des Eaux au Maroc | UEM", desc:"Articles techniques sur le traitement des eaux, la réglementation environnementale marocaine, les STEP industrielles et les analyses certifiées NM/ISO." }, desc:"Systèmes d'osmose inverse industriels clé en main au Maroc. De 500 L/h à 10 m³/h. Prix de 48 000 à 230 000 MAD TTC. Installation et SAV UEM El Jadida." },
-    realisations:  { title:"Nos Réalisations — 200+ Projets STEP & Analyses au Maroc | UEM", desc:"Découvrez les réalisations d'Univers Environnement Maroc : stations d'épuration, analyses terrain, installations industrielles à travers tout le Maroc." },
-    apropos:       { title:"À Propos — Univers Environnement Maroc, 15 ans d'expertise | UEM", desc:"Société marocaine d'ingénierie environnementale fondée à El Jadida. Laboratoire certifié, équipe d'ingénieurs, 200+ projets réalisés au Maroc." },
-    formulation:   { title:"Formulations Techniques Numériques — Engrais, Traitement Eaux | UEM", desc:"Formules PDF+Excel : engrais foliaires, traitement des eaux, détergents et nettoyage industriels." },
-    contact:       { title:"Demander un Devis Gratuit — Contact UEM El Jadida Maroc", desc:"Contactez UEM pour un devis gratuit. +212 523 37 74 17. N°1 Bd Jabrane Khalil Jabrane, El Jadida." },
-  };
-
-  useEffect(()=>{
-    if(isAdmin) return;
-    const seo = SEO_PAGES[page] || SEO_PAGES.garde;
-    document.title = seo.title;
-    const meta = document.querySelector('meta[name="description"]');
-    if(meta) meta.setAttribute("content", seo.desc);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if(canonical) canonical.setAttribute("href", `https://www.uem.ma/${page==="garde"?"":page}`);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if(ogTitle) ogTitle.setAttribute("content", seo.title);
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if(ogDesc) ogDesc.setAttribute("content", seo.desc);
-  },[page, isAdmin]);
-
-  useEffect(()=>{
-    if(isAdmin) return;
-    const existing = document.getElementById("sd");
-    if(existing) existing.remove();
-    let schema = null;
-    if(page==="chimiques") schema={"@context":"https://schema.org","@type":"ItemList","name":"Réactifs Chimiques UEM","itemListElement":CHIM.slice(0,5).map((p,i)=>({"@type":"ListItem","position":i+1,"item":{"@type":"Product","name":p.nom,"description":p.desc}}))};
-    else if(page==="garde") schema={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.uem.ma/"},{"@type":"ListItem","position":2,"name":"Produits Chimiques","item":"https://www.uem.ma/chimiques"}]};
-    if(schema){const s=document.createElement("script");s.id="sd";s.type="application/ld+json";s.textContent=JSON.stringify(schema);document.head.appendChild(s);}
-    return()=>{const el=document.getElementById("sd");if(el)el.remove();};
-  },[page, isAdmin]);
-
-  useEffect(()=>{ if(!isAdmin) window.scrollTo({top:0,behavior:"smooth"}); },[page, isAdmin]);
-  useEffect(()=>{ if(!isAdmin&&chat) end.current?.scrollIntoView({behavior:"smooth"}); },[msgs,load,chat,isAdmin]);
-  useEffect(()=>{ if(!isAdmin&&chat) setTimeout(()=>iref.current?.focus(),350); },[chat,isAdmin]);
-
-  const shToast = useCallback(m=>{setToast(m);clearTimeout(tmr.current);tmr.current=setTimeout(()=>setToast(""),2800);},[]);
-  const go      = useCallback(p=>{setPage(p);setMob(false);},[]);
-  const addCart = useCallback(p=>{setPanier(pr=>{const ex=pr.find(i=>i.id===p.id);return ex?pr.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...pr,{...p,qty:1}];});shToast(`✓ "${p.nom}" ajouté`);},[shToast]);
-  const delCart = useCallback(id=>setPanier(p=>p.filter(i=>i.id!==id)),[]);
-  const askDevis= useCallback(nom=>{setDevisProd(nom);go("contact");},[go]);
-  const aiSend  = useCallback(async t=>{
-    const txt=(t||inp).trim(); if(!txt||load)return;
-    setInp(""); setSugs(false);
-    setMsgs(p=>[...p,{r:"u",t:txt}]); setLoad(true);
-    const hist=msgs.map(m=>({role:m.r==="u"?"user":"assistant",content:m.t}));
-    try{
-      const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:SYS,messages:[...hist,{role:"user",content:txt}]})});
-      const d=await res.json();
-      setMsgs(p=>[...p,{r:"b",t:d.content?.map(b=>b.text||"").join("")||"Désolé, une erreur est survenue."}]);
-    }catch{setMsgs(p=>[...p,{r:"b",t:"Une erreur est survenue."}]);}
-    finally{setLoad(false);}
-  },[inp,load,msgs]);
-
-  /* ── APRÈS TOUS LES HOOKS — return conditionnel ── */
-  if(isAdmin) return <AdminPanel/>;
-
-  const prodEdits = (()=>{try{return JSON.parse(localStorage.getItem("uem_prod_edits")||"{}");}catch{return {};}})();
-  const promoData = (()=>{try{return JSON.parse(localStorage.getItem("uem_promo")||"{}");}catch{return {};}})();
-  const total = panier.reduce((s,i)=>s+i.prixVal*i.qty,0);
-  const qty   = panier.reduce((s,i)=>s+i.qty,0);
-
-  const renderPage=()=>{
-    const props={onBack:()=>go("garde"),onDevis:askDevis,onCart:addCart,edits:prodEdits};
-    switch(page){
-      case"garde":        return <PageGarde onGo={go}/>;
-      case"chimiques":    return <PageChim {...props}/>;
-      case"materiels":    return <PageMat {...props}/>;
-      case"services":     return <PageSvc onBack={()=>go("garde")} onDevis={askDevis}/>;
-      case"osmoseurs":    return <PageOsmoseurs onBack={()=>go("garde")} onDevis={askDevis}/>;
-      case"blog":         return <PageBlog onBack={()=>go("garde")} onArticle={(id)=>go("article_"+id)}/>;
-      case"realisations": return <PageRealisations onBack={()=>go("garde")} onDevis={askDevis}/>;
-      default:
-        if(page.startsWith("article_")) return <PageArticle articleId={page.replace("article_","")} onBack={()=>go("blog")} onGo={go}/>;
-        return <PageGarde onGo={go}/>;
-      case"apropos":      return <PageAPropos onBack={()=>go("garde")} onGo={go}/>;
-      case"formulation":  return <PageForm onBack={()=>go("garde")} onCart={addCart} ftab={ftab} setFtab={setFtab} edits={prodEdits}/>;
-      case"contact":      return <PageContact onBack={()=>go("garde")} initProduit={devisProd}/>;
-    }
-  };
-
-  return(
-    <>
-      <style>{CSS}</style>
-      <div className={`toast${toast?" on":""}`}>{toast}</div>
-
-      {/* PANIER */}
-      <div className={`ov${cart?" on":""}`} onClick={()=>setCart(false)}/>
-      <div className={`cart${cart?" on":""}`}>
-        <div className="c-hd"><h2>🛒 Panier{qty>0?` (${qty})`:""}</h2><button className="c-x" onClick={()=>setCart(false)}>✕</button></div>
-        <div className="c-body">{panier.length===0?<div className="c-empty">Votre panier est vide.</div>:panier.map(i=><div key={i.id} className="ci"><div className="ci-ico">{i.emoji||"📄"}</div><div className="ci-inf"><div className="ci-nom">{i.nom}</div><div className="ci-px">{i.prixVal.toLocaleString("fr-MA")} MAD × {i.qty} = {(i.prixVal*i.qty).toLocaleString("fr-MA")} MAD</div></div><button className="ci-rm" onClick={()=>delCart(i.id)}>✕</button></div>)}</div>
-        <div className="c-ft"><div className="c-tot"><span className="c-tot-l">Total TTC</span><span className="c-tot-p">{total.toLocaleString("fr-MA")} MAD</span></div><button className="btn-pay" disabled={!panier.length}>🔒 Passer la commande</button><div className="pay-n">Paiement sécurisé · CMI · Virement · PayPal</div></div>
-      </div>
-
-      {/* TOP BAR */}
-      <div className="tb"><div className="tb-in">
-        <div style={{display:"flex",gap:"14px",flexWrap:"wrap"}}>
-          <a href={`tel:+${TEL}`}>📞 +212 523 37 74 17</a>
-          <span className="tb-sep">|</span>
-          <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">💬 +212 700 090 365</a>
-          <span className="tb-sep">|</span>
-          <span style={{color:"rgba(255,255,255,.55)"}}>📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
-        </div>
-        <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
-      </div></div>
-
-      {/* NAVBAR */}
-      <div className="nav"><div className="nav-in">
-        <div className="logo" onClick={()=>go("garde")} role="button" tabIndex={0}>
-          <div className="logo-sq">UE</div>
-          <div className="logo-t"><span className="n1">Univers Environnement</span><span className="n2">Maroc — El Jadida</span></div>
-        </div>
-        <div className="nav-links">{NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}</div>
-        <div className="nav-r">
-          <button className="btn-dv" onClick={()=>go("contact")}>Demander un devis</button>
-          <button className="cart-btn" onClick={()=>setCart(true)}>🛒{qty>0&&<span className="cbadge">{qty}</span>}</button>
-        </div>
-        <button className={`burger${mob?" on":""}`} onClick={()=>setMob(v=>!v)}><span/><span/><span/></button>
-      </div>
-      <div className={`mob${mob?" on":""}`}><nav>
-        {NAV.map(n=><button key={n.k} className={page===n.k?"on":""} onClick={()=>go(n.k)}>{n.l}</button>)}
-        <button className={page==="apropos"?"on":""} onClick={()=>go("apropos")}>À Propos</button>
-        <button className="mob-cta" onClick={()=>go("contact")}>Demander un devis</button>
-      </nav></div></div>
-
-      {/* TICKER */}
-      <div className="tkr"><div className="tkr-t">{[...TICKERS,...TICKERS].map((t,i)=><span key={i} className="tkr-i">{t}</span>)}</div></div>
-
-      {/* BANNIÈRE PROMO */}
-      {promoData.active&&promoData.texte&&(
-        <div style={{background:{vert:"#1a5c32",rouge:"#b03020",bleu:"#1565c0",orange:"#e65100"}[promoData.couleur||"vert"],color:"#fff",padding:"10px",textAlign:"center",fontSize:".8rem",fontWeight:600,letterSpacing:".04em"}}>
-          {promoData.texte}
-        </div>
-      )}
-
-      {/* PAGE */}
-      {renderPage()}
-
-      {/* FOOTER */}
-      <footer><div className="fi-in">
-        <div className="fi-grid">
-          <div>
-            <div className="fb-n">Univers Environnement <span>Maroc</span></div>
-            <p className="fb-desc">Solutions intégrées pour le traitement des eaux et l'ingénierie environnementale au Maroc depuis plus de 15 ans.</p>
-            <div className="fb-ct">
-              <a href={`tel:+${TEL}`}>📞 +212 523 37 74 17</a>
-              <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer">💬 +212 700 090 365</a>
-              <a href="mailto:univers.envi@gmail.com">✉️ univers.envi@gmail.com</a>
-              <a href="#">📍 N°1, Bd Jabrane Khalil Jabrane, El Jadida</a>
-            </div>
-          </div>
-          <div className="fc"><h4>Navigation</h4><ul>{NAV.map(n=><li key={n.k} onClick={()=>go(n.k)}>{n.l}</li>)}<li onClick={()=>go("apropos")}>À Propos</li><li onClick={()=>go("contact")}>Contact & Devis</li></ul></div>
-          <div className="fc"><h4>Services</h4><ul><li>Conception STEP</li><li>Analyse environnementale</li><li>Optimisation process</li><li>Formation opérateurs</li></ul></div>
-          <div className="fc"><h4>Informations</h4><ul><li>À propos</li><li>Mentions légales</li><li>CGV</li><li>Confidentialité</li></ul></div>
-        </div>
-        <div className="fi-bot"><span>© 2026 Univers Environnement Maroc — Tous droits réservés</span><span>🔒 Paiements sécurisés · CMI · SSL</span></div>
-      </div></footer>
-
-      {/* WHATSAPP */}
-      <a href={`https://wa.me/${WA}?text=Bonjour%20UEM%2C%20je%20souhaite%20des%20informations.`} target="_blank" rel="noreferrer" className="wa" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-
-      {/* AI CHAT */}
-      <button className="ai-fab" onClick={()=>setChat(v=>!v)} style={{position:"relative"}} aria-label="Assistant IA">
-        {chat?"✕":"💬"}{!chat&&<span className="ai-dot"/>}
-      </button>
-      <div className={`ai-win${chat?" on":""}`}>
-        <div className="ai-hd">
-          <div className="ai-av">🌱</div>
-          <div style={{flex:1}}><div className="ai-nm">Assistant UEM</div><div className="ai-st">En ligne · Expert eau & environnement</div></div>
-          <button className="ai-cx" onClick={()=>setChat(false)}>✕</button>
-        </div>
-        <div className="ai-msgs">
-          {msgs.map((m,i)=><div key={i} className={`ai-m ${m.r==="u"?"u":"b"}`}><div className="ai-mav">{m.r==="u"?"👤":"🌱"}</div><div className="ai-mb" style={{whiteSpace:"pre-wrap"}}>{rtx(m.t)}</div></div>)}
-          {load&&<div className="ai-m b"><div className="ai-mav">🌱</div><div className="typ"><span/><span/><span/></div></div>}
-          <div ref={end}/>
-        </div>
-        {sugs&&<div className="ai-sugs">{SUGS.map((s,i)=><button key={i} className="sug" onClick={()=>aiSend(s)}>{s}</button>)}</div>}
-        <div className="ai-ir">
-          <textarea ref={iref} className="ai-inp" placeholder="Posez votre question…" value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();aiSend();}}} rows={1}/>
-          <button className="ai-snd" onClick={()=>aiSend()} disabled={!inp.trim()||load}>➤</button>
-        </div>
-      </div>
-    </>
   );
 }
