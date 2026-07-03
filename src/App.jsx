@@ -30,14 +30,16 @@ const GLOBAL_CSS = `
     --transition: all .22s cubic-bezier(.4,0,.2,1);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow: auto !important; height: auto !important; }
   body {
     font-family: 'Inter', sans-serif;
     color: var(--gray900);
     background: #fff;
     overflow-x: hidden;
+    display: block !important;
+    height: auto !important;
   }
-
+#root { width: 100%; }
   a { text-decoration: none; color: inherit; }
 
   /* Topbar */
