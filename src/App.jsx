@@ -834,10 +834,16 @@ export default function App() {
       <PageHdr cat="Équipements & Systèmes" title="Osmoseurs Industriels <em>Clé en Main</em>" sub="Systèmes d'osmose inverse de 500 L/h à 10 m³/h. Installation, garantie et SAV UEM inclus. Prix publics TTC disponibles."/>
       <div className="pbody">
         <div className="os-features">
-          {[{i:"🏭",t:"Clé en main",d:"De la conception à la mise en service, UEM gère tout"},{i:"🔧",t:"SAV inclus",d:"Maintenance préventive et corrective sur site"},{i:"🇲🇦",t:"Stock Maroc",d:"Pièces de rechange disponibles à El Jadida"},{i:"📋",t:"Garantie 2 ans",d:"Sur les équipements et les membranes installés"}].map((f,i) => (
-            <div className="os-feat" key={i}><div className="os-feat-ico">{f.i}</div><div className="os-feat-t">{f.t}</div><div className="os-feat-d">{f.d}</div></div>
+          {[
+            {icon:<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l3 3L22 7l-3-3"/></svg>,t:"Solution clé en main",d:"De la conception à la mise en service, UEM gère tout"},
+            {icon:<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a4 4 0 10-5.4 5.4L2 19l3 3 7.3-7.3a4 4 0 005.4-5.4l-2.8 2.8-2-2z"/></svg>,t:"Support & Maintenance",d:"Maintenance préventive et corrective sur site"},
+            {icon:<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>,t:"Stock local au Maroc",d:"Pièces de rechange disponibles à El Jadida"},
+            {icon:<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>,t:"Garantie constructeur 2 ans",d:"Sur les équipements et les membranes installés"}
+          ].map((f,i) => (
+            <div className="os-feat" key={i}><div className="os-feat-ico">{f.icon}</div><div className="os-feat-t">{f.t}</div><div className="os-feat-d">{f.d}</div></div>
           ))}
         </div>
+
         <div className="info-box">
           <p>💡 <strong>Prix indicatifs HT</strong> — Les tarifs peuvent varier selon les options (double pass, SCADA, distance). Contactez-nous pour un devis personnalisé gratuit sous 24h. <strong>Financement disponible</strong> : crédit-bail, leasing, paiement échelonné.</p>
         </div>
