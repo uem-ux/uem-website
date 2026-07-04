@@ -407,11 +407,11 @@ button{font-family:'Inter',sans-serif}
 const SERVICES=[
   {id:1,emoji:"💧",color:"#0d2b6e",bg:"#e8f0fe",title:"Traitement des eaux",img:"/Step-traitement.jpg.jpeg",items:["STEP & Stations d'épuration","Eau potable & industrielle","Eaux usées & effluents"]},
   {id:2,emoji:"🧪",color:"#1b7a3e",bg:"#e8f5e9",title:"Analyses environnementales",img:"/Laboratoire-uem.jpg.jpeg",items:["Eau, Sol, Air, Boues","Analyses physico-chimiques","Normes NM / ISO"]},
-  {id:3,emoji:"⚗️",color:"#7b1fa2",bg:"#f3e5f5",title:"Produits chimiques",img:null,items:["Réactifs de laboratoire","Coagulants, floculants, biocides","Produits traitement eaux"]},
+  {id:3,emoji:"⚗️",color:"#7b1fa2",bg:"#f3e5f5",title:"Produits chimiques",img:"/produits-chimiques.jpg",items:["Réactifs de laboratoire","Coagulants, floculants, biocides","Produits traitement eaux"]},
   {id:4,emoji:"⚙️",color:"#e65100",bg:"#fff3e0",title:"Équipements & Osmoseurs",img:"/osmoseur-grand.webp",items:["Osmoseurs industriels & domestiques","Adoucisseurs, filtres, pompes","Instrumentation & accessoires"]},
   {id:5,emoji:"📐",color:"#f57c00",bg:"#fff8e1",title:"Ingénierie & Conception",img:"/mesure-site.jpg.jpeg",items:["Études & Conception STEP","Installation & Mise en service","Suivi & Optimisation"]},
   {id:6,emoji:"🌿",color:"#2e7d32",bg:"#e8f5e9",title:"Environnement & HSE",img:"/analyse -terrain.jpg.jpeg",items:["Études d'impact & Audits","ISO 14001 – Management env.","Conseil HSE & Conformité"]},
-  {id:7,emoji:"🎓",color:"#f9a825",bg:"#fffde7",title:"Formation & Sensibilisation",img:null,items:["Formation HSE","Traitement des eaux","Laboratoire & Environnement"]},
+  {id:7,emoji:"🎓",color:"#f9a825",bg:"#fffde7",title:"Formation & Sensibilisation",img:"/formation-hse.jpg",items:["Formation HSE","Traitement des eaux","Laboratoire & Environnement"]}
   {id:8,emoji:"🔧",color:"#0277bd",bg:"#e1f5fe",title:"Maintenance & SAV",img:"/mesure-bruit.jpg.jpeg",items:["Maintenance préventive & corrective","Contrats annuels","Assistance technique 7/7"]}
 ];
 
