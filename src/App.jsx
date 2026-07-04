@@ -153,7 +153,10 @@ button{font-family:'Inter',sans-serif}
 .btn-panier{background:var(--g100);color:var(--g700);border:1.5px solid var(--g200);padding:9px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
 .os-features{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:44px}
 .os-feat{background:#fff;border:1px solid var(--g200);border-radius:12px;padding:20px 16px;text-align:center}
-.os-feat-ico{font-size:28px;margin-bottom:10px}
+.os-feat{transition:var(--tr)}
+.os-feat:hover{border-color:var(--bleu2);box-shadow:var(--sh);transform:translateY(-3px)}
+.os-feat-ico{margin-bottom:12px;color:var(--bleu);display:flex;justify-content:center;transition:var(--tr)}
+.os-feat:hover .os-feat-ico{color:var(--accent)}
 .os-feat-t{font-size:13px;font-weight:700;color:var(--g900);margin-bottom:4px}
 .os-feat-d{font-size:12px;color:var(--g600);line-height:1.5}
 .os-compare{overflow-x:auto;margin-bottom:44px}
