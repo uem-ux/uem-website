@@ -411,7 +411,7 @@ const SERVICES=[
   {id:4,emoji:"⚙️",color:"#e65100",bg:"#fff3e0",title:"Équipements & Osmoseurs",img:"/osmoseur-grand.webp",items:["Osmoseurs industriels & domestiques","Adoucisseurs, filtres, pompes","Instrumentation & accessoires"]},
   {id:5,emoji:"📐",color:"#f57c00",bg:"#fff8e1",title:"Ingénierie & Conception",img:"/mesure-site.jpg.jpeg",items:["Études & Conception STEP","Installation & Mise en service","Suivi & Optimisation"]},
   {id:6,emoji:"🌿",color:"#2e7d32",bg:"#e8f5e9",title:"Environnement & HSE",img:"/analyse -terrain.jpg.jpeg",items:["Études d'impact & Audits","ISO 14001 – Management env.","Conseil HSE & Conformité"]},
-  {id:7,emoji:"🎓",color:"#f9a825",bg:"#fffde7",title:"Formation & Sensibilisation",img:"/formation-hse.jpg",items:["Formation HSE","Traitement des eaux","Laboratoire & Environnement"]}
+  {id:7,emoji:"🎓",color:"#f9a825",bg:"#fffde7",title:"Formation & Sensibilisation",img:"/formation-hse.jpg",items:["Formation HSE","Traitement des eaux","Laboratoire & Environnement"]},
   {id:8,emoji:"🔧",color:"#0277bd",bg:"#e1f5fe",title:"Maintenance & SAV",img:"/mesure-bruit.jpg.jpeg",items:["Maintenance préventive & corrective","Contrats annuels","Assistance technique 7/7"]}
 ];
 
