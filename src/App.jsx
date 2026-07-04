@@ -30,6 +30,7 @@ button{font-family:'Inter',sans-serif}
 .nb-in{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:24px;height:70px}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer}
 .logo-sq{width:42px;height:42px;background:var(--bleu);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:15px}
+.logo-img{height:46px;width:auto;object-fit:contain;flex-shrink:0}
 .logo-tx{display:flex;flex-direction:column;line-height:1.2}
 .logo-n{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:var(--bleu)}
 .logo-s{font-size:9px;font-weight:600;color:var(--vert3);letter-spacing:1.5px;text-transform:uppercase}
@@ -99,8 +100,9 @@ button{font-family:'Inter',sans-serif}
 .cl-in{max-width:1280px;margin:0 auto;padding:0 24px;text-align:center}
 .cl-ttl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g600);margin-bottom:24px}
 .cl-logos{display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap}
-.cl-logo{display:flex;align-items:center;gap:7px;font-size:16px;font-weight:800;opacity:.6;transition:var(--tr);filter:grayscale(1);cursor:pointer}
+.cl-logo{display:flex;align-items:center;justify-content:center;height:44px;opacity:.65;transition:var(--tr);filter:grayscale(1);cursor:pointer}
 .cl-logo:hover{opacity:1;filter:grayscale(0)}
+.cl-logo img{max-height:44px;max-width:120px;width:auto;object-fit:contain}
 .cl-dot{width:9px;height:9px;border-radius:50%}
 .sec{padding:68px 0}
 .sec-in{max-width:1280px;margin:0 auto;padding:0 24px}
@@ -494,7 +496,28 @@ const ARTICLES_DEFAULT=[
   {id:"d3",titre:"HSE au Maroc : obligations légales et bonnes pratiques industrielles",resume:"Panorama des textes réglementaires HSE en vigueur au Maroc et méthodes d'implémentation efficaces pour les PME et grandes industries.",date:"Avril 2024",cat:"HSE",emoji:"🦺"}
 ];
 
-const CLIENTS=[{name:"OCP",color:"#00873E"},{name:"acciona",color:"#004B9B"},{name:"ONCF",color:"#E30613"},{name:"ONEE",color:"#0055A5"},{name:"SOMAGEC",color:"#F7941D"},{name:"JESA",color:"#00A79D"}];
+const CLIENTS=[
+  {name:"Somavian",img:"/clients/somavian.jpg"},
+  {name:"Excellence Group",img:"/clients/exc-group.jpg"},
+  {name:"Ferti Africa",img:"/clients/ferti-africa.jpg"},
+  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/clients/chambre-agricole-1.jpg"},
+  {name:"Hôtel Centre Ville",img:"/clients/hotel-centre-ville.jpg"},
+  {name:"OCP",img:"/clients/ocp.jpg"},
+  {name:"SBM — Béton Maghreb",img:"/clients/sbm-beton-maghreb.jpg"},
+  {name:"Continental",img:"/clients/continental.jpg"},
+  {name:"WIN TSI",img:"/clients/wintsi.jpg"},
+  {name:"Hôtel La Place El Jadida",img:"/clients/hotel-la-place.jpg"},
+  {name:"Zara Hotel",img:"/clients/zara-hotel.jpg"},
+  {name:"SGTM",img:"/clients/sgtm.jpg"},
+  {name:"Agri Trade Maroc",img:"/clients/agritrade-maroc.jpg"},
+  {name:"HG Golf",img:"/clients/hg-golf.jpg"},
+  {name:"Akwel",img:"/clients/akwel.jpg"},
+  {name:"NGE",img:"/clients/nge.jpg"},
+  {name:"TAQA Morocco",img:"/clients/taqa-morocco.jpg"},
+  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/clients/chambre-agricole-2.jpg"},
+  {name:"Nature Growers",img:"/clients/nature-growers.jpg"},
+  {name:"Royal Golf El Jadida",img:"/clients/royal-golf-eljadida.jpg"}
+];
 const TICKER=["💧 Osmoseurs industriels 500 L/h à 10 m³/h","⚗️ Réactifs chimiques certifiés — Livraison 24h","🔬 Analyses NM/ISO — El Jadida","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise marocaine — 15 ans d'expertise","📋 Études d'impact environnemental"];
 const ADVANTAGES=[
   {icon:"✅",title:"Qualité certifiée",desc:"Produits & services conformes aux normes NM, ISO et réglementations marocaines"},
@@ -633,7 +656,7 @@ export default function App() {
 
   const NB = () => (
     <nav className="nb"><div className="nb-in">
-      <div className="logo" onClick={() => nav("home")}><div className="logo-sq">UE</div><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
+      <div className="logo" onClick={() => nav("home")}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
       <ul className="nb-links">
         <li className="nb-item"><button className={`nb-btn${page==="home"?" on":""}`} onClick={() => nav("home")}>Accueil</button></li>
         <li className="nb-item"><button className="nb-btn">À propos</button></li>
@@ -679,7 +702,7 @@ export default function App() {
   const FT = () => (
     <footer className="footer"><div className="ft-in">
       <div className="ft-logo">
-        <div className="logo" onClick={() => nav("home")} style={{cursor:"pointer"}}><div className="logo-sq">UE</div><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
+        <div className="logo" onClick={() => nav("home")} style={{cursor:"pointer"}}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
         <p className="ft-desc">Spécialiste marocain en traitement des eaux, analyses environnementales, produits chimiques et équipements depuis plus de 15 ans. El Jadida, Maroc.</p>
         <div className="ft-soc">
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
@@ -1052,7 +1075,7 @@ export default function App() {
 
       <div className="clients"><div className="cl-in">
         <div className="cl-ttl">Clients de référence</div>
-        <div className="cl-logos">{CLIENTS.map((c,i)=><div key={i} className="cl-logo" style={{color:c.color}}><span className="cl-dot" style={{background:c.color}}/>{c.name}</div>)}</div>
+        <div className="cl-logos">{CLIENTS.map((c,i)=><div key={i} className="cl-logo" title={c.name}><img src={c.img} alt={c.name} loading="lazy"/></div>)}</div>
       </div></div>
 
       <section className="sec sec-bg" id="services">
@@ -1167,7 +1190,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
   if (!auth) return (
     <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#f8fafc",fontFamily:"Inter,sans-serif"}}>
       <div style={{background:"#fff",borderRadius:18,padding:"42px 34px",boxShadow:"0 8px 40px rgba(0,0,0,.12)",width:355,textAlign:"center"}}>
-        <div style={{fontSize:44,marginBottom:13}}>🔒</div>
+        <img src="/logo-uem-icon.png" alt="UEM" style={{height:64,margin:"0 auto 13px"}}/>
         <h2 style={{fontSize:20,fontWeight:700,color:"#0d2b6e",marginBottom:7}}>Administration UEM</h2>
         <p style={{color:"#475569",fontSize:13,marginBottom:24}}>Accès réservé à l'équipe UEM</p>
         <input style={{width:"100%",padding:"11px 14px",borderRadius:9,border:"1.5px solid #e2e8f0",fontSize:14,fontFamily:"inherit",marginBottom:13,boxSizing:"border-box"}} type="password" placeholder="Mot de passe" value={pwd} onChange={e=>setPwd(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pwd==="uem-admin-2026"?setAuth(true):toast("Mot de passe incorrect","❌"))}/>
@@ -1187,7 +1210,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
       <div className="adm-card">
         <div className="adm-hd">
           <span style={{fontSize:24}}>⚙️</span>
-          <div><h1>Administration UEM</h1><div style={{fontSize:12,opacity:.8,marginTop:1}}>Gestion du site v4.0</div></div>
+          <div><h1>Administration UEM</h1><div style={{fontSize:12,opacity:.8,marginTop:1}}>Gestion du site v4.1</div></div>
           <div style={{marginLeft:"auto",display:"flex",gap:8}}>
             <button onClick={()=>setPage("home")} style={{background:"rgba(255,255,255,.2)",color:"#fff",border:"none",borderRadius:7,padding:"7px 13px",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>← Site</button>
             <button onClick={()=>setAuth(false)} style={{background:"rgba(255,255,255,.15)",color:"#fff",border:"none",borderRadius:7,padding:"7px 13px",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>Déconnexion</button>
@@ -1218,7 +1241,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
               <div><strong>Stack :</strong> React 18 + Vite + EmailJS</div>
               <div><strong>EmailJS :</strong> service_3p09q76 / template_1qu65qm</div>
               <div><strong>Pages :</strong> Accueil, Osmoseurs (8 modèles + prix), Réactifs chimiques (16 produits), Services (×6 détails), Réalisations (×9 + filtres), Admin</div>
-              <div><strong>Version :</strong> 4.0 — Site complet avec pages détaillées</div>
+              <div><strong>Version :</strong> 4.1 — Nouveau logo + 20 logos clients</div>
             </div>
           </div>
         </div>
