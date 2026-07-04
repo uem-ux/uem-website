@@ -496,27 +496,27 @@ const ARTICLES_DEFAULT=[
   {id:"d3",titre:"HSE au Maroc : obligations légales et bonnes pratiques industrielles",resume:"Panorama des textes réglementaires HSE en vigueur au Maroc et méthodes d'implémentation efficaces pour les PME et grandes industries.",date:"Avril 2024",cat:"HSE",emoji:"🦺"}
 ];
 
-const CLIENTS=[
-  {name:"Somavian",img:"/clients/somavian.jpg"},
-  {name:"Excellence Group",img:"/clients/exc-group.jpg"},
-  {name:"Ferti Africa",img:"/clients/ferti-africa.jpg"},
-  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/clients/chambre-agricole-1.jpg"},
-  {name:"Hôtel Centre Ville",img:"/clients/hotel-centre-ville.jpg"},
-  {name:"OCP",img:"/clients/ocp.jpg"},
-  {name:"SBM — Béton Maghreb",img:"/clients/sbm-beton-maghreb.jpg"},
-  {name:"Continental",img:"/clients/continental.jpg"},
-  {name:"WIN TSI",img:"/clients/wintsi.jpg"},
-  {name:"Hôtel La Place El Jadida",img:"/clients/hotel-la-place.jpg"},
-  {name:"Zara Hotel",img:"/clients/zara-hotel.jpg"},
-  {name:"SGTM",img:"/clients/sgtm.jpg"},
-  {name:"Agri Trade Maroc",img:"/clients/agritrade-maroc.jpg"},
-  {name:"HG Golf",img:"/clients/hg-golf.jpg"},
-  {name:"Akwel",img:"/clients/akwel.jpg"},
-  {name:"NGE",img:"/clients/nge.jpg"},
-  {name:"TAQA Morocco",img:"/clients/taqa-morocco.jpg"},
-  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/clients/chambre-agricole-2.jpg"},
-  {name:"Nature Growers",img:"/clients/nature-growers.jpg"},
-  {name:"Royal Golf El Jadida",img:"/clients/royal-golf-eljadida.jpg"}
+  const CLIENTS=[
+  {name:"Somavian",img:"/somavian.jpg"},
+  {name:"Excellence Group",img:"/exc-group.jpg"},
+  {name:"Ferti Africa",img:"/ferti-africa.jpg"},
+  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/chambre-agricole-1.jpg"},
+  {name:"Hôtel Centre Ville",img:"/hotel-centre-ville.jpg"},
+  {name:"OCP",img:"/ocp.jpg"},
+  {name:"SBM — Béton Maghreb",img:"/sbm-beton-maghreb.jpg"},
+  {name:"Continental",img:"/continental.jpg"},
+  {name:"WIN TSI",img:"/wintsi.jpg"},
+  {name:"Hôtel La Place El Jadida",img:"/hotel-la-place.jpg"},
+  {name:"Zara Hotel",img:"/zara-hotel.jpg"},
+  {name:"SGTM",img:"/sgtm.jpg"},
+  {name:"Agri Trade Maroc",img:"/agritrade-maroc.jpg"},
+  {name:"HG Golf",img:"/hg-golf.jpg"},
+  {name:"Akwel",img:"/akwel.jpg"},
+  {name:"NGE",img:"/nge.jpg"},
+  {name:"TAQA Morocco",img:"/taqa-morocco.jpg"},
+  {name:"Chambre d'Agriculture Casablanca-Settat",img:"/chambre-agricole-2.jpg"},
+  {name:"Nature Growers",img:"/nature-growers.jpg"},
+  {name:"Royal Golf El Jadida",img:"/royal-golf-eljadida.jpg"}
 ];
 const TICKER=["💧 Osmoseurs industriels 500 L/h à 10 m³/h","⚗️ Réactifs chimiques certifiés — Livraison 24h","🔬 Analyses NM/ISO — El Jadida","🏗️ +200 projets STEP au Maroc","🇲🇦 Entreprise marocaine — 15 ans d'expertise","📋 Études d'impact environnemental"];
 const ADVANTAGES=[
