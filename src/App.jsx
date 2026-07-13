@@ -62,22 +62,25 @@ button{font-family:'Inter',sans-serif}
 .ph-h1 em{font-style:normal;color:rgba(255,255,255,.75)}
 .ph-sub{font-size:14.5px;color:rgba(255,255,255,.72);line-height:1.7;max-width:580px}
 .pbody{max-width:1280px;margin:0 auto;padding:44px 24px 68px}
-.hero{background:linear-gradient(135deg,#f0f4ff 0%,#e8f5e9 100%);padding:56px 0 0;overflow:hidden}
-.hero-in{max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(13,43,110,.08);color:var(--bleu);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid rgba(13,43,110,.15);margin-bottom:22px}
+.hero{position:relative;padding:80px 0;overflow:hidden;background:var(--navy)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-bg-ov{position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,31,78,.95) 0%,rgba(10,31,78,.86) 38%,rgba(10,31,78,.55) 65%,rgba(10,31,78,.25) 100%)}
+.hero-in{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px;max-width:720px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.2);margin-bottom:22px}
 .hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(24px,3vw,42px);font-weight:800;line-height:1.13;color:var(--g900);margin-bottom:18px}
-.hl-b{color:var(--bleu2)}.hl-g{color:var(--vert3)}.hl-a{color:var(--accent)}
-.hero-desc{font-size:15px;line-height:1.75;color:var(--g600);margin-bottom:30px;max-width:480px}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(24px,3vw,42px);font-weight:800;line-height:1.13;color:#fff;margin-bottom:18px}
+.hl-b{color:#7ab8ff}.hl-g{color:#9be89b}.hl-a{color:#c8ec5c}
+.hero-desc{font-size:15px;line-height:1.75;color:rgba(255,255,255,.82);margin-bottom:30px;max-width:520px}
 .hero-btns{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:36px}
 .btn-prim{background:var(--bleu);color:#fff;padding:13px 26px;border-radius:9px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:var(--tr);font-family:inherit}
 .btn-prim:hover{background:var(--bleu2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(13,43,110,.28)}
-.btn-outl{background:transparent;color:var(--bleu);padding:12px 22px;border-radius:9px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;border:2px solid var(--bleu);cursor:pointer;transition:var(--tr);font-family:inherit}
-.btn-outl:hover{background:var(--bleu);color:#fff}
+.btn-outl{background:transparent;color:#fff;padding:12px 22px;border-radius:9px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;border:2px solid rgba(255,255,255,.55);cursor:pointer;transition:var(--tr);font-family:inherit}
+.btn-outl:hover{background:#fff;color:var(--bleu);border-color:#fff}
 .btn-wa-s{background:#25D366;color:#fff;padding:12px 18px;border-radius:9px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:var(--tr);font-family:inherit;text-decoration:none}
 .btn-wa-s:hover{background:#128C7E}
-.tr-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--g600)}
+.tr-item{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.85)}
 .hero-trust{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .hero-visual{position:relative;height:480px}
 .slider{position:relative;width:100%;height:100%;border-radius:20px 20px 0 0;overflow:hidden}
@@ -87,7 +90,7 @@ button{font-family:'Inter',sans-serif}
 .slide-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:5}
 .sd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;transition:var(--tr)}
 .sd.on{background:#fff;width:22px;border-radius:4px}
-.badge15{position:absolute;bottom:28px;right:-12px;background:var(--bleu);color:#fff;border-radius:14px;padding:16px 20px;text-align:center;box-shadow:var(--sh2);z-index:5;animation:fl 3s ease-in-out infinite}
+.badge15{position:absolute;bottom:32px;right:32px;background:rgba(255,255,255,.97);color:var(--bleu);border-radius:14px;padding:16px 20px;text-align:center;box-shadow:var(--sh2);z-index:2;animation:fl 3s ease-in-out infinite}
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .b15-n{font-family:'Poppins',sans-serif;font-size:34px;font-weight:800;line-height:1}
 .b15-s{font-size:17px;vertical-align:super}
@@ -369,9 +372,10 @@ button{font-family:'Inter',sans-serif}
 @media(max-width:768px){
   .nb-links,.nb-cta,.nb-adm{display:none!important}
   .burger{display:flex}
-  .hero-in{grid-template-columns:1fr}
-  .hero-visual{height:260px;order:-1}
-  .badge15{right:14px;bottom:14px}
+  .hero{padding:56px 0}
+  .hero-in{max-width:100%}
+  .hero-bg-ov{background:linear-gradient(180deg,rgba(10,31,78,.55) 0%,rgba(10,31,78,.88) 55%,rgba(10,31,78,.96) 100%)}
+  .badge15{right:14px;bottom:14px;padding:11px 15px}
   .svc-grid{grid-template-columns:1fr 1fr}
   .svc-det-grid{grid-template-columns:1fr}
   .adv-grid{grid-template-columns:1fr 1fr}
@@ -1048,11 +1052,12 @@ export default function App() {
     <div>
       <TB/><NB/>
       <section className="hero" id="home">
+        <div className="hero-bg"><img src="/hero-cover.jpg" alt="Univers Environnement Maroc" loading="eager"/><div className="hero-bg-ov"/></div>
         <div className="hero-in">
           <div>
             <div className="hero-tag">L'expertise verte au service du Maroc</div>
             <h1>Votre partenaire de référence en <span className="hl-b">environnement</span>, <span className="hl-b">traitement des eaux</span>, <span className="hl-g">analyses</span>, <span className="hl-g">produits chimiques</span> et <span className="hl-a">équipements</span> au Maroc.</h1>
-            <p className="hero-desc">Plus de 15 ans d'expertise au service des industriels, collectivités et laboratoires avec des solutions innovantes, conformes aux normes marocaines et internationales.</p>
+            <p className="hero-desc">Des solutions intégrées pour le traitement des eaux et l'environnement : analyses environnementales, conception et réalisation de STEP, systèmes d'osmose inverse et fourniture de produits chimiques de traitement de l'eau.</p>
             <div className="hero-btns">
               <button className="btn-prim" onClick={() => scrollTo("contact")}>Demander un devis gratuit →</button>
               <button className="btn-outl" onClick={() => nav("realisations")}>Voir nos réalisations</button>
@@ -1062,14 +1067,8 @@ export default function App() {
               {[{i:Ico.gauge,t:"Réponse < 24h"},{i:Ico.starOutline,t:"Experts certifiés"},{i:Ico.check,t:"Normes NM / ISO"},{i:Ico.pin,t:"Tout le Maroc"}].map((x,i)=><div className="tr-item" key={i}><span>{x.i}</span>{x.t}</div>)}
             </div>
           </div>
-          <div className="hero-visual">
-            <div className="slider">
-              <img src="/hero-cover.jpg" alt="Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-              <div className="slide-ov"/>
-            </div>
-            <div className="badge15"><div className="b15-n">15<span className="b15-s">+</span></div><div className="b15-l">ANS<br/>D'EXPÉRIENCE<br/>AU MAROC</div></div>
-          </div>
         </div>
+        <div className="badge15"><div className="b15-n">15<span className="b15-s">+</span></div><div className="b15-l">ANS<br/>D'EXPÉRIENCE<br/>AU MAROC</div></div>
       </section>
 
       <div className="stats"><div className="stats-in">
