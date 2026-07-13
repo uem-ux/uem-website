@@ -374,7 +374,12 @@ button{font-family:'Inter',sans-serif}
   .burger{display:flex}
   .hero{padding:40px 0;min-height:calc(100vh - 70px)}
   .hero-in{max-width:100%}
-  .hero-txt{max-width:100%;margin-left:0;padding:28px 22px;border-radius:14px;background:linear-gradient(180deg,rgba(8,22,58,.9) 0%,rgba(8,22,58,.94) 100%)}
+  .hero-txt{max-width:100%;margin-left:0;padding:24px 20px 20px;border-radius:14px;background:linear-gradient(180deg,rgba(8,22,58,.9) 0%,rgba(8,22,58,.94) 100%)}
+  .hero-tag{font-size:9.5px;padding:5px 11px;margin-bottom:14px}
+  .hero h1{font-size:21px;line-height:1.22;margin-bottom:12px}
+  .hero-desc{font-size:13px;line-height:1.55;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .hero-btns{margin-bottom:16px}
+  .hero-trust{padding-right:64px}
   .badge15{right:14px;bottom:14px;padding:11px 15px}
   .svc-grid{grid-template-columns:1fr 1fr}
   .svc-det-grid{grid-template-columns:1fr}
