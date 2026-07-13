@@ -523,7 +523,15 @@ const SERVICES_DETAIL=[
   {id:"ingenierie",titre:"Solutions Traitement des Eaux Clé en Main",cat:"Ingénierie",tag:"tag-ing",img:"/Step-traitement.jpg.jpeg",
    desc:"UEM conçoit, installe et met en service des systèmes complets de traitement des eaux industrielles et d'osmose inverse. Du design à la maintenance, nous gérons l'intégralité du projet.",
    feats:["Étude de faisabilité","Sélection des équipements","Installation et câblage","Tests de performance","Formation opérateurs","Contrat de maintenance"],
-   process:["Cahier des charges","Design système","Fabrication","Installation","Tests & réglages","Livraison"]}
+   process:["Cahier des charges","Design système","Fabrication","Installation","Tests & réglages","Livraison"]},
+  {id:"formation",titre:"Formation & Sensibilisation HSE",cat:"Formation",tag:"tag-ing",img:"/formation-hse.jpg",
+   desc:"UEM forme vos équipes aux bonnes pratiques HSE, au traitement des eaux et à la gestion environnementale, pour une montée en compétence durable de vos collaborateurs sur le terrain.",
+   feats:["Formation HSE (sécurité, prévention des risques)","Formation traitement des eaux & osmose inverse","Sensibilisation laboratoire & environnement","Modules sur mesure selon votre secteur","Supports pédagogiques fournis","Formation en présentiel ou sur site"],
+   process:["Analyse des besoins","Élaboration du programme","Formation en présentiel","Évaluation des acquis","Attestation de formation","Suivi post-formation"]},
+  {id:"maintenance",titre:"Maintenance & Assistance Technique",cat:"Maintenance & SAV",tag:"tag-ing",img:"/mesure-bruit.jpg.jpeg",
+   desc:"UEM assure la maintenance préventive et corrective de vos équipements de traitement des eaux et de laboratoire, avec des contrats de service adaptés et une assistance technique réactive partout au Maroc.",
+   feats:["Maintenance préventive planifiée","Interventions correctives rapides","Contrats de maintenance annuels","Assistance technique 7j/7","Pièces de rechange disponibles à El Jadida","Suivi et reporting des interventions"],
+   process:["Diagnostic initial","Contrat de maintenance","Interventions planifiées","Dépannage réactif","Rapport d'intervention","Suivi continu"]}
 ];
 
 const REALISATIONS=[
@@ -698,8 +706,8 @@ export default function App() {
         <li className="nb-item">
           <button className={`nb-btn${page==="services"||page.startsWith("svc-")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
-            {[[Ico.drop,"Traitement des eaux"],[Ico.beaker,"Analyses chimiques et environnementales"],[Ico.ruler,"Ingénierie et conception des STEP"],[Ico.leaf,"HSE"],[Ico.cap,"Formation"],[Ico.wrench,"Maintenance & SAV"]].map(([ic,t],i) => (
-              <button key={i} className="dd-btn" onClick={() => nav("services")}><span className="dd-ico">{ic}</span>{t}</button>
+            {[[Ico.drop,"Traitement des eaux","ingenierie"],[Ico.beaker,"Analyses chimiques et environnementales","analyse-eau"],[Ico.ruler,"Ingénierie et conception des STEP","step"],[Ico.leaf,"HSE","hse"],[Ico.cap,"Formation","formation"],[Ico.wrench,"Maintenance & SAV","maintenance"]].map(([ic,t,sid],i) => (
+              <button key={i} className="dd-btn" onClick={() => nav(`svc-${sid}`)}><span className="dd-ico">{ic}</span>{t}</button>
             ))}
           </div>
         </li>
@@ -741,12 +749,12 @@ export default function App() {
         </div>
       </div>
       <div className="ft-col"><h4>Nos services</h4><ul>
-        <li onClick={() => nav("services")}>Traitement des eaux</li>
-        <li onClick={() => nav("services")}>Analyses chimiques et environnementales</li>
-        <li onClick={() => nav("services")}>Ingénierie et conception des STEP</li>
-        <li onClick={() => nav("services")}>HSE</li>
-        <li onClick={() => nav("services")}>Formation</li>
-        <li onClick={() => nav("services")}>Maintenance & SAV</li>
+        <li onClick={() => nav("svc-ingenierie")}>Traitement des eaux</li>
+        <li onClick={() => nav("svc-analyse-eau")}>Analyses chimiques et environnementales</li>
+        <li onClick={() => nav("svc-step")}>Ingénierie et conception des STEP</li>
+        <li onClick={() => nav("svc-hse")}>HSE</li>
+        <li onClick={() => nav("svc-formation")}>Formation</li>
+        <li onClick={() => nav("svc-maintenance")}>Maintenance & SAV</li>
       </ul></div>
       <div className="ft-col"><h4>Nos produits</h4><ul>
         <li onClick={() => nav("osmoseurs")}>Osmoseurs industriels</li>
