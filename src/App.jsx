@@ -219,16 +219,13 @@ button{font-family:'Inter',sans-serif}
 .adv-t{font-weight:700;font-size:14.5px;color:var(--g900);margin-bottom:8px}
 .adv-d{font-size:12.5px;color:var(--g600);line-height:1.65}
 .car-wrap{position:relative}
-.car-tr{display:flex;gap:16px;overflow:hidden;padding:6px 0 20px}
-.prod-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:14px;overflow:hidden;flex-shrink:0;width:calc((100% - 5*16px)/6);min-width:155px;transition:var(--tr);cursor:pointer}
+.car-tr{display:flex;flex-wrap:wrap;gap:16px;padding:6px 0 20px;justify-content:center}
+.prod-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:14px;overflow:hidden;flex-shrink:0;width:calc((100% - 3*16px)/4);min-width:200px;max-width:260px;transition:var(--tr);cursor:pointer}
 .prod-card:hover{background:rgba(255,255,255,.13);border-color:var(--accent);transform:translateY(-4px)}
 .pc-img{width:100%;height:115px;object-fit:cover;display:block}
 .pc-ph{width:100%;height:115px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:30px}
 .pc-body{padding:11px 13px 14px}
 .pc-t{font-size:12px;font-weight:600;color:#fff;text-align:center;line-height:1.4}
-.car-arr{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);z-index:5;font-size:18px}
-.car-arr:hover{background:var(--accent);border-color:var(--accent)}
-.car-arr.l{left:-21px}.car-arr.r{right:-21px}
 .ticker{background:var(--vert);padding:13px 0;overflow:hidden}
 .ticker-in{display:flex;gap:60px;animation:tick 22s linear infinite;white-space:nowrap;width:max-content}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -582,14 +579,10 @@ const ADVANTAGES=[
   {icon:Ico.handshake,title:"Accompagnement global",desc:"De l'étude initiale à la maintenance, UEM reste à vos côtés à chaque étape"}
 ];
 const PRODUCTS_CAR=[
-  {id:1,icon:Ico.flask,title:"Réactifs laboratoire",img:null,page:"reactifs"},
-  {id:2,icon:Ico.beaker,title:"Produits chimiques eaux",img:null,page:"reactifs"},
+  {id:1,icon:Ico.flask,title:"Réactifs laboratoire",img:"/reactifs-laboratoire.jpg",page:"reactifs"},
+  {id:2,icon:Ico.beaker,title:"Produits chimiques eaux",img:"/produits-chimiques.jpg",page:"reactifs"},
   {id:3,icon:Ico.gauge,title:"Osmoseurs industriels",img:"/osmoseur-grand.webp",page:"osmoseurs"},
-  {id:4,icon:Ico.drop,title:"Osmoseurs domestiques",img:"/osmoseur-petit.webp",page:"osmoseurs"},
-  {id:5,icon:Ico.filter3,title:"Adoucisseurs d'eau",img:null,page:"osmoseurs"},
-  {id:6,icon:Ico.gear,title:"Consommables",img:null,page:"reactifs"},
-  {id:7,icon:Ico.leaf,title:"Produits HSE",img:null,page:"reactifs"},
-  {id:8,icon:Ico.chart,title:"Équipements mesure",img:null,page:"reactifs"}
+  {id:4,icon:Ico.drop,title:"Osmoseurs domestiques",img:"/osmoseur-petit.webp",page:"osmoseurs"}
 ];
 
 /* APP COMPONENT */
@@ -601,7 +594,6 @@ export default function App() {
   const [aiMsgs, setAiMsgs] = useState([{role:"bot",text:"Bonjour ! Je suis l'assistant UEM. Posez-moi vos questions sur nos osmoseurs (48 000 à 230 000 MAD), réactifs chimiques, analyses ou services d'ingénierie."}]);
   const [aiInp, setAiInp] = useState("");
   const [aiLoad, setAiLoad] = useState(false);
-  const [carOff, setCarOff] = useState(0);
   const [mobOpen, setMobOpen] = useState(false);
   const [realFilter, setRealFilter] = useState("Tous");
   const [blogs, setBlogs] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_blogs")||"[]")}catch{return []}});
@@ -1143,9 +1135,8 @@ export default function App() {
           <div className="sec-ey">NOS PRODUITS PHARES</div>
           <h2 className="sec-ti">Des produits de qualité pour des performances durables</h2>
           <div className="car-wrap">
-            <button className="car-arr l" onClick={() => setCarOff(o=>Math.max(0,o-1))}>‹</button>
             <div className="car-tr">
-              {PRODUCTS_CAR.slice(carOff).concat(PRODUCTS_CAR.slice(0,carOff)).map(p => (
+              {PRODUCTS_CAR.map(p => (
                 <div className="prod-card" key={p.id} onClick={() => nav(p.page)}>
                   {p.img?<img className="pc-img" src={p.img} alt={p.title} onError={e=>{e.target.style.display="none";}}/>:null}
                   <div className="pc-ph" style={{display:p.img?"none":"flex",color:"#fff"}}>{p.icon}</div>
@@ -1153,7 +1144,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-            <button className="car-arr r" onClick={() => setCarOff(o=>Math.min(2,o+1))}>›</button>
           </div>
           <div style={{textAlign:"center",marginTop:16,display:"flex",gap:12,justifyContent:"center"}}>
             <button style={{background:"transparent",color:"#fff",padding:"11px 26px",borderRadius:9,fontWeight:600,fontSize:14,border:"2px solid rgba(255,255,255,.4)",cursor:"pointer",fontFamily:"inherit"}} onClick={() => nav("osmoseurs")}>Osmoseurs & Équipements →</button>
