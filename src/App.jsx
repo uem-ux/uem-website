@@ -46,6 +46,8 @@ button{font-family:'Inter',sans-serif}
 .dd-ico{width:30px;height:30px;border-radius:8px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:var(--bleu)}
 .nb-cta{background:var(--bleu);color:#fff;padding:9px 20px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;border:none;transition:var(--tr);margin-left:auto;white-space:nowrap;flex-shrink:0;font-family:inherit}
 .nb-cta:hover{background:var(--bleu2)}
+.nb-adm{background:var(--g100);color:var(--g600);border:1px solid var(--g200);width:36px;height:36px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
+.nb-adm:hover{background:var(--g200);color:var(--bleu)}
 .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:auto}
 .burger span{display:block;width:23px;height:2px;background:var(--bleu);border-radius:2px}
 .mob-menu{display:none;background:#fff;border-top:1px solid var(--g200);padding:12px 24px 20px}
@@ -337,6 +339,8 @@ button{font-family:'Inter',sans-serif}
 .info-box svg{flex-shrink:0;margin-top:2px;color:var(--bleu)}
 .info-box p{font-size:13.5px;color:var(--g700);line-height:1.7}
 .info-box strong{color:var(--bleu)}
+.tech-note{background:#fffbeb;border:1px solid #fde68a;border-left:3px solid var(--or);border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--g700);line-height:1.6;margin-bottom:16px}
+.tech-note strong{color:#92400e;display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .divider{height:1px;background:var(--g200);margin:32px 0}
 .step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
 .step-card{background:#fff;border:1px solid var(--g200);border-radius:12px;padding:20px 16px;text-align:center;position:relative}
@@ -363,7 +367,7 @@ button{font-family:'Inter',sans-serif}
   .os-features{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-  .nb-links,.nb-cta{display:none!important}
+  .nb-links,.nb-cta,.nb-adm{display:none!important}
   .burger{display:flex}
   .hero-in{grid-template-columns:1fr}
   .hero-visual{height:260px;order:-1}
@@ -553,11 +557,6 @@ const ADVANTAGES=[
   {icon:Ico.bulb,title:"Innovation continue",desc:"Technologies de pointe pour répondre aux défis environnementaux les plus complexes"},
   {icon:Ico.handshake,title:"Accompagnement global",desc:"De l'étude initiale à la maintenance, UEM reste à vos côtés à chaque étape"}
 ];
-const HERO_SLIDES=[
-  {bg:"linear-gradient(135deg,#0d2b6e,#1565c0 50%,#1b7a3e)",img:"/Step-traitement.jpg.jpeg"},
-  {bg:"linear-gradient(135deg,#1b7a3e,#43a047 50%,#0d2b6e)",img:"/bassin-desinfection.jpg.jpeg"},
-  {bg:"linear-gradient(135deg,#0a1f4e,#1565c0)",img:"/Laboratoire-uem.jpg.jpeg"}
-];
 const PRODUCTS_CAR=[
   {id:1,icon:Ico.flask,title:"Réactifs laboratoire",img:null,page:"reactifs"},
   {id:2,icon:Ico.beaker,title:"Produits chimiques eaux",img:null,page:"reactifs"},
@@ -577,12 +576,12 @@ export default function App() {
   const [aiMsgs, setAiMsgs] = useState([{role:"bot",text:"Bonjour ! Je suis l'assistant UEM. Posez-moi vos questions sur nos osmoseurs (48 000 à 230 000 MAD), réactifs chimiques, analyses ou services d'ingénierie."}]);
   const [aiInp, setAiInp] = useState("");
   const [aiLoad, setAiLoad] = useState(false);
-  const [slideIdx, setSlideIdx] = useState(0);
   const [carOff, setCarOff] = useState(0);
   const [mobOpen, setMobOpen] = useState(false);
   const [realFilter, setRealFilter] = useState("Tous");
   const [blogs, setBlogs] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_blogs")||"[]")}catch{return []}});
   const [blogForm, setBlogForm] = useState({title:"",excerpt:"",category:"Actualités"});
+  const [techDetails, setTechDetails] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_tech")||'{"osmoseurs":{},"reactifs":{},"services":{}}')}catch{return {osmoseurs:{},reactifs:{},services:{}}}});
   const [form, setForm] = useState({name:"",email:"",company:"",service:"",message:""});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -596,9 +595,9 @@ export default function App() {
       document.head.appendChild(s);
     }
   }, []);
-  useEffect(() => { const t = setInterval(() => setSlideIdx(i => (i+1) % HERO_SLIDES.length), 4500); return () => clearInterval(t); }, []);
   useEffect(() => {if(aiRef.current) aiRef.current.scrollTop = aiRef.current.scrollHeight}, [aiMsgs, aiLoad]);
   useEffect(() => {localStorage.setItem("uem_blogs", JSON.stringify(blogs))}, [blogs]);
+  useEffect(() => {localStorage.setItem("uem_tech", JSON.stringify(techDetails))}, [techDetails]);
   useEffect(() => {window.scrollTo(0,0)}, [page]);
 
   const toast = useCallback((msg, type="success") => {
@@ -651,7 +650,7 @@ export default function App() {
     scrollTo("contact");
   };
 
-  if (page === "admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} setPage={setPage} toast={toast}/>;
+  if (page === "admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} setPage={setPage} toast={toast}/>;
 
   const PageHdr = ({cat,title,sub,back}) => (
     <div className="ph"><div className="ph-in">
@@ -703,6 +702,7 @@ export default function App() {
         <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("contact")}>Contact</button></li>
       </ul>
       <button className="nb-cta" onClick={() => scrollTo("contact")}>Demander un devis</button>
+      <button className="nb-adm" title="Administration" onClick={() => nav("admin")}>{Ico.gear}</button>
       <button className="burger" onClick={() => setMobOpen(o=>!o)}><span/><span/><span/></button>
     </div>
     <div className={`mob-menu${mobOpen?" open":""}`}>
@@ -882,6 +882,7 @@ export default function App() {
                 <div className="os-nom">{o.nom}</div>
                 <div className="os-desc">{o.desc}</div>
                 <div className="os-specs">{o.specs.map((s,i)=><div className="os-spec" key={i}>{s}</div>)}</div>
+                {techDetails.osmoseurs?.[o.id] && <div className="tech-note"><strong>Détail technique :</strong> {techDetails.osmoseurs[o.id]}</div>}
                 <div className="os-foot">
                   <div><div className="os-px">{o.prix}</div><div className="os-px-sub">HT — Livraison comprise</div></div>
                   <button className="btn-devis" onClick={() => requestDevis(o.nom)}>Demander un devis</button>
@@ -924,6 +925,7 @@ export default function App() {
                       <div className="chim-grp-lbl">{p.type}</div>
                       <div className="chim-nom">{p.nom}</div>
                       <div className="chim-desc">{p.desc}</div>
+                      {techDetails.reactifs?.[p.id] && <div className="tech-note"><strong>Détail technique :</strong> {techDetails.reactifs[p.id]}</div>}
                       <div className="chim-foot">
                         <span className="chim-type">{p.type}</span>
                         <button className="btn-chim" onClick={() => requestDevis(p.nom)}>Demander prix</button>
@@ -985,6 +987,9 @@ export default function App() {
               </div>
             ))}
           </div>
+          {techDetails.services?.[s.id] && (
+            <div className="tech-note" style={{marginBottom:36}}><strong>Détail technique complémentaire :</strong> {techDetails.services[s.id]}</div>
+          )}
           <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"17px",fontWeight:700,marginBottom:18,color:"var(--g900)"}}>Notre processus</h2>
           <div className="step-grid" style={{gridTemplateColumns:`repeat(${Math.min(s.process.length,4)},1fr)`}}>
             {s.process.map((p,i) => (
@@ -1059,13 +1064,8 @@ export default function App() {
           </div>
           <div className="hero-visual">
             <div className="slider">
-              {HERO_SLIDES.map((s,i) => (
-                <div key={i} className={`slide${i===slideIdx?" on":""}`} style={{background:s.bg}}>
-                  {s.img&&<img src={s.img} alt="" style={{width:"100%",height:"100%",objectFit:"cover",opacity:.55}}/>}
-                  <div className="slide-ov"/>
-                </div>
-              ))}
-              <div className="slide-dots">{HERO_SLIDES.map((_,i)=><button key={i} className={`sd${i===slideIdx?" on":""}`} onClick={()=>setSlideIdx(i)}/>)}</div>
+              <img src="/hero-cover.jpg" alt="Univers Environnement Maroc" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+              <div className="slide-ov"/>
             </div>
             <div className="badge15"><div className="b15-n">15<span className="b15-s">+</span></div><div className="b15-l">ANS<br/>D'EXPÉRIENCE<br/>AU MAROC</div></div>
           </div>
@@ -1191,7 +1191,16 @@ export default function App() {
   );
 }
 
-function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,setPage,toast}) {
+const TECH_TYPES = {
+  osmoseurs: {label:"Osmoseur", items: OSMOSEURS.map(o=>({id:o.id, label:`${o.ref} — ${o.debit}`}))},
+  reactifs: {label:"Réactif chimique", items: Object.values(REACTIFS).flat().map(p=>({id:p.id, label:p.nom}))},
+  services: {label:"Service", items: SERVICES_DETAIL.map(s=>({id:s.id, label:s.titre}))}
+};
+
+function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,techDetails,setTechDetails,setPage,toast}) {
+  const [techType, setTechType] = useState("osmoseurs");
+  const [techItemId, setTechItemId] = useState("");
+  const [techText, setTechText] = useState("");
   if (!auth) return (
     <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#f8fafc",fontFamily:"Inter,sans-serif"}}>
       <div style={{background:"#fff",borderRadius:18,padding:"42px 34px",boxShadow:"0 8px 40px rgba(0,0,0,.12)",width:355,textAlign:"center"}}>
@@ -1222,6 +1231,52 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
           </div>
         </div>
         <div className="adm-bd">
+          <div className="adm-sec">
+            <h2>Fiches techniques — Produits & Services</h2>
+            <p style={{fontSize:12.5,color:"var(--g600)",marginBottom:14,lineHeight:1.6}}>Ajoutez un détail technique complémentaire (norme, dimension, référence, condition d'usage...) qui s'affichera directement sur la fiche du produit ou service concerné sur le site public.</p>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+              <div className="fg">
+                <label>Catégorie</label>
+                <select value={techType} onChange={e=>{setTechType(e.target.value);setTechItemId("");setTechText("");}}>
+                  {Object.entries(TECH_TYPES).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}
+                </select>
+              </div>
+              <div className="fg">
+                <label>Élément</label>
+                <select value={techItemId} onChange={e=>{const id=e.target.value;setTechItemId(id);setTechText(techDetails[techType]?.[id]||"");}}>
+                  <option value="">Sélectionner...</option>
+                  {TECH_TYPES[techType].items.map(it=><option key={it.id} value={it.id}>{it.label}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="fg">
+              <label>Détail technique</label>
+              <textarea style={{height:88}} placeholder="Ex : Membranes composite polyamide, raccords DN50, conforme NM ISO 9001..." value={techText} onChange={e=>setTechText(e.target.value)} disabled={!techItemId}/>
+            </div>
+            <button className="btn-grn" disabled={!techItemId||!techText.trim()} onClick={()=>{
+              setTechDetails(td=>({...td,[techType]:{...td[techType],[techItemId]:techText.trim()}}));
+              toast("Détail technique enregistré !");
+            }}>Enregistrer →</button>
+
+            {Object.entries(TECH_TYPES).some(([k])=>Object.keys(techDetails[k]||{}).length>0) && (
+              <div style={{marginTop:22}}>
+                <div style={{fontSize:11.5,fontWeight:700,color:"var(--g600)",textTransform:"uppercase",letterSpacing:".5px",marginBottom:10}}>Fiches déjà renseignées</div>
+                {Object.entries(TECH_TYPES).map(([type,cfg]) => Object.entries(techDetails[type]||{}).map(([id,text]) => {
+                  const item = cfg.items.find(it=>String(it.id)===String(id));
+                  return (
+                    <div className="bpi" key={`${type}-${id}`}>
+                      <div><strong style={{fontSize:13}}>{cfg.label} — {item?item.label:id}</strong><div className="bpi-m">{text}</div></div>
+                      <button className="btn-del" onClick={()=>{
+                        setTechDetails(td=>{const copy={...td,[type]:{...td[type]}};delete copy[type][id];return copy;});
+                        toast("Détail supprimé","delete");
+                        if(techType===type && String(techItemId)===String(id)) setTechText("");
+                      }}>Supprimer</button>
+                    </div>
+                  );
+                }))}
+              </div>
+            )}
+          </div>
           <div className="adm-sec">
             <h2>Ajouter un article</h2>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
