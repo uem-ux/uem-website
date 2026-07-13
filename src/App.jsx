@@ -62,10 +62,10 @@ button{font-family:'Inter',sans-serif}
 .ph-h1 em{font-style:normal;color:rgba(255,255,255,.75)}
 .ph-sub{font-size:14.5px;color:rgba(255,255,255,.72);line-height:1.7;max-width:580px}
 .pbody{max-width:1280px;margin:0 auto;padding:44px 24px 68px}
-.hero{position:relative;padding:80px 0;overflow:hidden;background:var(--navy)}
+.hero{position:relative;overflow:hidden;background:var(--navy);min-height:calc(100vh - 108px);display:flex;align-items:center;padding:60px 0}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
-.hero-in{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px}
+.hero-in{position:relative;z-index:1;width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
 .hero-txt{max-width:600px;padding:40px 70px 40px 32px;margin-left:-32px;background:linear-gradient(115deg,rgba(8,22,58,.95) 0%,rgba(8,22,58,.9) 50%,rgba(8,22,58,.55) 78%,rgba(8,22,58,0) 100%);border-radius:16px}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.2);margin-bottom:22px}
 .hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
@@ -372,7 +372,7 @@ button{font-family:'Inter',sans-serif}
 @media(max-width:768px){
   .nb-links,.nb-cta,.nb-adm{display:none!important}
   .burger{display:flex}
-  .hero{padding:56px 0}
+  .hero{padding:40px 0;min-height:calc(100vh - 70px)}
   .hero-in{max-width:100%}
   .hero-txt{max-width:100%;margin-left:0;padding:28px 22px;border-radius:14px;background:linear-gradient(180deg,rgba(8,22,58,.9) 0%,rgba(8,22,58,.94) 100%)}
   .badge15{right:14px;bottom:14px;padding:11px 15px}
