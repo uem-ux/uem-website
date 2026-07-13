@@ -65,8 +65,8 @@ button{font-family:'Inter',sans-serif}
 .hero{position:relative;padding:80px 0;overflow:hidden;background:var(--navy)}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
-.hero-bg-ov{position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,31,78,.95) 0%,rgba(10,31,78,.86) 38%,rgba(10,31,78,.55) 65%,rgba(10,31,78,.25) 100%)}
-.hero-in{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px;max-width:720px}
+.hero-in{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px}
+.hero-txt{max-width:600px;padding:40px 70px 40px 32px;margin-left:-32px;background:linear-gradient(115deg,rgba(8,22,58,.95) 0%,rgba(8,22,58,.9) 50%,rgba(8,22,58,.55) 78%,rgba(8,22,58,0) 100%);border-radius:16px}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.2);margin-bottom:22px}
 .hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -374,7 +374,7 @@ button{font-family:'Inter',sans-serif}
   .burger{display:flex}
   .hero{padding:56px 0}
   .hero-in{max-width:100%}
-  .hero-bg-ov{background:linear-gradient(180deg,rgba(10,31,78,.55) 0%,rgba(10,31,78,.88) 55%,rgba(10,31,78,.96) 100%)}
+  .hero-txt{max-width:100%;margin-left:0;padding:28px 22px;border-radius:14px;background:linear-gradient(180deg,rgba(8,22,58,.9) 0%,rgba(8,22,58,.94) 100%)}
   .badge15{right:14px;bottom:14px;padding:11px 15px}
   .svc-grid{grid-template-columns:1fr 1fr}
   .svc-det-grid{grid-template-columns:1fr}
@@ -1052,12 +1052,12 @@ export default function App() {
     <div>
       <TB/><NB/>
       <section className="hero" id="home">
-        <div className="hero-bg"><img src="/hero-cover.jpg" alt="Univers Environnement Maroc" loading="eager"/><div className="hero-bg-ov"/></div>
+        <div className="hero-bg"><img src="/hero-cover.jpg" alt="Univers Environnement Maroc" loading="eager"/></div>
         <div className="hero-in">
-          <div>
+          <div className="hero-txt">
             <div className="hero-tag">L'expertise verte au service du Maroc</div>
-            <h1>Votre partenaire de référence en <span className="hl-b">environnement</span>, <span className="hl-b">traitement des eaux</span>, <span className="hl-g">analyses</span>, <span className="hl-g">produits chimiques</span> et <span className="hl-a">équipements</span> au Maroc.</h1>
-            <p className="hero-desc">Des solutions intégrées pour le traitement des eaux et l'environnement : analyses environnementales, conception et réalisation de STEP, systèmes d'osmose inverse et fourniture de produits chimiques de traitement de l'eau.</p>
+            <h1>Traitement des eaux, osmose inverse, ingénierie environnementale, analyses, équipements et réactifs chimiques au Maroc</h1>
+            <p className="hero-desc">Univers Environnement Maroc accompagne les industriels, collectivités, bureaux d'études et laboratoires avec des solutions complètes en traitement des eaux, osmose inverse, stations d'épuration (STEP), analyses environnementales, réactifs chimiques, équipements de laboratoire, conception, installation, maintenance et assistance technique partout au Maroc.</p>
             <div className="hero-btns">
               <button className="btn-prim" onClick={() => scrollTo("contact")}>Demander un devis gratuit →</button>
               <button className="btn-outl" onClick={() => nav("realisations")}>Voir nos réalisations</button>
