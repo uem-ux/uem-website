@@ -1,5 +1,6 @@
 // UEM v4.0 — Site complet avec pages détaillées
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
 const CSS = `
@@ -593,7 +594,8 @@ const PRODUCTS_CAR=[
 
 /* APP COMPONENT */
 export default function App() {
-  const [page, setPage] = useState("home");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [toasts, setToasts] = useState([]);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiMsgs, setAiMsgs] = useState([{role:"bot",text:"Bonjour ! Je suis l'assistant UEM. Posez-moi vos questions sur nos osmoseurs (48 000 à 230 000 MAD), réactifs chimiques, analyses ou services d'ingénierie."}]);
@@ -621,7 +623,12 @@ export default function App() {
   useEffect(() => {if(aiRef.current) aiRef.current.scrollTop = aiRef.current.scrollHeight}, [aiMsgs, aiLoad]);
   useEffect(() => {localStorage.setItem("uem_blogs", JSON.stringify(blogs))}, [blogs]);
   useEffect(() => {localStorage.setItem("uem_tech", JSON.stringify(techDetails))}, [techDetails]);
-  useEffect(() => {window.scrollTo(0,0)}, [page]);
+  useEffect(() => {window.scrollTo(0,0)}, [pathname]);
+  useEffect(() => {
+    const titles = {"/":"Univers Environnement Maroc — Traitement des eaux, osmose inverse, analyses environnementales","/osmoseurs":"Osmoseurs Industriels — Univers Environnement Maroc","/reactifs":"Réactifs Chimiques — Univers Environnement Maroc","/services":"Nos Services — Univers Environnement Maroc","/realisations":"Nos Réalisations — Univers Environnement Maroc","/admin":"Administration — UEM"};
+    const svc = SERVICES_DETAIL.find(s => pathname === `/services/${s.id}`);
+    document.title = svc ? `${svc.titre} — Univers Environnement Maroc` : (titles[pathname] || "Univers Environnement Maroc");
+  }, [pathname]);
 
   const toast = useCallback((msg, type="success") => {
     const id = Date.now();
@@ -658,9 +665,16 @@ export default function App() {
     setSending(false);
   };
 
-  const nav = (p) => { setPage(p); setMobOpen(false); };
+  /* Traduit les anciennes "clés" de page (ex: "osmoseurs", "svc-step") en vraies URLs.
+     Ça évite de devoir réécrire tous les appels nav(...) existants dans le fichier. */
+  const pathFor = (key) => {
+    if (key === "home") return "/";
+    if (key.startsWith("svc-")) return `/services/${key.slice(4)}`;
+    return `/${key}`;
+  };
+  const nav = (p) => { navigate(pathFor(p)); setMobOpen(false); };
   const scrollTo = (id) => {
-    if (page !== "home") { setPage("home"); setTimeout(() => document.getElementById(id)?.scrollIntoView({behavior:"smooth"}), 150); }
+    if (pathname !== "/") { navigate("/"); setTimeout(() => document.getElementById(id)?.scrollIntoView({behavior:"smooth"}), 150); }
     else document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
     setMobOpen(false);
   };
@@ -673,7 +687,7 @@ export default function App() {
     scrollTo("contact");
   };
 
-  if (page === "admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} setPage={setPage} toast={toast}/>;
+  if (pathname === "/admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} nav={nav} toast={toast}/>;
 
   const PageHdr = ({cat,title,sub,back}) => (
     <div className="ph"><div className="ph-in">
@@ -701,10 +715,10 @@ export default function App() {
     <nav className="nb"><div className="nb-in">
       <div className="logo" onClick={() => nav("home")}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
       <ul className="nb-links">
-        <li className="nb-item"><button className={`nb-btn${page==="home"?" on":""}`} onClick={() => nav("home")}>Accueil</button></li>
+        <li className="nb-item"><button className={`nb-btn${pathname==="/"?" on":""}`} onClick={() => nav("home")}>Accueil</button></li>
         <li className="nb-item"><button className="nb-btn">À propos</button></li>
         <li className="nb-item">
-          <button className={`nb-btn${page==="services"||page.startsWith("svc-")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <button className={`nb-btn${pathname==="/services"||pathname.startsWith("/services/")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
             {[[Ico.drop,"Traitement des eaux","ingenierie"],[Ico.beaker,"Analyses chimiques et environnementales","analyse-eau"],[Ico.ruler,"Ingénierie et conception des STEP","step"],[Ico.leaf,"HSE","hse"],[Ico.cap,"Formation","formation"],[Ico.wrench,"Maintenance & SAV","maintenance"]].map(([ic,t,sid],i) => (
               <button key={i} className="dd-btn" onClick={() => nav(`svc-${sid}`)}><span className="dd-ico">{ic}</span>{t}</button>
@@ -712,13 +726,13 @@ export default function App() {
           </div>
         </li>
         <li className="nb-item">
-          <button className={`nb-btn${page==="osmoseurs"||page==="reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <button className={`nb-btn${pathname==="/osmoseurs"||pathname==="/reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
             <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.gauge}</span>Osmoseurs industriels</button>
             <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Produits chimiques</button>
           </div>
         </li>
-        <li className="nb-item"><button className={`nb-btn${page==="realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
+        <li className="nb-item"><button className={`nb-btn${pathname==="/realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
         <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("blog")}>Actualités</button></li>
         <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("contact")}>Contact</button></li>
       </ul>
@@ -844,7 +858,7 @@ export default function App() {
   );
 
   /* ── PAGE OSMOSEURS ── */
-  if (page === "osmoseurs") return (
+  if (pathname === "/osmoseurs") return (
     <div>
       <TB/><NB/>
       <PageHdr cat="Équipements & Systèmes" title="Osmoseurs Industriels <em>Clé en Main</em>" sub="Systèmes d'osmose inverse de 500 L/h à 10 m³/h. Installation, garantie et SAV UEM inclus. Prix publics TTC disponibles."/>
@@ -923,7 +937,7 @@ export default function App() {
   );
 
   /* ── PAGE RÉACTIFS ── */
-  if (page === "reactifs") return (
+  if (pathname === "/reactifs") return (
     <div>
       <TB/><NB/>
       <PageHdr cat="Produits Chimiques" title="Catalogue <em>Réactifs Chimiques</em>" sub="Coagulants, floculants, désinfectants, produits osmose inverse et chaudière. Livraison 24-48h sur tout le Maroc."/>
@@ -962,7 +976,7 @@ export default function App() {
   );
 
   /* ── PAGE SERVICES ── */
-  if (page === "services") return (
+  if (pathname === "/services") return (
     <div>
       <TB/><NB/>
       <PageHdr cat="Nos Services" title="Ingénierie Environnementale & <em>Analyses Certifiées</em>" sub="Bureau d'études, analyses de laboratoire NM/ISO, conception STEP et études d'impact. L'expertise UEM au service de votre conformité."/>
@@ -989,7 +1003,7 @@ export default function App() {
   );
 
   /* ── PAGE SERVICE DETAIL ── */
-  const svcMatch = SERVICES_DETAIL.find(s => page === `svc-${s.id}`);
+  const svcMatch = SERVICES_DETAIL.find(s => pathname === `/services/${s.id}`);
   if (svcMatch) {
     const s = svcMatch;
     return (
@@ -1030,7 +1044,7 @@ export default function App() {
   }
 
   /* ── PAGE RÉALISATIONS ── */
-  if (page === "realisations") {
+  if (pathname === "/realisations") {
     const cats = ["Tous", ...new Set(REALISATIONS.map(r => r.cat))];
     const filtered = realFilter==="Tous" ? REALISATIONS : REALISATIONS.filter(r => r.cat===realFilter);
     return (
@@ -1216,7 +1230,7 @@ const TECH_TYPES = {
   services: {label:"Service", items: SERVICES_DETAIL.map(s=>({id:s.id, label:s.titre}))}
 };
 
-function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,techDetails,setTechDetails,setPage,toast}) {
+function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,techDetails,setTechDetails,nav,toast}) {
   const [techType, setTechType] = useState("osmoseurs");
   const [techItemId, setTechItemId] = useState("");
   const [techText, setTechText] = useState("");
@@ -1228,7 +1242,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
         <p style={{color:"#475569",fontSize:13,marginBottom:24}}>Accès réservé à l'équipe UEM</p>
         <input style={{width:"100%",padding:"11px 14px",borderRadius:9,border:"1.5px solid #e2e8f0",fontSize:14,fontFamily:"inherit",marginBottom:13,boxSizing:"border-box"}} type="password" placeholder="Mot de passe" value={pwd} onChange={e=>setPwd(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pwd==="uem-admin-2026"?setAuth(true):toast("Mot de passe incorrect","error"))}/>
         <button style={{width:"100%",padding:12,background:"#0d2b6e",color:"#fff",border:"none",borderRadius:9,fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"inherit"}} onClick={()=>pwd==="uem-admin-2026"?setAuth(true):toast("Mot de passe incorrect","error")}>Se connecter</button>
-        <button onClick={()=>setPage("home")} style={{background:"none",border:"none",color:"#475569",cursor:"pointer",marginTop:13,fontSize:13,fontFamily:"inherit"}}>← Retour au site</button>
+        <button onClick={()=>nav("home")} style={{background:"none",border:"none",color:"#475569",cursor:"pointer",marginTop:13,fontSize:13,fontFamily:"inherit"}}>← Retour au site</button>
       </div>
     </div>
   );
@@ -1245,7 +1259,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
           <span style={{display:"flex"}}>{Ico.gear}</span>
           <div><h1>Administration UEM</h1><div style={{fontSize:12,opacity:.8,marginTop:1}}>Gestion du site v4.2</div></div>
           <div style={{marginLeft:"auto",display:"flex",gap:8}}>
-            <button onClick={()=>setPage("home")} style={{background:"rgba(255,255,255,.2)",color:"#fff",border:"none",borderRadius:7,padding:"7px 13px",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>← Site</button>
+            <button onClick={()=>nav("home")} style={{background:"rgba(255,255,255,.2)",color:"#fff",border:"none",borderRadius:7,padding:"7px 13px",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>← Site</button>
             <button onClick={()=>setAuth(false)} style={{background:"rgba(255,255,255,.15)",color:"#fff",border:"none",borderRadius:7,padding:"7px 13px",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>Déconnexion</button>
           </div>
         </div>
