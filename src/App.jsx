@@ -698,7 +698,7 @@ export default function App() {
         <li className="nb-item">
           <button className={`nb-btn${page==="services"||page.startsWith("svc-")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
-            {[[Ico.drop,"Traitement des eaux"],[Ico.beaker,"Analyses NM/ISO"],[Ico.ruler,"Ingénierie & Conception"],[Ico.leaf,"Environnement & HSE"],[Ico.cap,"Formation"],[Ico.wrench,"Maintenance & SAV"]].map(([ic,t],i) => (
+            {[[Ico.drop,"Traitement des eaux"],[Ico.beaker,"Analyses chimiques et environnementales"],[Ico.ruler,"Ingénierie et conception des STEP"],[Ico.leaf,"HSE"],[Ico.cap,"Formation"],[Ico.wrench,"Maintenance & SAV"]].map(([ic,t],i) => (
               <button key={i} className="dd-btn" onClick={() => nav("services")}><span className="dd-ico">{ic}</span>{t}</button>
             ))}
           </div>
@@ -707,9 +707,7 @@ export default function App() {
           <button className={`nb-btn${page==="osmoseurs"||page==="reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
             <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.gauge}</span>Osmoseurs industriels</button>
-            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Réactifs chimiques</button>
-            <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.filter3}</span>Adoucisseurs d'eau</button>
-            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.beaker}</span>Équipements de mesure</button>
+            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Produits chimiques</button>
           </div>
         </li>
         <li className="nb-item"><button className={`nb-btn${page==="realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
@@ -744,17 +742,15 @@ export default function App() {
       </div>
       <div className="ft-col"><h4>Nos services</h4><ul>
         <li onClick={() => nav("services")}>Traitement des eaux</li>
-        <li onClick={() => nav("services")}>Analyses NM/ISO</li>
-        <li onClick={() => nav("services")}>Ingénierie & Conception</li>
-        <li onClick={() => nav("services")}>Environnement & HSE</li>
+        <li onClick={() => nav("services")}>Analyses chimiques et environnementales</li>
+        <li onClick={() => nav("services")}>Ingénierie et conception des STEP</li>
+        <li onClick={() => nav("services")}>HSE</li>
+        <li onClick={() => nav("services")}>Formation</li>
         <li onClick={() => nav("services")}>Maintenance & SAV</li>
       </ul></div>
       <div className="ft-col"><h4>Nos produits</h4><ul>
         <li onClick={() => nav("osmoseurs")}>Osmoseurs industriels</li>
-        <li onClick={() => nav("reactifs")}>Réactifs chimiques</li>
-        <li onClick={() => nav("osmoseurs")}>Adoucisseurs d'eau</li>
-        <li onClick={() => nav("reactifs")}>Équipements de mesure</li>
-        <li onClick={() => nav("reactifs")}>Consommables</li>
+        <li onClick={() => nav("reactifs")}>Produits chimiques</li>
       </ul></div>
       <div className="ft-col"><h4>Informations</h4><ul>
         <li onClick={() => scrollTo("contact")}>Contact & Devis</li>
