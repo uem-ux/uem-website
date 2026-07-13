@@ -47,8 +47,6 @@ button{font-family:'Inter',sans-serif}
 .dd-ico{width:30px;height:30px;border-radius:8px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:var(--bleu)}
 .nb-cta{background:var(--bleu);color:#fff;padding:9px 20px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;border:none;transition:var(--tr);margin-left:auto;white-space:nowrap;flex-shrink:0;font-family:inherit}
 .nb-cta:hover{background:var(--bleu2)}
-.nb-adm{background:var(--g100);color:var(--g600);border:1px solid var(--g200);width:36px;height:36px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
-.nb-adm:hover{background:var(--g200);color:var(--bleu)}
 .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;margin-left:auto}
 .burger span{display:block;width:23px;height:2px;background:var(--bleu);border-radius:2px}
 .mob-menu{display:none;background:#fff;border-top:1px solid var(--g200);padding:12px 24px 20px}
@@ -371,7 +369,7 @@ button{font-family:'Inter',sans-serif}
   .os-features{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-  .nb-links,.nb-cta,.nb-adm{display:none!important}
+  .nb-links,.nb-cta{display:none!important}
   .burger{display:flex}
   .hero{padding:40px 0;min-height:calc(100vh - 70px)}
   .hero-in{max-width:100%}
@@ -729,7 +727,6 @@ export default function App() {
         <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("contact")}>Contact</button></li>
       </ul>
       <button className="nb-cta" onClick={() => scrollTo("contact")}>Demander un devis</button>
-      <button className="nb-adm" title="Administration" onClick={() => nav("admin")}>{Ico.gear}</button>
       <button className="burger" onClick={() => setMobOpen(o=>!o)}><span/><span/><span/></button>
     </div>
     <div className={`mob-menu${mobOpen?" open":""}`}>
@@ -740,7 +737,6 @@ export default function App() {
       <button onClick={() => nav("realisations")}>Nos réalisations</button>
       <button onClick={() => scrollTo("blog")}>Actualités</button>
       <button onClick={() => scrollTo("contact")}>Contact</button>
-      <button onClick={() => nav("admin")}>Administration</button>
     </div></nav>
   );
 
@@ -770,7 +766,6 @@ export default function App() {
         <li onClick={() => scrollTo("contact")}>Contact & Devis</li>
         <li onClick={() => nav("realisations")}>Nos réalisations</li>
         <li onClick={() => scrollTo("blog")}>Actualités</li>
-        <li onClick={() => nav("admin")}>Administration</li>
       </ul>
       <div style={{marginTop:18,fontSize:12.5,opacity:.75,lineHeight:1.9}}>
         <div style={{fontSize:10.5,opacity:.7,marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>Horaires</div>
