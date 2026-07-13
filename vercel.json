@@ -1,13 +1,6 @@
 {
   "rewrites": [
-    { "source": "/osmoseurs", "destination": "/" },
-    { "source": "/chimiques", "destination": "/" },
-    { "source": "/materiels", "destination": "/" },
-    { "source": "/services", "destination": "/" },
-    { "source": "/realisations", "destination": "/" },
-    { "source": "/formulation", "destination": "/" },
-    { "source": "/apropos", "destination": "/" },
-    { "source": "/contact", "destination": "/" }
+    { "source": "/((?!.*\\.[a-zA-Z0-9]+$).*)", "destination": "/" }
   ],
   "headers": [
     {
