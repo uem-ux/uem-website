@@ -73,6 +73,9 @@ button{font-family:'Inter',sans-serif}
 .hero h1{font-family:'Poppins',sans-serif;font-size:clamp(24px,3vw,42px);font-weight:800;line-height:1.13;color:#fff;margin-bottom:18px}
 .hl-b{color:#7ab8ff}.hl-g{color:#9be89b}.hl-a{color:#c8ec5c}
 .hero-desc{font-size:15px;line-height:1.75;color:rgba(255,255,255,.82);margin-bottom:30px;max-width:520px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}
+.hero-badge{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);color:#fff;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:100px}
+.hero-badge svg{flex-shrink:0;width:15px;height:15px}
 .hero-btns{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:36px}
 .btn-prim{background:var(--bleu);color:#fff;padding:13px 26px;border-radius:9px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:var(--tr);font-family:inherit}
 .btn-prim:hover{background:var(--bleu2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(13,43,110,.28)}
@@ -377,6 +380,9 @@ button{font-family:'Inter',sans-serif}
   .hero-txt{max-width:100%;margin-left:0;padding:24px 20px 20px;border-radius:14px;background:linear-gradient(180deg,rgba(8,22,58,.9) 0%,rgba(8,22,58,.94) 100%)}
   .hero-tag{font-size:9.5px;padding:5px 11px;margin-bottom:14px}
   .hero h1{font-size:21px;line-height:1.22;margin-bottom:12px}
+  .hero-badges{gap:6px;margin-bottom:16px}
+  .hero-badge{font-size:11px;padding:5px 11px}
+  .hero-badge svg{width:12px;height:12px}
   .hero-desc{font-size:13px;line-height:1.55;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
   .hero-btns{margin-bottom:16px}
   .hero-trust{padding-right:64px}
@@ -1061,7 +1067,12 @@ export default function App() {
         <div className="hero-in">
           <div className="hero-txt">
             <div className="hero-tag">L'expertise verte au service du Maroc</div>
-            <h1>Traitement des eaux, osmose inverse, ingénierie environnementale, analyses, équipements et réactifs chimiques au Maroc</h1>
+            <h1>Traitement des eaux et ingénierie environnementale au Maroc</h1>
+            <div className="hero-badges">
+              {[[Ico.ruler,"Conception et réalisation des STEP"],[Ico.drop,"Osmose inverse"],[Ico.beaker,"Analyses environnementales"],[Ico.flask,"Réactifs chimiques"]].map(([ic,t],i) => (
+                <div className="hero-badge" key={i}>{ic}{t}</div>
+              ))}
+            </div>
             <p className="hero-desc">Univers Environnement Maroc accompagne les industriels, collectivités, bureaux d'études et laboratoires avec des solutions complètes en traitement des eaux, osmose inverse, stations d'épuration (STEP), analyses environnementales, réactifs chimiques, équipements de laboratoire, conception, installation, maintenance et assistance technique partout au Maroc.</p>
             <div className="hero-btns">
               <button className="btn-prim" onClick={() => scrollTo("contact")}>Demander un devis gratuit →</button>
