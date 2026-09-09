@@ -38,6 +38,11 @@ const Ico = {
   close: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>,
   linkedin: <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>,
   facebook: <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>,
+  mountain: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 20L9 8l4 6 3-4 5 10H3z"/></svg>,
+  factory: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 21v-4h6v4M8 7h1M8 11h1M8 15h1M15 7h1M15 11h1M15 15h1"/></svg>,
+  bed: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 19v-6a2 2 0 012-2h5a2 2 0 012 2M14 13h5a2 2 0 012 2v6M3 19h18M3 13V7h4v4"/></svg>,
+  cross: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>,
+  sprout: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M12 12C12 8 9 5 5 5c0 4 3 7 7 7z"/><path d="M12 12c0-4 3-7 7-7 0 4-3 7-7 7z"/></svg>,
 };
 
 /* Icônes réactifs par famille */
@@ -95,6 +100,34 @@ const REACTIFS={
 };
 
 const SERVICES_DETAIL=[
+  {id:"analyse-eau",titre:"Analyse des Eaux",cat:"Analyse certifiée",tag:"tag-ana",img:"/Laboratoire-uem.jpg.jpeg",
+   desc:"Notre laboratoire réalise des analyses complètes sur tous les types d'eau — eau brute, eau de process, eau de rejet, eau potable, eau de puits et eau de mer — selon les normes NM marocaines et ISO.",
+   feats:["Prélèvement sur site certifié, tous types d'eau (brute, process, rejet, potable, puits, mer)","Analyses physico-chimiques complètes (pH, DCO, DBO5, MES, métaux lourds...)","Analyses bactériologiques (coliformes totaux, fécaux, streptocoques...)","Rapport certifié NM/ISO avec interprétation des résultats","Recommandations correctives adaptées à l'usage de l'eau","Suivi post-analyse et devis personnalisé"],
+   process:["Planification & type d'eau","Prélèvement certifié","Analyses physico-chimiques","Analyses bactériologiques","Rapport & interprétation","Recommandations"]},
+  {id:"analyse-sol",titre:"Analyse Agronomique et Sols",cat:"Analyse certifiée",tag:"tag-ana",img:"/analyse -terrain.jpg.jpeg",
+   desc:"Optimisez vos apports fertilisants grâce à une connaissance précise de votre sol, de vos supports de culture et de vos fertilisants. UEM réalise des analyses agronomiques complètes pour une agriculture raisonnée.",
+   feats:["Analyse de sol et de support de culture","Analyse des fertilisants et amendements","Analyse foliaire (diagnostic nutritionnel des plantes)","Dosage NPK complet, pH, CEC, matière organique","Micro-éléments (B, Cu, Fe, Mn, Zn)","Rapport et préconisations de fertilisation"],
+   process:["Prélèvement terrain","Préparation échantillons","Analyses laboratoire","Interprétation","Rapport agronomique","Conseil fertilisation"]},
+  {id:"analyse-environnementale",titre:"Analyse Environnementale",cat:"Environnement",tag:"tag-ana",img:"/mesure-bruit.jpg.jpeg",
+   desc:"UEM mesure et quantifie les polluants et nuisances liés à vos installations — air, bruit, vibrations et émissions atmosphériques — pour protéger la santé, l'environnement et assurer votre conformité réglementaire.",
+   feats:["Analyse de l'air : CO, CO2, SO2, NOx, H2S, particules (MP1/MP2.5/MP10), métaux dans l'air","Analyse des émissions atmosphériques (usines, chaufferies, process)","Analyse du bruit interne et externe (dB(A), seuils d'alerte et de danger)","Analyse des vibrations sur machines tournantes et structures","Analyse des ambiances de travail (thermique, sonore, lumineuse)","Rapport de conformité et recommandations correctives"],
+   process:["Identification des points de mesure","Campagne de mesures terrain","Analyses & traitement des données","Comparaison aux seuils réglementaires","Rapport de conformité","Plan d'action correctif"]},
+  {id:"ingenierie",titre:"Ingénierie et Traitement des Eaux",cat:"Ingénierie",tag:"tag-ing",img:"/Step-traitement.jpg.jpeg",
+   desc:"UEM conçoit, installe et met en service des systèmes complets de traitement de l'eau douce et de process, ainsi que des filières de traitement des eaux usées. Du design à la maintenance, nous gérons l'intégralité du projet.",
+   feats:["Eau douce & process : adoucisseurs, filtres actifs, filtres à sable","Désinfection : UV, chloration, osmose inverse","Eaux usées : traitement physico-chimique","Eaux usées : traitement biologique (boues activées, SBR, MBR)","Conception et dimensionnement de STEP, AMO et suivi de chantier","Formation des opérateurs et contrat de maintenance"],
+   process:["Cahier des charges","Choix de la filière (physico-chimique / biologique)","Design système","Installation","Tests & mise en service","Formation & suivi"]},
+  {id:"hse",titre:"HSE — Hygiène, Sécurité & Environnement",cat:"Environnement",tag:"tag-ing",img:"/mesure-site.jpg.jpeg",
+   desc:"UEM accompagne les entreprises dans leur démarche de conformité HSE : études d'impact, audits, gestion des déchets, systèmes de management ISO et évaluation des risques, pour une activité conforme et maîtrisée.",
+   feats:["Étude d'impact environnemental (EIE) et audits HSE","Mise en place de systèmes de management ISO 14001 / ISO 45001","Évaluation des risques professionnels et environnementaux","Gestion et valorisation des déchets","Plans d'urgence et procédures de sécurité","Accompagnement pour les autorisations environnementales"],
+   process:["Diagnostic terrain","Analyse réglementaire","Évaluation des risques","Rapport & plan d'action","Mise en place ISO","Suivi de conformité"]},
+  {id:"formation",titre:"Formation et Accompagnement",cat:"Formation",tag:"tag-ing",img:"/formation-hse.jpg",
+   desc:"UEM conçoit une véritable ingénierie de formation sur mesure : diagnostic des besoins, programmes adaptés et transfert de compétences durable pour vos équipes, sur le traitement des eaux, le laboratoire et la sécurité.",
+   feats:["Ingénierie de formation : diagnostic et programme sur mesure","Formation traitement des eaux & osmose inverse","Formation laboratoire et techniques d'analyse","Formation HSE (sécurité, prévention des risques)","Formation à l'exploitation de STEP","Formation en présentiel, sur site ou à distance"],
+   process:["Analyse des besoins","Conception du programme","Formation (présentiel/site/distance)","Évaluation des acquis","Attestation de formation","Suivi post-formation"]},
+  {id:"maintenance",titre:"Maintenance & Assistance Technique",cat:"Maintenance",tag:"tag-ing",img:"/mesure-bruit.jpg.jpeg",
+   desc:"UEM assure la maintenance préventive et corrective de vos équipements de traitement des eaux et de laboratoire, avec des contrats de service adaptés et une assistance technique réactive partout au Maroc.",
+   feats:["Maintenance préventive planifiée","Interventions correctives rapides","Contrats de maintenance annuels","Assistance technique 7j/7","Pièces de rechange disponibles à El Jadida","Suivi et reporting des interventions"],
+   process:["Diagnostic initial","Contrat de maintenance","Interventions planifiées","Dépannage réactif","Rapport d'intervention","Suivi continu"]},
   {id:"step",titre:"Conception & Dimensionnement STEP",cat:"Ingénierie",tag:"tag-ing",img:"/Step-traitement.jpg.jpeg",
    desc:"De l'avant-projet sommaire (APS) à la mise en service, UEM accompagne les industriels et collectivités dans la conception de leurs stations d'épuration. Notre bureau d'études intègre les dernières technologies de traitement pour des installations conformes aux normes marocaines.",
    feats:["APS / APD / DCE complets","Dimensionnement hydraulique et biologique","Sélection des filières de traitement","Dossiers d'autorisation ONEE/Région","AMO et suivi de chantier","Formation des opérateurs"],
@@ -102,31 +135,7 @@ const SERVICES_DETAIL=[
   {id:"optim",titre:"Optimisation STEP Existantes",cat:"Ingénierie",tag:"tag-ing",img:"/bassin-desinfection.jpg.jpeg",
    desc:"Vous avez une STEP sous-performante ? UEM réalise un audit technique complet et propose des solutions d'optimisation concrètes pour améliorer vos rendements d'épuration et réduire vos coûts.",
    feats:["Audit complet terrain","Bilan de fonctionnement","Optimisation des doses de réactifs","Réglage des équipements","Indicateurs de performance (KPI)","Rapport de recommandations"],
-   process:["Visite terrain","Prélèvements & mesures","Analyse des données","Plan d'action","Mise en œuvre","Suivi mensuel"]},
-  {id:"analyse-eau",titre:"Analyse Physicochimique & Bactériologique",cat:"Analyse certifiée",tag:"tag-ana",img:"/Laboratoire-uem.jpg.jpeg",
-   desc:"Notre laboratoire réalise des analyses complètes de vos eaux selon les normes NM marocaines et ISO. Paramètres couverts : pH, DCO, DBO5, MES, métaux lourds, pesticides, bactériologie.",
-   feats:["Prélèvement sur site certifié","Analyses physico-chimiques complètes","Analyses bactériologiques (CT, CF, Strepto)","Rapport certifié NM/ISO","Recommandations correctives","Suivi post-analyse"],
-   process:["Planification","Prélèvement certifié","Analyses labo","Interprétation","Rapport","Recommandations"]},
-  {id:"analyse-sol",titre:"Analyse Agronomique des Sols",cat:"Analyse certifiée",tag:"tag-ana",img:"/analyse -terrain.jpg.jpeg",
-   desc:"Optimisez vos apports fertilisants grâce à une connaissance précise de votre sol. UEM réalise des analyses agronomiques complètes pour une agriculture raisonnée.",
-   feats:["Prélèvement et préparation","Analyse granulométrique","Dosage NPK complet","pH, CEC, matière organique","Micro-éléments (B, Cu, Fe, Mn, Zn)","Rapport et préconisations"],
-   process:["Prélèvement terrain","Préparation échantillons","Analyses laboratoire","Interprétation","Rapport agronomique","Conseil fertilisation"]},
-  {id:"hse",titre:"Études d'Impact & Audits HSE",cat:"Environnement",tag:"tag-ing",img:"/mesure-site.jpg.jpeg",
-   desc:"UEM accompagne les entreprises dans leur démarche de conformité environnementale : études d'impact, audits HSE, mise en place de systèmes de management environnemental ISO 14001.",
-   feats:["Étude d'impact environnemental (EIE)","Audit de conformité réglementaire","Mise en place ISO 14001","Évaluation des risques HSE","Formation des équipes","Bilan carbone"],
-   process:["Collecte données","Diagnostic terrain","Analyse réglementaire","Rapport EIE","Plan d'action","Suivi conformité"]},
-  {id:"ingenierie",titre:"Solutions Traitement des Eaux Clé en Main",cat:"Ingénierie",tag:"tag-ing",img:"/Step-traitement.jpg.jpeg",
-   desc:"UEM conçoit, installe et met en service des systèmes complets de traitement des eaux industrielles et d'osmose inverse. Du design à la maintenance, nous gérons l'intégralité du projet.",
-   feats:["Étude de faisabilité","Sélection des équipements","Installation et câblage","Tests de performance","Formation opérateurs","Contrat de maintenance"],
-   process:["Cahier des charges","Design système","Fabrication","Installation","Tests & réglages","Livraison"]},
-  {id:"formation",titre:"Formation & Sensibilisation HSE",cat:"Formation",tag:"tag-ing",img:"/formation-hse.jpg",
-   desc:"UEM forme vos équipes aux bonnes pratiques HSE, au traitement des eaux et à la gestion environnementale, pour une montée en compétence durable de vos collaborateurs sur le terrain.",
-   feats:["Formation HSE (sécurité, prévention des risques)","Formation traitement des eaux & osmose inverse","Sensibilisation laboratoire & environnement","Modules sur mesure selon votre secteur","Supports pédagogiques fournis","Formation en présentiel ou sur site"],
-   process:["Analyse des besoins","Élaboration du programme","Formation en présentiel","Évaluation des acquis","Attestation de formation","Suivi post-formation"]},
-  {id:"maintenance",titre:"Maintenance & Assistance Technique",cat:"Maintenance & SAV",tag:"tag-ing",img:"/mesure-bruit.jpg.jpeg",
-   desc:"UEM assure la maintenance préventive et corrective de vos équipements de traitement des eaux et de laboratoire, avec des contrats de service adaptés et une assistance technique réactive partout au Maroc.",
-   feats:["Maintenance préventive planifiée","Interventions correctives rapides","Contrats de maintenance annuels","Assistance technique 7j/7","Pièces de rechange disponibles à El Jadida","Suivi et reporting des interventions"],
-   process:["Diagnostic initial","Contrat de maintenance","Interventions planifiées","Dépannage réactif","Rapport d'intervention","Suivi continu"]}
+   process:["Visite terrain","Prélèvements & mesures","Analyse des données","Plan d'action","Mise en œuvre","Suivi mensuel"]}
 ];
 
 const REALISATIONS=[
@@ -182,7 +191,246 @@ const PRODUCTS_CAR=[
   {id:4,icon:Ico.drop,title:"Osmoseurs domestiques",img:"/osmoseur-petit.webp",page:"osmoseurs"}
 ];
 
-/* APP COMPONENT */
+const SECTEURS=[
+  {id:"industrie",nom:"Industrie",icon:Ico.gear,
+   resume:"Solutions de traitement des eaux et de conformité environnementale pour sites industriels de toutes tailles.",
+   enjeux:["Conformité aux normes de rejet industriel","Gestion des effluents de production","Maîtrise des coûts d'exploitation de l'eau"],
+   solutions:["Conception et dimensionnement de STEP industrielles","Analyses physico-chimiques des effluents","Réactifs de traitement adaptés à votre process","Maintenance préventive des installations"]},
+  {id:"agroalimentaire",nom:"Agroalimentaire",icon:Ico.leaf,
+   resume:"Traitement des eaux usées à forte charge organique et conformité sanitaire pour l'industrie agroalimentaire.",
+   enjeux:["Effluents à forte DCO/DBO5 (lavage, transformation)","Exigences sanitaires strictes","Pics de charge saisonniers"],
+   solutions:["STEP dimensionnées pour fortes charges organiques","Osmoseurs pour eau de process","Analyses bactériologiques régulières","Réactifs coagulants et floculants adaptés"]},
+  {id:"mines",nom:"Mines & Carrières",icon:Ico.mountain,
+   resume:"Gestion de l'eau et des rejets pour sites miniers et carrières, dans le respect des normes environnementales.",
+   enjeux:["Eaux d'exhaure chargées en métaux et particules","Impact sur les ressources en eau locales","Autorisations environnementales"],
+   solutions:["Analyses des eaux et sols (métaux lourds)","Traitement physico-chimique des eaux d'exhaure","Études d'impact environnemental","Suivi réglementaire continu"]},
+  {id:"cimenteries",nom:"Cimenteries & Industries lourdes",icon:Ico.factory,
+   resume:"Traitement des eaux de process, refroidissement et contrôle des émissions pour cimenteries et industries lourdes.",
+   enjeux:["Eaux de refroidissement et de lavage","Qualité de l'air et poussières","Bruit et vibrations des installations"],
+   solutions:["Traitement des eaux de circuit de refroidissement","Analyses des émissions atmosphériques","Mesures de bruit et vibrations","Osmoseurs industriels haute capacité"]},
+  {id:"chimie",nom:"Industrie chimique",icon:Ico.flask,
+   resume:"Traitement spécialisé des effluents chimiques et accompagnement réglementaire pour l'industrie chimique.",
+   enjeux:["Effluents dangereux et réglementés","Compatibilité des réactifs de traitement","Traçabilité et conformité"],
+   solutions:["Étude sur mesure des filières de traitement","Réactifs et produits chimiques certifiés","Analyses physico-chimiques poussées","Accompagnement autorisations environnementales"]},
+  {id:"pharmaceutique",nom:"Pharmaceutique & Cosmétique",icon:Ico.beaker,
+   resume:"Eau ultra-pure et conformité qualité pour l'industrie pharmaceutique et cosmétique.",
+   enjeux:["Exigences de pureté de l'eau très strictes","Traçabilité qualité","Effluents à traiter avant rejet"],
+   solutions:["Osmose inverse double pass pour eau ultra-pure","Analyses de conformité en laboratoire","Déminéralisation et désinfection UV","Maintenance et qualification des installations"]},
+  {id:"hotellerie",nom:"Hôtellerie & Tourisme",icon:Ico.bed,
+   resume:"Eau potable, piscines et gestion des eaux usées pour hôtels et complexes touristiques.",
+   enjeux:["Qualité de l'eau potable et sanitaire","Entretien des piscines et circuits d'eau","Image et satisfaction client"],
+   solutions:["Analyses bactériologiques de l'eau potable","Adoucisseurs et osmoseurs semi-industriels","Désinfection et traitement des piscines","Contrats de maintenance réguliers"]},
+  {id:"hopitaux",nom:"Hôpitaux & Cliniques",icon:Ico.cross,
+   resume:"Traitement des effluents médicaux et sécurisation de l'eau pour établissements de santé.",
+   enjeux:["Effluents à risque biologique/médicamenteux","Eau ultra-pure pour dialyse et stérilisation","Normes sanitaires renforcées"],
+   solutions:["Traitement spécifique des effluents hospitaliers","Osmose inverse pour eau médicale","Analyses bactériologiques fréquentes","Désinfection UV et chloration contrôlée"]},
+  {id:"collectivites",nom:"Collectivités & Régies publiques",icon:Ico.users,
+   resume:"Stations d'épuration, eau potable et conformité réglementaire pour communes et régies publiques.",
+   enjeux:["Vieillissement des infrastructures","Conformité aux normes de rejet","Budgets d'exploitation contraints"],
+   solutions:["Conception et réhabilitation de STEP communales","Analyses de l'eau potable et des rejets","Formation des exploitants","Contrats de maintenance annuels"]},
+  {id:"dessalement",nom:"Stations de dessalement",icon:Ico.drop,
+   resume:"Expertise en osmose inverse à grande échelle pour la production d'eau douce à partir d'eau de mer ou saumâtre.",
+   enjeux:["Prétraitement de l'eau brute","Consommation énergétique","Entretien des membranes"],
+   solutions:["Osmoseurs industriels haute capacité","Anti-scalants et nettoyants membranes","Analyses de qualité de l'eau produite","Maintenance et suivi de performance"]},
+  {id:"agriculture",nom:"Agriculture",icon:Ico.sprout,
+   resume:"Analyse des sols, qualité de l'eau d'irrigation et conseil en fertilisation pour une agriculture raisonnée.",
+   enjeux:["Qualité de l'eau d'irrigation","Fertilisation optimale des sols","Salinité et ressources en eau limitées"],
+   solutions:["Analyses de sols et programmes de fertilisation","Analyses des eaux d'irrigation et de puits","Conseil agronomique sur le terrain","Formation des agriculteurs"]},
+  {id:"universites",nom:"Universités & Centres de recherche",icon:Ico.cap,
+   resume:"Accompagnement des laboratoires de recherche et gestion de l'eau sur les campus universitaires.",
+   enjeux:["Besoins analytiques variés en recherche","Gestion de l'eau sur de grands campus","Formation des étudiants et personnels"],
+   solutions:["Analyses de laboratoire sur mesure","Fourniture de réactifs de recherche","Formation HSE et laboratoire","Conseil technique pour projets étudiants"]}
+];
+
+
+/* Composants hoistés au niveau module (et non plus recréés à chaque rendu de App()).
+   C'est ce qui corrige le bug de saisie dans le formulaire : avant, ces composants étaient
+   redéfinis à chaque frappe de clavier, ce qui forçait React à démonter/remonter les champs
+   et leur faisait perdre le focus après chaque caractère. */
+function PageHdr({cat,title,sub,back,nav}) {
+  return (
+    <div className="ph"><div className="ph-in">
+      <button className="ph-bk" onClick={() => nav(back||"home")}>←</button>
+      <div><div className="ph-cat">{cat}</div><h1 className="ph-h1" dangerouslySetInnerHTML={{__html:title}}/>{sub && <p className="ph-sub">{sub}</p>}</div>
+    </div></div>
+  );
+}
+
+function TB() {
+  return (
+    <div className="tb"><div className="tb-in">
+      <div className="tb-l">
+        <a className="tb-a" href="tel:+212523377417">{Ico.phone}+212 523 37 74 17</a>
+        <a className="tb-a" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">{Ico.whatsapp}+212 700 090 365</a>
+        <span className="tb-a">{Ico.pin}N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
+        <a className="tb-a" href="mailto:univers.env@gmail.com">{Ico.mail}univers.env@gmail.com</a>
+      </div>
+      <div className="tb-soc">
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">{Ico.linkedin}</a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">{Ico.facebook}</a>
+      </div>
+    </div></div>
+  );
+}
+
+function NB({pathname,nav,scrollTo,mobOpen,setMobOpen}) {
+  return (
+    <nav className="nb"><div className="nb-in">
+      <div className="logo" onClick={() => nav("home")}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
+      <ul className="nb-links">
+        <li className="nb-item"><button className={`nb-btn${pathname==="/"?" on":""}`} onClick={() => nav("home")}>Accueil</button></li>
+        <li className="nb-item"><button className="nb-btn">À propos</button></li>
+        <li className="nb-item">
+          <button className={`nb-btn${pathname==="/services"||pathname.startsWith("/services/")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div className="dd">
+            {[[Ico.drop,"Analyse des eaux","analyse-eau"],[Ico.leaf,"Analyse Agronomique et Sols","analyse-sol"],[Ico.beaker,"Analyse Environnementale","analyse-environnementale"],[Ico.ruler,"Ingénierie et Traitement des Eaux","ingenierie"],[Ico.cross,"HSE","hse"],[Ico.cap,"Formation et Accompagnement","formation"],[Ico.wrench,"Maintenance","maintenance"]].map(([ic,t,sid],i) => (
+              <button key={i} className="dd-btn" onClick={() => nav(`svc-${sid}`)}><span className="dd-ico">{ic}</span>{t}</button>
+            ))}
+          </div>
+        </li>
+        <li className="nb-item">
+          <button className={`nb-btn${pathname==="/osmoseurs"||pathname==="/reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div className="dd">
+            <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.gauge}</span>Équipements</button>
+            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Produits chimiques</button>
+          </div>
+        </li>
+        <li className="nb-item"><button className={`nb-btn${pathname==="/realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
+        <li className="nb-item"><button className={`nb-btn${pathname==="/secteurs"||pathname.startsWith("/secteurs/")?" on":""}`} onClick={() => nav("secteurs")}>Secteurs</button></li>
+        <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("blog")}>Actualités</button></li>
+        <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("contact")}>Contact</button></li>
+      </ul>
+      <button className="nb-cta" onClick={() => scrollTo("contact")}>Demander un devis</button>
+      <button className="burger" onClick={() => setMobOpen(o=>!o)}><span/><span/><span/></button>
+    </div>
+    <div className={`mob-menu${mobOpen?" open":""}`}>
+      <button onClick={() => nav("home")}>Accueil</button>
+      <button onClick={() => nav("services")}>Nos services</button>
+      <button onClick={() => nav("osmoseurs")}>Équipements</button>
+      <button onClick={() => nav("reactifs")}>Produits chimiques</button>
+      <button onClick={() => nav("realisations")}>Nos réalisations</button>
+      <button onClick={() => nav("secteurs")}>Secteurs d'activité</button>
+      <button onClick={() => scrollTo("blog")}>Actualités</button>
+      <button onClick={() => scrollTo("contact")}>Contact</button>
+    </div></nav>
+  );
+}
+
+function FT({nav,scrollTo}) {
+  return (
+    <footer className="footer"><div className="ft-in">
+      <div className="ft-logo">
+        <div className="logo" onClick={() => nav("home")} style={{cursor:"pointer"}}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
+        <p className="ft-desc">Spécialiste marocain en traitement des eaux, analyses environnementales, produits chimiques et équipements depuis plus de 15 ans. El Jadida, Maroc.</p>
+        <div className="ft-soc">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">{Ico.linkedin}</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">{Ico.facebook}</a>
+        </div>
+      </div>
+      <div className="ft-col"><h4>Nos services</h4><ul>
+        <li onClick={() => nav("svc-analyse-eau")}>Analyse des eaux</li>
+        <li onClick={() => nav("svc-analyse-sol")}>Analyse Agronomique et Sols</li>
+        <li onClick={() => nav("svc-analyse-environnementale")}>Analyse Environnementale</li>
+        <li onClick={() => nav("svc-ingenierie")}>Ingénierie et Traitement des Eaux</li>
+        <li onClick={() => nav("svc-hse")}>HSE</li>
+        <li onClick={() => nav("svc-formation")}>Formation et Accompagnement</li>
+        <li onClick={() => nav("svc-maintenance")}>Maintenance</li>
+      </ul></div>
+      <div className="ft-col"><h4>Nos produits</h4><ul>
+        <li onClick={() => nav("osmoseurs")}>Équipements</li>
+        <li onClick={() => nav("reactifs")}>Produits chimiques</li>
+      </ul></div>
+      <div className="ft-col"><h4>Informations</h4><ul>
+        <li onClick={() => scrollTo("contact")}>Contact & Devis</li>
+        <li onClick={() => nav("realisations")}>Nos réalisations</li>
+        <li onClick={() => scrollTo("blog")}>Actualités</li>
+      </ul>
+      <div style={{marginTop:18,fontSize:12.5,opacity:.75,lineHeight:1.9}}>
+        <div style={{fontSize:10.5,opacity:.7,marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>Horaires</div>
+        <div>Lun – Ven : 8h30 – 18h00</div><div>Sam : 9h00 – 13h00</div>
+      </div></div>
+    </div>
+    <div className="ft-bot">
+      <span>© {new Date().getFullYear()} Univers Environnement Maroc — Tous droits réservés</span>
+      <span>N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc</span>
+    </div></footer>
+  );
+}
+
+function AI({aiOpen,setAiOpen,aiMsgs,aiInp,setAiInp,aiLoad,sendAI,aiRef}) {
+  return (
+    <div className="ai-fl">
+      <div className={`ai-win${aiOpen?" open":""}`}>
+        <div className="ai-hd"><div className="ai-av">{Ico.robot}</div><div><div className="ai-nm">Assistant UEM</div><div className="ai-st">● En ligne</div></div><button className="ai-cx" onClick={() => setAiOpen(false)}>{Ico.close}</button></div>
+        <div className="ai-msgs" ref={aiRef}>
+          {aiMsgs.map((m,i) => <div key={i} className={`ai-msg ${m.role}`}>{m.text}</div>)}
+          {aiLoad && <div className="ai-typ"><span/><span/><span/></div>}
+        </div>
+        <div className="ai-ir">
+          <input className="ai-inp" placeholder="Posez votre question..." value={aiInp} onChange={e=>setAiInp(e.target.value)} onKeyDown={e=>e.key==="Enter"&&sendAI()}/>
+          <button className="ai-snd" onClick={sendAI} disabled={aiLoad||!aiInp.trim()}>{Ico.send}</button>
+        </div>
+      </div>
+      <button className="ai-tog" onClick={() => setAiOpen(o=>!o)}>{Ico.robot}</button>
+    </div>
+  );
+}
+
+function WA() {
+  return (
+    <div className="wa-fl">
+      <a className="wa-btn" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">
+        <div className="wa-pulse"/>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>
+  );
+}
+
+const TOAST_ICONS = {success:Ico.check, warning:Ico.info, error:Ico.close, delete:Ico.close};
+function TOASTS({toasts}) {
+  return <div className="toast-wr">{toasts.map(t => <div key={t.id} className="toast">{TOAST_ICONS[t.type]||Ico.check} {t.msg}</div>)}</div>;
+}
+
+function CONTACT_SECTION({form,setForm,sending,sent,handleSubmit}) {
+  return (
+    <section className="contact-sec" id="contact">
+      <div className="contact-in">
+        <div className="ct-inf">
+          <h2>Demandez votre <em>devis gratuit</em> dès aujourd'hui</h2>
+          <p>Notre équipe d'experts vous répond en moins de 24 heures avec une solution technique et tarifaire adaptée à vos besoins.</p>
+          <div className="ct-dets">
+            {[{i:Ico.phone,l:"Téléphone",v:"+212 523 37 74 17"},{i:Ico.whatsapp,l:"WhatsApp",v:"+212 700 090 365"},{i:Ico.mail,l:"Email",v:"univers.env@gmail.com"},{i:Ico.pin,l:"Adresse",v:"N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc"}].map((d,i) => (
+              <div className="ct-det" key={i}><div className="ct-ico">{d.i}</div><div><div className="ct-lbl">{d.l}</div><div className="ct-val">{d.v}</div></div></div>
+            ))}
+          </div>
+        </div>
+        <div className="ct-form">
+          <div className="ct-form-t">{Ico.info} Formulaire de contact</div>
+          <div className="frow">
+            <div className="fg"><label>Nom complet *</label><input placeholder="Votre nom" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))}/></div>
+            <div className="fg"><label>Email *</label><input type="email" placeholder="votre@email.com" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))}/></div>
+          </div>
+          <div className="frow">
+            <div className="fg"><label>Entreprise</label><input placeholder="Nom de votre société" value={form.company} onChange={e=>setForm(f=>({...f,company:e.target.value}))}/></div>
+            <div className="fg"><label>Service souhaité</label>
+              <select value={form.service} onChange={e=>setForm(f=>({...f,service:e.target.value}))}>
+                <option value="">Sélectionner...</option>
+                {SERVICES_DETAIL.map(s => <option key={s.id} value={s.titre}>{s.titre}</option>)}
+                {OSMOSEURS.map(o => <option key={o.id} value={o.nom}>{o.nom}</option>)}
+                <option value="Réactifs chimiques">Réactifs chimiques</option>
+              </select>
+            </div>
+          </div>
+          <div className="fg"><label>Votre message *</label><textarea placeholder="Décrivez votre besoin, débit requis, type d'effluents..." value={form.message} onChange={e=>setForm(f=>({...f,message:e.target.value}))}/></div>
+          <button className="btn-send" onClick={handleSubmit} disabled={sending}>{sending?"Envoi...":"Envoyer ma demande →"}</button>
+          {sent && <div className="form-ok">{Ico.check} Message envoyé ! Nous vous répondons sous 24h.</div>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -208,7 +456,9 @@ export default function App() {
   useEffect(() => {localStorage.setItem("uem_tech", JSON.stringify(techDetails))}, [techDetails]);
   useEffect(() => {window.scrollTo(0,0)}, [pathname]);
   useEffect(() => {
-    const titles = {"/":"Univers Environnement Maroc — Traitement des eaux, osmose inverse, analyses environnementales","/osmoseurs":"Osmoseurs Industriels — Univers Environnement Maroc","/reactifs":"Réactifs Chimiques — Univers Environnement Maroc","/services":"Nos Services — Univers Environnement Maroc","/realisations":"Nos Réalisations — Univers Environnement Maroc","/admin":"Administration — UEM"};
+    const titles = {"/":"Univers Environnement Maroc — Traitement des eaux, osmose inverse, analyses environnementales","/osmoseurs":"Osmoseurs Industriels — Univers Environnement Maroc","/reactifs":"Réactifs Chimiques — Univers Environnement Maroc","/services":"Nos Services — Univers Environnement Maroc","/realisations":"Nos Réalisations — Univers Environnement Maroc","/secteurs":"Secteurs d'Activité — Univers Environnement Maroc","/admin":"Administration — UEM"};
+    const sect = SECTEURS.find(s => pathname === `/secteurs/${s.id}`);
+    if (sect) { document.title = `${sect.nom} — Traitement des eaux — Univers Environnement Maroc`; return; }
     const svc = SERVICES_DETAIL.find(s => pathname === `/services/${s.id}`);
     document.title = svc ? `${svc.titre} — Univers Environnement Maroc` : (titles[pathname] || "Univers Environnement Maroc");
   }, [pathname]);
@@ -253,6 +503,7 @@ export default function App() {
   const pathFor = (key) => {
     if (key === "home") return "/";
     if (key.startsWith("svc-")) return `/services/${key.slice(4)}`;
+    if (key.startsWith("sect-")) return `/secteurs/${key.slice(5)}`;
     return `/${key}`;
   };
   const nav = (p) => { navigate(pathFor(p)); setMobOpen(false); };
@@ -272,176 +523,12 @@ export default function App() {
 
   if (pathname === "/admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} nav={nav} toast={toast}/>;
 
-  const PageHdr = ({cat,title,sub,back}) => (
-    <div className="ph"><div className="ph-in">
-      <button className="ph-bk" onClick={() => nav(back||"home")}>←</button>
-      <div><div className="ph-cat">{cat}</div><h1 className="ph-h1" dangerouslySetInnerHTML={{__html:title}}/>{sub && <p className="ph-sub">{sub}</p>}</div>
-    </div></div>
-  );
-
-  const TB = () => (
-    <div className="tb"><div className="tb-in">
-      <div className="tb-l">
-        <a className="tb-a" href="tel:+212523377417">{Ico.phone}+212 523 37 74 17</a>
-        <a className="tb-a" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">{Ico.whatsapp}+212 700 090 365</a>
-        <span className="tb-a">{Ico.pin}N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
-        <a className="tb-a" href="mailto:univers.env@gmail.com">{Ico.mail}univers.env@gmail.com</a>
-      </div>
-      <div className="tb-soc">
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">{Ico.linkedin}</a>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">{Ico.facebook}</a>
-      </div>
-    </div></div>
-  );
-
-  const NB = () => (
-    <nav className="nb"><div className="nb-in">
-      <div className="logo" onClick={() => nav("home")}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
-      <ul className="nb-links">
-        <li className="nb-item"><button className={`nb-btn${pathname==="/"?" on":""}`} onClick={() => nav("home")}>Accueil</button></li>
-        <li className="nb-item"><button className="nb-btn">À propos</button></li>
-        <li className="nb-item">
-          <button className={`nb-btn${pathname==="/services"||pathname.startsWith("/services/")?" on":""}`}>Nos services <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
-          <div className="dd">
-            {[[Ico.drop,"Traitement des eaux","ingenierie"],[Ico.beaker,"Analyses chimiques et environnementales","analyse-eau"],[Ico.ruler,"Ingénierie et conception des STEP","step"],[Ico.leaf,"HSE","hse"],[Ico.cap,"Formation","formation"],[Ico.wrench,"Maintenance & SAV","maintenance"]].map(([ic,t,sid],i) => (
-              <button key={i} className="dd-btn" onClick={() => nav(`svc-${sid}`)}><span className="dd-ico">{ic}</span>{t}</button>
-            ))}
-          </div>
-        </li>
-        <li className="nb-item">
-          <button className={`nb-btn${pathname==="/osmoseurs"||pathname==="/reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
-          <div className="dd">
-            <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.gauge}</span>Osmoseurs industriels</button>
-            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Produits chimiques</button>
-          </div>
-        </li>
-        <li className="nb-item"><button className={`nb-btn${pathname==="/realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
-        <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("blog")}>Actualités</button></li>
-        <li className="nb-item"><button className="nb-btn" onClick={() => scrollTo("contact")}>Contact</button></li>
-      </ul>
-      <button className="nb-cta" onClick={() => scrollTo("contact")}>Demander un devis</button>
-      <button className="burger" onClick={() => setMobOpen(o=>!o)}><span/><span/><span/></button>
-    </div>
-    <div className={`mob-menu${mobOpen?" open":""}`}>
-      <button onClick={() => nav("home")}>Accueil</button>
-      <button onClick={() => nav("services")}>Nos services</button>
-      <button onClick={() => nav("osmoseurs")}>Osmoseurs industriels</button>
-      <button onClick={() => nav("reactifs")}>Réactifs chimiques</button>
-      <button onClick={() => nav("realisations")}>Nos réalisations</button>
-      <button onClick={() => scrollTo("blog")}>Actualités</button>
-      <button onClick={() => scrollTo("contact")}>Contact</button>
-    </div></nav>
-  );
-
-  const FT = () => (
-    <footer className="footer"><div className="ft-in">
-      <div className="ft-logo">
-        <div className="logo" onClick={() => nav("home")} style={{cursor:"pointer"}}><img className="logo-img" src="/logo-uem-icon.png" alt="UEM"/><div className="logo-tx"><span className="logo-n">Univers Environnement</span><span className="logo-s">MAROC – EL JADIDA</span></div></div>
-        <p className="ft-desc">Spécialiste marocain en traitement des eaux, analyses environnementales, produits chimiques et équipements depuis plus de 15 ans. El Jadida, Maroc.</p>
-        <div className="ft-soc">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">{Ico.linkedin}</a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">{Ico.facebook}</a>
-        </div>
-      </div>
-      <div className="ft-col"><h4>Nos services</h4><ul>
-        <li onClick={() => nav("svc-ingenierie")}>Traitement des eaux</li>
-        <li onClick={() => nav("svc-analyse-eau")}>Analyses chimiques et environnementales</li>
-        <li onClick={() => nav("svc-step")}>Ingénierie et conception des STEP</li>
-        <li onClick={() => nav("svc-hse")}>HSE</li>
-        <li onClick={() => nav("svc-formation")}>Formation</li>
-        <li onClick={() => nav("svc-maintenance")}>Maintenance & SAV</li>
-      </ul></div>
-      <div className="ft-col"><h4>Nos produits</h4><ul>
-        <li onClick={() => nav("osmoseurs")}>Osmoseurs industriels</li>
-        <li onClick={() => nav("reactifs")}>Produits chimiques</li>
-      </ul></div>
-      <div className="ft-col"><h4>Informations</h4><ul>
-        <li onClick={() => scrollTo("contact")}>Contact & Devis</li>
-        <li onClick={() => nav("realisations")}>Nos réalisations</li>
-        <li onClick={() => scrollTo("blog")}>Actualités</li>
-      </ul>
-      <div style={{marginTop:18,fontSize:12.5,opacity:.75,lineHeight:1.9}}>
-        <div style={{fontSize:10.5,opacity:.7,marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>Horaires</div>
-        <div>Lun – Ven : 8h30 – 18h00</div><div>Sam : 9h00 – 13h00</div>
-      </div></div>
-    </div>
-    <div className="ft-bot">
-      <span>© {new Date().getFullYear()} Univers Environnement Maroc — Tous droits réservés</span>
-      <span>N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc</span>
-    </div></footer>
-  );
-
-  const AI = () => (
-    <div className="ai-fl">
-      <div className={`ai-win${aiOpen?" open":""}`}>
-        <div className="ai-hd"><div className="ai-av">{Ico.robot}</div><div><div className="ai-nm">Assistant UEM</div><div className="ai-st">● En ligne</div></div><button className="ai-cx" onClick={() => setAiOpen(false)}>{Ico.close}</button></div>
-        <div className="ai-msgs" ref={aiRef}>
-          {aiMsgs.map((m,i) => <div key={i} className={`ai-msg ${m.role}`}>{m.text}</div>)}
-          {aiLoad && <div className="ai-typ"><span/><span/><span/></div>}
-        </div>
-        <div className="ai-ir">
-          <input className="ai-inp" placeholder="Posez votre question..." value={aiInp} onChange={e=>setAiInp(e.target.value)} onKeyDown={e=>e.key==="Enter"&&sendAI()}/>
-          <button className="ai-snd" onClick={sendAI} disabled={aiLoad||!aiInp.trim()}>{Ico.send}</button>
-        </div>
-      </div>
-      <button className="ai-tog" onClick={() => setAiOpen(o=>!o)}>{Ico.robot}</button>
-    </div>
-  );
-
-  const WA = () => (
-    <div className="wa-fl">
-      <a className="wa-btn" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">
-        <div className="wa-pulse"/>
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-    </div>
-  );
-
-  const iconMap = {success:Ico.check, warning:Ico.info, error:Ico.close, delete:Ico.close};
-  const TOASTS = () => <div className="toast-wr">{toasts.map(t => <div key={t.id} className="toast">{iconMap[t.type]||Ico.check} {t.msg}</div>)}</div>;
-
-  const CONTACT_SECTION = () => (
-    <section className="contact-sec" id="contact">
-      <div className="contact-in">
-        <div className="ct-inf">
-          <h2>Demandez votre <em>devis gratuit</em> dès aujourd'hui</h2>
-          <p>Notre équipe d'experts vous répond en moins de 24 heures avec une solution technique et tarifaire adaptée à vos besoins.</p>
-          <div className="ct-dets">
-            {[{i:Ico.phone,l:"Téléphone",v:"+212 523 37 74 17"},{i:Ico.whatsapp,l:"WhatsApp",v:"+212 700 090 365"},{i:Ico.mail,l:"Email",v:"univers.env@gmail.com"},{i:Ico.pin,l:"Adresse",v:"N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc"}].map((d,i) => (
-              <div className="ct-det" key={i}><div className="ct-ico">{d.i}</div><div><div className="ct-lbl">{d.l}</div><div className="ct-val">{d.v}</div></div></div>
-            ))}
-          </div>
-        </div>
-        <div className="ct-form">
-          <div className="ct-form-t">{Ico.info} Formulaire de contact</div>
-          <div className="frow">
-            <div className="fg"><label>Nom complet *</label><input placeholder="Votre nom" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))}/></div>
-            <div className="fg"><label>Email *</label><input type="email" placeholder="votre@email.com" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))}/></div>
-          </div>
-          <div className="frow">
-            <div className="fg"><label>Entreprise</label><input placeholder="Nom de votre société" value={form.company} onChange={e=>setForm(f=>({...f,company:e.target.value}))}/></div>
-            <div className="fg"><label>Service souhaité</label>
-              <select value={form.service} onChange={e=>setForm(f=>({...f,service:e.target.value}))}>
-                <option value="">Sélectionner...</option>
-                {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
-                {OSMOSEURS.map(o => <option key={o.id} value={o.nom}>{o.nom}</option>)}
-                <option value="Réactifs chimiques">Réactifs chimiques</option>
-              </select>
-            </div>
-          </div>
-          <div className="fg"><label>Votre message *</label><textarea placeholder="Décrivez votre besoin, débit requis, type d'effluents..." value={form.message} onChange={e=>setForm(f=>({...f,message:e.target.value}))}/></div>
-          <button className="btn-send" onClick={handleSubmit} disabled={sending}>{sending?"Envoi...":"Envoyer ma demande →"}</button>
-          {sent && <div className="form-ok">{Ico.check} Message envoyé ! Nous vous répondons sous 24h.</div>}
-        </div>
-      </div>
-    </section>
-  );
-
+  const SHARED_PROPS = {pathname, nav, scrollTo, mobOpen, setMobOpen, aiOpen, setAiOpen, aiMsgs, aiInp, setAiInp, aiLoad, sendAI, aiRef, toasts, form, setForm, sending, sent, handleSubmit};
   /* ── PAGE OSMOSEURS ── */
   if (pathname === "/osmoseurs") return (
     <div>
-      <TB/><NB/>
-      <PageHdr cat="Équipements & Systèmes" title="Osmoseurs Industriels <em>Clé en Main</em>" sub="Systèmes d'osmose inverse de 500 L/h à 10 m³/h. Installation, garantie et SAV UEM inclus. Prix publics TTC disponibles."/>
+      <TB/><NB {...SHARED_PROPS}/>
+      <PageHdr nav={nav} cat="Équipements & Systèmes" title="Osmoseurs & <em>Équipements de Traitement</em>" sub="Osmose inverse, adoucisseurs, filtres, débitmètres et instrumentation. Installation, garantie et SAV UEM inclus partout au Maroc."/>
       <div className="pbody">
         <div className="os-features">
           {[
@@ -511,16 +598,50 @@ export default function App() {
             <div className="step-card" key={i}><div className="step-num">{s.n}</div><div className="step-t">{s.t}</div><div className="step-d">{s.d}</div>{i<3&&<span className="step-arr">→</span>}</div>
           ))}
         </div>
+        <div className="divider"/>
+        <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"18px",fontWeight:700,marginBottom:8,color:"var(--g900)"}}>Autres équipements</h2>
+        <p style={{fontSize:13,color:"var(--g600)",marginBottom:20,maxWidth:640}}>En complément des osmoseurs, UEM fournit et installe l'ensemble des équipements nécessaires à votre installation de traitement des eaux.</p>
+        <div className="sect-grid" style={{marginBottom:36}}>
+          {[
+            {t:"Adoucisseurs",d:"Adoucissement de l'eau par résine échangeuse d'ions, contre l'entartrage des circuits.",ic:Ico.filter3},
+            {t:"Filtres",d:"Filtres actifs, filtres à sable et filtres à cartouche pour la clarification de l'eau.",ic:Ico.gauge},
+            {t:"Débitmètres",d:"Mesure et suivi précis des débits sur vos circuits d'eau et de process.",ic:Ico.chart},
+            {t:"Analyseurs en ligne",d:"Contrôle continu de la qualité de l'eau (pH, conductivité, chlore, turbidité).",ic:Ico.beaker},
+            {t:"Armoires électriques et automatisme",d:"Pilotage, régulation et supervision automatisée de vos installations.",ic:Ico.gear}
+          ].map((e,i) => (
+            <div className="sect-card" key={i} onClick={() => requestDevis(e.t)}>
+              <div className="sect-ico">{e.ic}</div>
+              <div className="sect-nom">{e.t}</div>
+              <div className="sect-resume">{e.d}</div>
+              <span className="sect-lnk">Demander un devis →</span>
+            </div>
+          ))}
+        </div>
+        <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"18px",fontWeight:700,marginBottom:8,color:"var(--g900)"}}>Médias et produits de traitement</h2>
+        <p style={{fontSize:13,color:"var(--g600)",marginBottom:20,maxWidth:640}}>Médias filtrants pour vos filtres à sable et unités de filtration.</p>
+        <div className="sect-grid" style={{marginBottom:36}}>
+          {[
+            {t:"Sable de silice",d:"Média filtrant standard pour la filtration mécanique de l'eau (matières en suspension).",ic:Ico.filter3},
+            {t:"Calcite",d:"Média de reminéralisation et de correction du pH pour eaux agressives.",ic:Ico.filter3}
+          ].map((e,i) => (
+            <div className="sect-card" key={i} onClick={() => requestDevis(e.t)}>
+              <div className="sect-ico">{e.ic}</div>
+              <div className="sect-nom">{e.t}</div>
+              <div className="sect-resume">{e.d}</div>
+              <span className="sect-lnk">Demander un devis →</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <CONTACT_SECTION/><FT/><AI/><WA/><TOASTS/>
+      <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
     </div>
   );
 
   /* ── PAGE RÉACTIFS ── */
   if (pathname === "/reactifs") return (
     <div>
-      <TB/><NB/>
-      <PageHdr cat="Produits Chimiques" title="Catalogue <em>Réactifs Chimiques</em>" sub="Coagulants, floculants, désinfectants, produits osmose inverse et chaudière. Livraison 24-48h sur tout le Maroc."/>
+      <TB/><NB {...SHARED_PROPS}/>
+      <PageHdr nav={nav} cat="Produits Chimiques" title="Catalogue <em>Réactifs Chimiques</em>" sub="Coagulants, floculants, désinfectants, produits osmose inverse et chaudière. Livraison 24-48h sur tout le Maroc."/>
       <div className="pbody">
         <div className="info-box">
           {Ico.info}
@@ -551,15 +672,15 @@ export default function App() {
           ))}
         </div>
       </div>
-      <CONTACT_SECTION/><FT/><AI/><WA/><TOASTS/>
+      <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
     </div>
   );
 
   /* ── PAGE SERVICES ── */
   if (pathname === "/services") return (
     <div>
-      <TB/><NB/>
-      <PageHdr cat="Nos Services" title="Ingénierie Environnementale & <em>Analyses Certifiées</em>" sub="Bureau d'études, analyses de laboratoire NM/ISO, conception STEP et études d'impact. L'expertise UEM au service de votre conformité."/>
+      <TB/><NB {...SHARED_PROPS}/>
+      <PageHdr nav={nav} cat="Nos Services" title="Ingénierie Environnementale & <em>Analyses Certifiées</em>" sub="Bureau d'études, analyses de laboratoire NM/ISO, conception STEP et études d'impact. L'expertise UEM au service de votre conformité."/>
       <div className="pbody">
         <div className="svc-det-grid">
           {SERVICES_DETAIL.map(s => (
@@ -578,7 +699,7 @@ export default function App() {
           ))}
         </div>
       </div>
-      <CONTACT_SECTION/><FT/><AI/><WA/><TOASTS/>
+      <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
     </div>
   );
 
@@ -588,8 +709,8 @@ export default function App() {
     const s = svcMatch;
     return (
       <div>
-        <TB/><NB/>
-        <PageHdr cat={s.cat} title={s.titre} sub={s.desc} back="services"/>
+        <TB/><NB {...SHARED_PROPS}/>
+        <PageHdr nav={nav} cat={s.cat} title={s.titre} sub={s.desc} back="services"/>
         <div className="pbody">
           <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"17px",fontWeight:700,marginBottom:18,color:"var(--g900)"}}>Nos prestations incluses</h2>
           <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:12,marginBottom:36}}>
@@ -618,7 +739,7 @@ export default function App() {
             </div>
           </div>
         </div>
-        <FT/><AI/><WA/><TOASTS/>
+        <FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
       </div>
     );
   }
@@ -629,8 +750,8 @@ export default function App() {
     const filtered = realFilter==="Tous" ? REALISATIONS : REALISATIONS.filter(r => r.cat===realFilter);
     return (
       <div>
-        <TB/><NB/>
-        <PageHdr cat="Portfolio" title="Nos <em>Réalisations</em> au Maroc" sub={`${REALISATIONS.length} projets réalisés dans les domaines de l'eau, de l'environnement et de l'analyse industrielle.`}/>
+        <TB/><NB {...SHARED_PROPS}/>
+        <PageHdr nav={nav} cat="Portfolio" title="Nos <em>Réalisations</em> au Maroc" sub={`${REALISATIONS.length} projets réalisés dans les domaines de l'eau, de l'environnement et de l'analyse industrielle.`}/>
         <div className="pbody">
           <div className="real-filters">{cats.map(c => <button key={c} className={`rf-btn${realFilter===c?" on":""}`} onClick={() => setRealFilter(c)}>{c}</button>)}</div>
           <div className="real-grid">
@@ -651,7 +772,59 @@ export default function App() {
             ))}
           </div>
         </div>
-        <FT/><AI/><WA/><TOASTS/>
+        <FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
+      </div>
+    );
+  }
+
+  /* ── PAGE SECTEURS (liste) ── */
+  if (pathname === "/secteurs") return (
+    <div>
+      <TB/><NB {...SHARED_PROPS}/>
+      <PageHdr nav={nav} cat="Solutions par métier" title="Nos <em>Secteurs</em> d'Activité" sub="UEM adapte ses solutions de traitement des eaux et d'ingénierie environnementale aux enjeux spécifiques de chaque secteur, partout au Maroc."/>
+      <div className="pbody">
+        <div className="sect-grid">
+          {SECTEURS.map(s => (
+            <div className="sect-card" key={s.id} onClick={() => nav(`sect-${s.id}`)}>
+              <div className="sect-ico">{s.icon}</div>
+              <div className="sect-nom">{s.nom}</div>
+              <div className="sect-resume">{s.resume}</div>
+              <span className="sect-lnk">Découvrir →</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
+    </div>
+  );
+
+  /* ── PAGE SECTEUR DÉTAIL ── */
+  const sectMatch = SECTEURS.find(s => pathname === `/secteurs/${s.id}`);
+  if (sectMatch) {
+    const s = sectMatch;
+    return (
+      <div>
+        <TB/><NB {...SHARED_PROPS}/>
+        <PageHdr nav={nav} cat="Secteur d'activité" title={s.nom} sub={s.resume} back="secteurs"/>
+        <div className="pbody">
+          <div className="sect-block">
+            <h3>{Ico.target} Enjeux spécifiques du secteur</h3>
+            <ul>{s.enjeux.map((e,i) => <li key={i}>{e}</li>)}</ul>
+          </div>
+          <div className="sect-block">
+            <h3>{Ico.check} Ce que UEM vous apporte</h3>
+            <ul>{s.solutions.map((sol,i) => <li key={i}>{sol}</li>)}</ul>
+          </div>
+          <div style={{background:"linear-gradient(135deg,var(--bleu),var(--bleu2))",borderRadius:16,padding:"32px",textAlign:"center",marginTop:36}}>
+            <h3 style={{fontFamily:"'Poppins',sans-serif",fontSize:20,fontWeight:700,color:"#fff",marginBottom:10}}>Un projet dans le secteur {s.nom.toLowerCase()} ?</h3>
+            <p style={{color:"rgba(255,255,255,.8)",fontSize:14,marginBottom:22,lineHeight:1.65}}>Notre équipe vous répond sous 24h avec une solution technique et tarifaire adaptée à votre activité.</p>
+            <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+              <button className="btn-prim" style={{background:"#fff",color:"var(--bleu)"}} onClick={() => requestDevis(`Secteur ${s.nom}`)}>Demander un devis gratuit →</button>
+              <a className="btn-wa-s" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">{Ico.whatsapp}Parler à un expert</a>
+            </div>
+          </div>
+        </div>
+        <FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
       </div>
     );
   }
@@ -659,7 +832,7 @@ export default function App() {
   /* ── HOME PAGE ── */
   return (
     <div>
-      <TB/><NB/>
+      <TB/><NB {...SHARED_PROPS}/>
       <section className="hero" id="home">
         <div className="hero-bg"><img src="/hero-cover.jpg" alt="Univers Environnement Maroc" loading="eager"/></div>
         <div className="hero-in">
@@ -796,8 +969,8 @@ export default function App() {
         </div>
       </section>
 
-      <CONTACT_SECTION/><FT/>
-      <AI/><WA/><TOASTS/>
+      <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/>
+      <AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
     </div>
   );
 }

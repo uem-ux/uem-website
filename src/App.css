@@ -204,6 +204,25 @@ button{font-family:'Inter',sans-serif}
 .btn-svc{background:transparent;color:var(--bleu2);border:1.5px solid var(--bleu2);padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;width:100%}
 .btn-svc:hover{background:var(--bleu2);color:#fff}
 .adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.sect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sect-card{background:#fff;border:1px solid var(--g200);border-radius:14px;padding:26px 22px;transition:var(--tr);cursor:pointer;display:flex;flex-direction:column}
+.sect-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--bleu2)}
+.sect-ico{width:48px;height:48px;border-radius:12px;background:var(--g100);color:var(--bleu);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:var(--tr)}
+.sect-card:hover .sect-ico{background:var(--bleu);color:#fff}
+.sect-nom{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900);margin-bottom:8px}
+.sect-resume{font-size:12.5px;color:var(--g600);line-height:1.6;margin-bottom:14px;flex:1}
+.sect-lnk{font-size:12px;font-weight:600;color:var(--vert)}
+.sect-block{background:var(--g50);border:1px solid var(--g200);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+.sect-block h3{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--g900);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sect-block ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.sect-block li{font-size:13.5px;color:var(--g700);display:flex;align-items:flex-start;gap:9px;line-height:1.5}
+.sect-block li::before{content:'→';color:var(--vert3);font-weight:700;flex-shrink:0}
+@media(max-width:1024px){
+  .sect-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .sect-grid{grid-template-columns:1fr}
+}
 .adv-card{text-align:center;padding:32px 20px;border-radius:14px;background:var(--g50);border:1px solid var(--g200);transition:var(--tr)}
 .adv-card:hover{border-color:var(--bleu2);background:#fff;box-shadow:var(--sh);transform:translateY(-4px)}
 .adv-ico{width:58px;height:58px;border-radius:16px;background:var(--bleu);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;transition:var(--tr)}
