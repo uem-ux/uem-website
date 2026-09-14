@@ -47,6 +47,7 @@ const Ico = {
 
 /* Icônes réactifs par famille */
 const reactifIco = (type) => ({
+  "Filtration": Ico.filter3, "Reminéralisation": Ico.drop,
   "Coagulant": Ico.flask, "Floculant": Ico.flask, "Correction pH": Ico.beaker,
   "Désinfection": Ico.beaker, "Divers": Ico.beaker, "OI": Ico.filter3, "Chaudière": Ico.gauge
 }[type] || Ico.flask);
@@ -55,7 +56,7 @@ const reactifIco = (type) => ({
 const SERVICES=[
   {id:1,icon:Ico.drop,color:"#0d2b6e",bg:"#e8f0fe",title:"Traitement des eaux",img:"/Step-traitement.jpg.jpeg",items:["STEP & Stations d'épuration","Eau potable & industrielle","Eaux usées & effluents"]},
   {id:2,icon:Ico.beaker,color:"#0d2b6e",bg:"#e8f0fe",title:"Analyses environnementales",img:"/Laboratoire-uem.jpg.jpeg",items:["Eau, Sol, Air, Boues","Analyses physico-chimiques","Normes NM / ISO"]},
-  {id:3,icon:Ico.flask,color:"#1b7a3e",bg:"#e8f5e9",title:"Produits chimiques",img:"/produits-chimiques.jpg",items:["Réactifs de laboratoire","Coagulants, floculants, biocides","Produits traitement eaux"]},
+  {id:3,icon:Ico.filter3,color:"#1b7a3e",bg:"#e8f5e9",title:"Médias Filtrants",img:null,items:["Sable de filtration","Calcite lavée pour reminéralisation"]},
   {id:4,icon:Ico.gauge,color:"#1b7a3e",bg:"#e8f5e9",title:"Équipements & Osmoseurs",img:"/osmoseur-grand.webp",items:["Osmoseurs industriels & domestiques","Adoucisseurs, filtres, pompes","Instrumentation & accessoires"]},
   {id:5,icon:Ico.ruler,color:"#0d2b6e",bg:"#e8f0fe",title:"Ingénierie & Conception",img:"/mesure-site.jpg.jpeg",items:["Études & Conception STEP","Installation & Mise en service","Suivi & Optimisation"]},
   {id:6,icon:Ico.leaf,color:"#1b7a3e",bg:"#e8f5e9",title:"Environnement & HSE",img:"/analyse -terrain.jpg.jpeg",items:["Études d'impact & Audits","ISO 14001 – Management env.","Conseil HSE & Conformité"]},
@@ -75,27 +76,9 @@ const OSMOSEURS=[
 ];
 
 const REACTIFS={
-  "Coagulants & Floculants":[
-    {id:1,nom:"PAC — Poly Aluminium Chlorure",desc:"Coagulant liquide haute performance. Efficace sur large plage de pH (5,5 à 9). Utilisé en STEP, eau potable et effluents industriels.",type:"Coagulant"},
-    {id:2,nom:"Chlorure Ferrique FeCl₃",desc:"Coagulant minéral puissant pour eaux industrielles et boues. Excellent pour déphosphatation.",type:"Coagulant"},
-    {id:3,nom:"Sulfate d'Aluminium",desc:"Coagulant classique pour eau potable et eaux résiduaires. Disponible en poudre et en solution.",type:"Coagulant"},
-    {id:4,nom:"Floculant Anionique",desc:"Polyacrylamide anionique pour clarification des eaux chargées. Disponible en plusieurs viscosités.",type:"Floculant"},
-    {id:5,nom:"Floculant Cationique",desc:"Polyacrylamide cationique pour conditionnement des boues avant filtration et centrifugation.",type:"Floculant"}
-  ],
-  "Correction pH & Désinfection":[
-    {id:6,nom:"Acide Chlorhydrique HCl dilué",desc:"Correction acide du pH des effluents alcalins et nettoyage des membranes. Concentration 33%.",type:"Correction pH"},
-    {id:7,nom:"Soude Caustique NaOH",desc:"Correction basique du pH des effluents acides. Disponible en solution (30–50%) et en pastilles.",type:"Correction pH"},
-    {id:8,nom:"Hypochlorite de Sodium NaOCl",desc:"Désinfectant oxydant puissant. Élimine bactéries, virus et algues. Disponible en fûts 25L.",type:"Désinfection"},
-    {id:9,nom:"Peroxyde d'Hydrogène H₂O₂",desc:"Oxydant puissant. Élimine DCO, H₂S et composés organiques réfractaires. Traitement écologique.",type:"Désinfection"},
-    {id:10,nom:"Antimousse Industriel",desc:"Élimine les mousses dans les bassins d'aération, STEP et circuits industriels. Non toxique.",type:"Divers"}
-  ],
-  "Osmose Inverse & Chaudière":[
-    {id:11,nom:"Anti-Scalant Membranes OI",desc:"Prévient l'entartrage des membranes d'osmose inverse. Compatible toutes membranes du marché.",type:"OI"},
-    {id:12,nom:"Nettoyant Membranes Acide",desc:"Nettoyage acide des membranes OI pour éliminer incrustations minérales et biofilm.",type:"OI"},
-    {id:13,nom:"Nettoyant Membranes Basique",desc:"Nettoyage alcalin des membranes OI pour éliminer fouling organique et biologique.",type:"OI"},
-    {id:14,nom:"Métabisulfite de Sodium",desc:"Neutralisant du chlore résiduel avant les membranes OI. Protège les membranes des oxydants.",type:"OI"},
-    {id:15,nom:"Antitartre Chaudière",desc:"Prévient les dépôts calcaires dans les chaudières. Améliore le rendement thermique.",type:"Chaudière"},
-    {id:16,nom:"Produit de Passivation",desc:"Protège la surface interne des chaudières contre la corrosion. Neutralisation oxygène dissous.",type:"Chaudière"}
+  "Médias Filtrants":[
+    {id:1,nom:"Sable de filtration",desc:"Média filtrant pour la filtration mécanique de l'eau, retient les matières en suspension dans les filtres à sable.",type:"Filtration"},
+    {id:2,nom:"Calcite lavée",desc:"Média de reminéralisation pour eaux agressives (osmose inverse, pluie...), corrige le pH et recharge l'eau en calcium.",type:"Reminéralisation"}
   ]
 };
 
@@ -177,7 +160,7 @@ const CLIENTS=[
   {name:"Nature Growers",img:"/nature-growers.jpg"},
   {name:"Royal Golf El Jadida",img:"/royal-golf-eljadida.jpg"}
 ];
-const TICKER=["Osmoseurs industriels 500 L/h à 10 m³/h","Réactifs chimiques certifiés — Livraison 24h","Analyses NM/ISO — El Jadida","+200 projets STEP au Maroc","Entreprise marocaine — 15 ans d'expertise","Études d'impact environnemental"];
+const TICKER=["Osmoseurs industriels 500 L/h à 10 m³/h","Sable de filtration et calcite lavée — Livraison rapide","Analyses NM/ISO — El Jadida","+200 projets STEP au Maroc","Entreprise marocaine — 15 ans d'expertise","Études d'impact environnemental"];
 const ADVANTAGES=[
   {icon:Ico.check,title:"Qualité certifiée",desc:"Produits & services conformes aux normes NM, ISO et réglementations marocaines"},
   {icon:Ico.target,title:"Solutions sur mesure",desc:"Études personnalisées adaptées à chaque contexte industriel et budgétaire"},
@@ -185,8 +168,7 @@ const ADVANTAGES=[
   {icon:Ico.handshake,title:"Accompagnement global",desc:"De l'étude initiale à la maintenance, UEM reste à vos côtés à chaque étape"}
 ];
 const PRODUCTS_CAR=[
-  {id:1,icon:Ico.flask,title:"Réactifs laboratoire",img:"/reactifs-laboratoire.jpg",page:"reactifs"},
-  {id:2,icon:Ico.beaker,title:"Produits chimiques eaux",img:"/produits-chimiques.jpg",page:"reactifs"},
+  {id:1,icon:Ico.filter3,title:"Médias filtrants",img:null,page:"reactifs"},
   {id:3,icon:Ico.gauge,title:"Osmoseurs industriels",img:"/osmoseur-grand.webp",page:"osmoseurs"},
   {id:4,icon:Ico.drop,title:"Osmoseurs domestiques",img:"/osmoseur-petit.webp",page:"osmoseurs"}
 ];
@@ -292,7 +274,7 @@ function NB({pathname,nav,scrollTo,mobOpen,setMobOpen}) {
           <button className={`nb-btn${pathname==="/osmoseurs"||pathname==="/reactifs"?" on":""}`}>Nos produits <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div className="dd">
             <button className="dd-btn" onClick={() => nav("osmoseurs")}><span className="dd-ico">{Ico.gauge}</span>Équipements</button>
-            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.flask}</span>Produits chimiques</button>
+            <button className="dd-btn" onClick={() => nav("reactifs")}><span className="dd-ico">{Ico.filter3}</span>Médias filtrants</button>
           </div>
         </li>
         <li className="nb-item"><button className={`nb-btn${pathname==="/realisations"?" on":""}`} onClick={() => nav("realisations")}>Nos réalisations</button></li>
@@ -307,7 +289,7 @@ function NB({pathname,nav,scrollTo,mobOpen,setMobOpen}) {
       <button onClick={() => nav("home")}>Accueil</button>
       <button onClick={() => nav("services")}>Nos services</button>
       <button onClick={() => nav("osmoseurs")}>Équipements</button>
-      <button onClick={() => nav("reactifs")}>Produits chimiques</button>
+      <button onClick={() => nav("reactifs")}>Médias filtrants</button>
       <button onClick={() => nav("realisations")}>Nos réalisations</button>
       <button onClick={() => nav("secteurs")}>Secteurs d'activité</button>
       <button onClick={() => scrollTo("blog")}>Actualités</button>
@@ -338,7 +320,7 @@ function FT({nav,scrollTo}) {
       </ul></div>
       <div className="ft-col"><h4>Nos produits</h4><ul>
         <li onClick={() => nav("osmoseurs")}>Équipements</li>
-        <li onClick={() => nav("reactifs")}>Produits chimiques</li>
+        <li onClick={() => nav("reactifs")}>Médias filtrants</li>
       </ul></div>
       <div className="ft-col"><h4>Informations</h4><ul>
         <li onClick={() => scrollTo("contact")}>Contact & Devis</li>
@@ -418,7 +400,7 @@ function CONTACT_SECTION({form,setForm,sending,sent,handleSubmit}) {
                 <option value="">Sélectionner...</option>
                 {SERVICES_DETAIL.map(s => <option key={s.id} value={s.titre}>{s.titre}</option>)}
                 {OSMOSEURS.map(o => <option key={o.id} value={o.nom}>{o.nom}</option>)}
-                <option value="Réactifs chimiques">Réactifs chimiques</option>
+                <option value="Médias filtrants">Médias filtrants</option>
               </select>
             </div>
           </div>
@@ -491,10 +473,14 @@ export default function App() {
     if (!form.name||!form.email||!form.message) {toast("Veuillez remplir tous les champs requis.","warning"); return;}
     setSending(true);
     try {
-      await emailjs.send("service_3p09q76","template_1qu65qm",{from_name:form.name,from_email:form.email,company:form.company,service:form.service,message:form.message},"bhR3gf_SYQEaKSOky");
+      const res = await emailjs.send("service_3p09q76","template_1qu65qm",{from_name:form.name,from_email:form.email,company:form.company,service:form.service,message:form.message},"bhR3gf_SYQEaKSOky");
+      console.log("EmailJS OK:", res);
       setSent(true); setForm({name:"",email:"",company:"",service:"",message:""});
       toast("Message envoyé ! Nous vous répondons sous 24h.");
-    } catch { toast("Erreur. Contactez-nous au +212 523 37 74 17","error"); }
+    } catch (err) {
+      console.error("EmailJS ERROR:", err);
+      toast("Erreur. Contactez-nous au +212 523 37 74 17","error");
+    }
     setSending(false);
   };
 
@@ -617,21 +603,6 @@ export default function App() {
             </div>
           ))}
         </div>
-        <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"18px",fontWeight:700,marginBottom:8,color:"var(--g900)"}}>Médias et produits de traitement</h2>
-        <p style={{fontSize:13,color:"var(--g600)",marginBottom:20,maxWidth:640}}>Médias filtrants pour vos filtres à sable et unités de filtration.</p>
-        <div className="sect-grid" style={{marginBottom:36}}>
-          {[
-            {t:"Sable de silice",d:"Média filtrant standard pour la filtration mécanique de l'eau (matières en suspension).",ic:Ico.filter3},
-            {t:"Calcite",d:"Média de reminéralisation et de correction du pH pour eaux agressives.",ic:Ico.filter3}
-          ].map((e,i) => (
-            <div className="sect-card" key={i} onClick={() => requestDevis(e.t)}>
-              <div className="sect-ico">{e.ic}</div>
-              <div className="sect-nom">{e.t}</div>
-              <div className="sect-resume">{e.d}</div>
-              <span className="sect-lnk">Demander un devis →</span>
-            </div>
-          ))}
-        </div>
       </div>
       <CONTACT_SECTION {...SHARED_PROPS}/><FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
     </div>
@@ -641,11 +612,11 @@ export default function App() {
   if (pathname === "/reactifs") return (
     <div>
       <TB/><NB {...SHARED_PROPS}/>
-      <PageHdr nav={nav} cat="Produits Chimiques" title="Catalogue <em>Réactifs Chimiques</em>" sub="Coagulants, floculants, désinfectants, produits osmose inverse et chaudière. Livraison 24-48h sur tout le Maroc."/>
+      <PageHdr nav={nav} cat="Médias Filtrants" title="Sable de Filtration & <em>Calcite Lavée</em>" sub="Médias filtrants pour vos filtres à sable et unités de reminéralisation. Livraison sur tout le Maroc."/>
       <div className="pbody">
         <div className="info-box">
           {Ico.info}
-          <p><strong>Stock permanent à El Jadida</strong> — Tous nos réactifs sont stockés localement pour une livraison rapide. <strong>Tarifs sur devis</strong> selon les quantités. Conditionnements : bidons 25L, fûts 200L, IBC 1000L. Fiche de données de sécurité (FDS) fournie pour chaque produit.</p>
+          <p><strong>Stock permanent à El Jadida</strong> — Médias filtrants stockés localement pour une livraison rapide. <strong>Tarifs sur devis</strong> selon les quantités et le conditionnement (sacs 25kg, big-bag).</p>
         </div>
         <div className="chim-grps">
           {Object.entries(REACTIFS).map(([grp, prods]) => (
@@ -840,7 +811,7 @@ export default function App() {
             <div className="hero-tag">L'expertise verte au service du Maroc</div>
             <h1>Traitement des eaux et ingénierie environnementale au Maroc</h1>
             <div className="hero-badges">
-              {[[Ico.ruler,"Conception et réalisation des STEP"],[Ico.drop,"Osmose inverse"],[Ico.beaker,"Analyses environnementales"],[Ico.flask,"Réactifs chimiques"]].map(([ic,t],i) => (
+              {[[Ico.ruler,"Conception et réalisation des STEP"],[Ico.drop,"Osmose inverse"],[Ico.beaker,"Analyses environnementales"],[Ico.filter3,"Médias filtrants"]].map(([ic,t],i) => (
                 <div className="hero-badge" key={i}>{ic}{t}</div>
               ))}
             </div>
@@ -1081,7 +1052,7 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
               <div><strong>Site :</strong> www.uem.ma</div>
               <div><strong>Stack :</strong> React 18 + Vite + EmailJS</div>
               <div><strong>EmailJS :</strong> service_3p09q76 / template_1qu65qm</div>
-              <div><strong>Pages :</strong> Accueil, Osmoseurs (8 modèles + prix), Réactifs chimiques (16 produits), Services (×6 détails), Réalisations (×9 + filtres), Admin</div>
+              <div><strong>Pages :</strong> Accueil, Osmoseurs (8 modèles + prix), Médias filtrants (2 produits), Services (×9 détails), Réalisations (×9 + filtres), Admin</div>
               <div><strong>Version :</strong> 4.2 — Correctifs audit (tableau osmoseurs, doublon client, icônes SVG, devis contextualisé)</div>
             </div>
           </div>
