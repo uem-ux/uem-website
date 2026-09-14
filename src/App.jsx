@@ -245,7 +245,7 @@ function TB() {
         <a className="tb-a" href="tel:+212523377417">{Ico.phone}+212 523 37 74 17</a>
         <a className="tb-a" href="https://wa.me/212700090365" target="_blank" rel="noopener noreferrer">{Ico.whatsapp}+212 700 090 365</a>
         <span className="tb-a">{Ico.pin}N°1, Bd Jabrane Khalil Jabrane, El Jadida</span>
-        <a className="tb-a" href="mailto:univers.env@gmail.com">{Ico.mail}univers.env@gmail.com</a>
+        <a className="tb-a" href="mailto:univers.envi@gmail.com">{Ico.mail}univers.envi@gmail.com</a>
       </div>
       <div className="tb-soc">
         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">{Ico.linkedin}</a>
@@ -382,9 +382,12 @@ function CONTACT_SECTION({form,setForm,sending,sent,handleSubmit}) {
           <h2>Demandez votre <em>devis gratuit</em> dès aujourd'hui</h2>
           <p>Notre équipe d'experts vous répond en moins de 24 heures avec une solution technique et tarifaire adaptée à vos besoins.</p>
           <div className="ct-dets">
-            {[{i:Ico.phone,l:"Téléphone",v:"+212 523 37 74 17"},{i:Ico.whatsapp,l:"WhatsApp",v:"+212 700 090 365"},{i:Ico.mail,l:"Email",v:"univers.env@gmail.com"},{i:Ico.pin,l:"Adresse",v:"N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc"}].map((d,i) => (
+            {[{i:Ico.phone,l:"Téléphone",v:"+212 523 37 74 17"},{i:Ico.whatsapp,l:"WhatsApp",v:"+212 700 090 365"},{i:Ico.mail,l:"Email",v:"univers.envi@gmail.com"},{i:Ico.pin,l:"Adresse",v:"N°1, Bd Jabrane Khalil Jabrane, El Jadida, Maroc"}].map((d,i) => (
               <div className="ct-det" key={i}><div className="ct-ico">{d.i}</div><div><div className="ct-lbl">{d.l}</div><div className="ct-val">{d.v}</div></div></div>
             ))}
+          </div>
+          <div className="ct-map">
+            <iframe title="Localisation UEM — El Jadida" src="https://www.google.com/maps?q=33.2316,-8.5007&output=embed" width="100%" height="220" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
           </div>
         </div>
         <div className="ct-form">
@@ -426,6 +429,7 @@ export default function App() {
   const [blogs, setBlogs] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_blogs")||"[]")}catch{return []}});
   const [blogForm, setBlogForm] = useState({title:"",excerpt:"",category:"Actualités"});
   const [techDetails, setTechDetails] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_tech")||'{"osmoseurs":{},"reactifs":{},"services":{}}')}catch{return {osmoseurs:{},reactifs:{},services:{}}}});
+  const [testimonials, setTestimonials] = useState(() => {try{return JSON.parse(localStorage.getItem("uem_testimonials")||"[]")}catch{return []}});
   const [form, setForm] = useState({name:"",email:"",company:"",service:"",message:""});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -436,7 +440,17 @@ export default function App() {
   useEffect(() => {if(aiRef.current) aiRef.current.scrollTop = aiRef.current.scrollHeight}, [aiMsgs, aiLoad]);
   useEffect(() => {localStorage.setItem("uem_blogs", JSON.stringify(blogs))}, [blogs]);
   useEffect(() => {localStorage.setItem("uem_tech", JSON.stringify(techDetails))}, [techDetails]);
+  useEffect(() => {localStorage.setItem("uem_testimonials", JSON.stringify(testimonials))}, [testimonials]);
   useEffect(() => {window.scrollTo(0,0)}, [pathname]);
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal:not(.in)");
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, {threshold:0.12});
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, [pathname, testimonials.length]);
   useEffect(() => {
     const titles = {"/":"Univers Environnement Maroc — Traitement des eaux, osmose inverse, analyses environnementales","/osmoseurs":"Osmoseurs Industriels — Univers Environnement Maroc","/reactifs":"Réactifs Chimiques — Univers Environnement Maroc","/services":"Nos Services — Univers Environnement Maroc","/realisations":"Nos Réalisations — Univers Environnement Maroc","/secteurs":"Secteurs d'Activité — Univers Environnement Maroc","/admin":"Administration — UEM"};
     const sect = SECTEURS.find(s => pathname === `/secteurs/${s.id}`);
@@ -507,9 +521,9 @@ export default function App() {
     scrollTo("contact");
   };
 
-  if (pathname === "/admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} nav={nav} toast={toast}/>;
+  if (pathname === "/admin") return <AdminPage auth={adminAuth} pwd={adminPwd} setPwd={setAdminPwd} setAuth={setAdminAuth} blogs={blogs} setBlogs={setBlogs} blogForm={blogForm} setBlogForm={setBlogForm} techDetails={techDetails} setTechDetails={setTechDetails} testimonials={testimonials} setTestimonials={setTestimonials} nav={nav} toast={toast}/>;
 
-  const SHARED_PROPS = {pathname, nav, scrollTo, mobOpen, setMobOpen, aiOpen, setAiOpen, aiMsgs, aiInp, setAiInp, aiLoad, sendAI, aiRef, toasts, form, setForm, sending, sent, handleSubmit};
+  const SHARED_PROPS = {pathname, nav, scrollTo, mobOpen, setMobOpen, aiOpen, setAiOpen, aiMsgs, aiInp, setAiInp, aiLoad, sendAI, aiRef, toasts, form, setForm, sending, sent, handleSubmit, testimonials};
   /* ── PAGE OSMOSEURS ── */
   if (pathname === "/osmoseurs") return (
     <div>
@@ -798,6 +812,20 @@ export default function App() {
     );
   }
 
+  /* ── PAGE 404 ── */
+  if (pathname !== "/") return (
+    <div>
+      <TB/><NB {...SHARED_PROPS}/>
+      <div className="pbody" style={{textAlign:"center",padding:"90px 24px"}}>
+        <div style={{fontFamily:"'Poppins',sans-serif",fontSize:"clamp(48px,8vw,96px)",fontWeight:800,color:"var(--g200)",lineHeight:1}}>404</div>
+        <h1 style={{fontFamily:"'Poppins',sans-serif",fontSize:22,fontWeight:700,color:"var(--g900)",margin:"12px 0 10px"}}>Page introuvable</h1>
+        <p style={{fontSize:14,color:"var(--g600)",marginBottom:28,maxWidth:440,marginLeft:"auto",marginRight:"auto"}}>La page que vous cherchez n'existe pas ou a été déplacée.</p>
+        <button className="btn-prim" style={{margin:"0 auto"}} onClick={() => nav("home")}>Retour à l'accueil →</button>
+      </div>
+      <FT {...SHARED_PROPS}/><AI {...SHARED_PROPS}/><WA/><TOASTS {...SHARED_PROPS}/>
+    </div>
+  );
+
   /* ── HOME PAGE ── */
   return (
     <div>
@@ -827,18 +855,18 @@ export default function App() {
         <div className="badge15"><div className="b15-n">15<span className="b15-s">+</span></div><div className="b15-l">ANS<br/>D'EXPÉRIENCE<br/>AU MAROC</div></div>
       </section>
 
-      <div className="stats"><div className="stats-in">
+      <div className="stats reveal"><div className="stats-in">
         {[{i:Ico.trophy,n:"15+",l:"Ans d'expérience"},{i:Ico.folder,n:"200+",l:"Projets réalisés"},{i:Ico.users,n:"500+",l:"Clients satisfaits"},{i:Ico.star,n:"98%",l:"Taux de satisfaction"}].map((s,i)=>(
           <div className="stat" key={i}><div className="stat-n"><span className="stat-ico">{s.i}</span>{s.n}</div><div className="stat-l">{s.l}</div></div>
         ))}
       </div></div>
 
-      <div className="clients"><div className="cl-in">
+      <div className="clients reveal"><div className="cl-in">
         <div className="cl-ttl">Clients de référence</div>
         <div className="cl-logos">{CLIENTS.map((c,i)=><div key={i} className="cl-logo" title={c.name}><img src={c.img} alt={c.name} loading="lazy"/></div>)}</div>
       </div></div>
 
-      <section className="sec sec-bg" id="services">
+      <section className="sec sec-bg reveal" id="services">
         <div className="sec-in">
           <div className="sec-ey">NOS DOMAINES D'EXPERTISE</div>
           <h2 className="sec-ti">Des solutions <em>complètes</em> pour l'eau, l'environnement et l'industrie</h2>
@@ -860,7 +888,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="sec sec-navy" id="products">
+      <section className="sec sec-navy reveal" id="products">
         <div className="sec-in">
           <div className="sec-ey">NOS PRODUITS PHARES</div>
           <h2 className="sec-ti">Des produits de qualité pour des performances durables</h2>
@@ -882,7 +910,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="sec">
+      <section className="sec reveal">
         <div className="sec-in">
           <h2 className="sec-ti">Pourquoi choisir <em>UEM</em> ?</h2>
           <div className="adv-grid">
@@ -891,11 +919,30 @@ export default function App() {
         </div>
       </section>
 
+      {testimonials.length>0 && (
+        <section className="sec sec-bg reveal">
+          <div className="sec-in">
+            <div className="sec-ey">TÉMOIGNAGES</div>
+            <h2 className="sec-ti">Ce que disent <em>nos clients</em></h2>
+            <div className="testi-grid">
+              {testimonials.slice(0,6).map(t => (
+                <div className="testi-card" key={t.id}>
+                  <div className="testi-quote">{Ico.check}</div>
+                  <p className="testi-txt">« {t.texte} »</p>
+                  <div className="testi-auteur">{t.auteur}</div>
+                  {t.poste && <div className="testi-poste">{t.poste}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <div className="ticker"><div className="ticker-in">
         {[...TICKER,...TICKER].map((item,i)=><span key={i} className="tick-item"><span className="tick-dot"/>{item}</span>)}
       </div></div>
 
-      <section className="sec sec-bg" id="realisations">
+      <section className="sec sec-bg reveal" id="realisations">
         <div className="sec-in">
           <div className="sec-ey">PORTFOLIO</div>
           <h2 className="sec-ti">Quelques <em>réalisations</em> sélectionnées</h2>
@@ -918,7 +965,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="sec" id="blog">
+      <section className="sec reveal" id="blog">
         <div className="sec-in">
           <div className="sec-ey">ACTUALITÉS & BLOG</div>
           <h2 className="sec-ti">Nos dernières <em>publications</em></h2>
@@ -950,10 +997,11 @@ const TECH_TYPES = {
   services: {label:"Service", items: SERVICES_DETAIL.map(s=>({id:s.id, label:s.titre}))}
 };
 
-function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,techDetails,setTechDetails,nav,toast}) {
+function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,techDetails,setTechDetails,testimonials,setTestimonials,nav,toast}) {
   const [techType, setTechType] = useState("osmoseurs");
   const [techItemId, setTechItemId] = useState("");
   const [techText, setTechText] = useState("");
+  const [testiForm, setTestiForm] = useState({auteur:"",poste:"",texte:""});
   if (!auth) return (
     <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#f8fafc",fontFamily:"Inter,sans-serif"}}>
       <div style={{background:"#fff",borderRadius:18,padding:"42px 34px",boxShadow:"0 8px 40px rgba(0,0,0,.12)",width:355,textAlign:"center"}}>
@@ -971,6 +1019,12 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
     setBlogs(b=>[{...blogForm,id:Date.now().toString(),date:new Date().toLocaleDateString("fr-FR",{month:"long",year:"numeric"})},...b]);
     setBlogForm({title:"",excerpt:"",category:"Actualités"});
     toast("Article publié !");
+  };
+  const addTestimonial = () => {
+    if (!testiForm.auteur||!testiForm.texte){toast("Nom et témoignage requis","warning");return;}
+    setTestimonials(t=>[{...testiForm,id:Date.now().toString()},...t]);
+    setTestiForm({auteur:"",poste:"",texte:""});
+    toast("Témoignage publié !");
   };
   return (
     <div className="adm-wrap">
@@ -1027,6 +1081,26 @@ function AdminPage({auth,pwd,setPwd,setAuth,blogs,setBlogs,blogForm,setBlogForm,
                     </div>
                   );
                 }))}
+              </div>
+            )}
+          </div>
+          <div className="adm-sec">
+            <h2>Témoignages clients</h2>
+            <p style={{fontSize:12.5,color:"var(--g600)",marginBottom:14,lineHeight:1.6}}>Ajoutez uniquement de vrais témoignages, avec l'accord de la personne citée. Ils s'affichent sur la page d'accueil.</p>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+              <div className="fg"><label>Nom *</label><input placeholder="Ex : Ahmed Bensaid" value={testiForm.auteur} onChange={e=>setTestiForm(f=>({...f,auteur:e.target.value}))}/></div>
+              <div className="fg"><label>Poste / Entreprise</label><input placeholder="Ex : Directeur technique, OCP" value={testiForm.poste} onChange={e=>setTestiForm(f=>({...f,poste:e.target.value}))}/></div>
+            </div>
+            <div className="fg"><label>Témoignage *</label><textarea style={{height:88}} placeholder="Le texte exact du témoignage..." value={testiForm.texte} onChange={e=>setTestiForm(f=>({...f,texte:e.target.value}))}/></div>
+            <button className="btn-grn" onClick={addTestimonial}>Publier →</button>
+            {testimonials.length>0 && (
+              <div style={{marginTop:18}}>
+                {testimonials.map(t => (
+                  <div className="bpi" key={t.id}>
+                    <div><strong style={{fontSize:13}}>{t.auteur}</strong><div className="bpi-m">{t.poste} — « {t.texte.slice(0,60)}{t.texte.length>60?"...":""} »</div></div>
+                    <button className="btn-del" onClick={()=>{setTestimonials(ts=>ts.filter(x=>x.id!==t.id));toast("Témoignage supprimé","delete");}}>Supprimer</button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
