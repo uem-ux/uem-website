@@ -529,12 +529,12 @@ export default function App() {
 
         <div className="info-box">
           {Ico.info}
-          <p><strong>Prix indicatifs HT</strong> — Les tarifs peuvent varier selon les options (double pass, SCADA, distance). Contactez-nous pour un devis personnalisé gratuit sous 24h. <strong>Financement disponible</strong> : crédit-bail, leasing, paiement échelonné.</p>
+          <p><strong>Devis personnalisé gratuit sous 24h</strong> — Chaque installation est dimensionnée selon vos besoins (débit, qualité d'eau source, options : double pass, SCADA, distance). <strong>Financement disponible</strong> : crédit-bail, leasing, paiement échelonné.</p>
         </div>
         <h2 style={{fontFamily:"'Poppins',sans-serif",fontSize:"18px",fontWeight:700,marginBottom:16,color:"var(--g900)",display:"flex",alignItems:"center",gap:8}}>{Ico.chart} Tableau comparatif des modèles</h2>
         <div className="os-compare">
           <table className="os-table">
-            <thead><tr><th>Modèle</th><th>Débit</th><th>Rejection</th><th>Pression</th><th>Châssis</th><th>SCADA</th><th>Prix HT</th><th></th></tr></thead>
+            <thead><tr><th>Modèle</th><th>Débit</th><th>Rejection</th><th>Pression</th><th>Châssis</th><th>SCADA</th><th></th></tr></thead>
             <tbody>
               {OSMOSEURS.map(o => (
                 <tr key={o.id}>
@@ -544,7 +544,6 @@ export default function App() {
                   <td>{o.specs[0].replace("Pression : ","")}</td>
                   <td>{o.id>=5?"Inox 316L":"Inox 304"}</td>
                   <td style={{color:"var(--vert3)",fontWeight:700}}>{o.id>=7?"✓":"-"}</td>
-                  <td className="prix-td">{o.prix}</td>
                   <td><button className="btn-devis" onClick={() => requestDevis(o.nom)}>Devis</button></td>
                 </tr>
               ))}
@@ -569,9 +568,8 @@ export default function App() {
                 <div className="os-desc">{o.desc}</div>
                 <div className="os-specs">{o.specs.map((s,i)=><div className="os-spec" key={i}>{s}</div>)}</div>
                 {techDetails.osmoseurs?.[o.id] && <div className="tech-note"><strong>Détail technique :</strong> {techDetails.osmoseurs[o.id]}</div>}
-                <div className="os-foot">
-                  <div><div className="os-px">{o.prix}</div><div className="os-px-sub">HT — Livraison comprise</div></div>
-                  <button className="btn-devis" onClick={() => requestDevis(o.nom)}>Demander un devis</button>
+                <div className="os-foot" style={{justifyContent:"center"}}>
+                  <button className="btn-devis" style={{width:"100%"}} onClick={() => requestDevis(o.nom)}>Demander un devis</button>
                 </div>
               </div>
             </div>
